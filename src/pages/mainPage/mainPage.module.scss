@@ -1,0 +1,184 @@
+.main {
+  margin-top: 81px;
+
+  .container {
+    width: 100%;
+    max-width: 1550px;
+    height: 760px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    position: relative;
+
+    .signBtn {
+      width: 174px;
+      position: absolute;
+      right: 0;
+      font-size: 16px;
+      cursor: pointer;
+      top: -67px;
+      background-color: #4D94FF;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 15px;
+    }
+  }
+
+  .addScheduleBtn {
+    text-align: center;
+  }
+  
+  .scheduleGrid {
+    width: 100%;
+    max-width: 1128px;
+    border: 2px solid #E0E0E0;
+    border-radius: 10px;
+    position: relative;
+  
+    .schelude__head {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #b1b9bba1;
+      padding: 16px 27px;
+  
+      .scheduleTitle {
+        color: #000;
+        font-weight: 700;
+        font-size: 32px;
+      }
+  
+      .scheduleBtn {
+        background-color: #0066FF;
+        opacity: 54%;
+        border: 0;
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        border-radius: 15px;
+        width: 215px;
+        height: 39px;
+      }
+    }
+
+    .horizontalLine {
+      position: absolute;
+      width: 100%;
+      border: 0;
+      background-color: #E0E0E0;
+      height: 1px;
+    }
+    
+    .first {
+      top: 231px;
+    }
+    
+    .second {
+      top: 334px;
+    }
+    
+    .third {
+      top: 437px;
+    }
+    
+    .fourth {
+      top: 541px;
+    }
+    
+    .fifth {
+      top: 643px;
+    }
+  
+    .scheludePair {
+      display: flex;
+      justify-content: start;
+      padding: 0 26px 68px 26px;
+
+      .line {
+        border: 0;
+        background-color: #E0E0E0;
+        height: 687px;
+        margin-top: -2px;
+        width: 1px;
+      }
+  
+      .column {
+        margin-top: 34px;
+        padding: 0 20px;
+
+        &:first-child {
+          padding: 0 20px 0 0;
+        }
+
+        &:last-child {
+          padding: 0 0 0 20px;
+        }
+
+        .tuesday {
+          background-color: #FFFEF2 !important;
+          color: #6C6311;
+
+          &::after {
+            background-color: #CFC783;
+          }
+        }
+
+        .wednesday {
+          background-color: #E9EEF8 !important;
+          color: #11256C;
+
+          &::after {
+            background-color: #8394CF;
+          }
+        }
+
+        .thursday {
+          background-color: #F4FEED !important;
+          color: #116C15;
+
+          &::after {
+            background-color: #B2CF83;
+          }
+        }
+
+        .friday {
+          background-color: #E9FFFB !important;
+          color: #116C5C;
+
+          &::after {
+            background-color: #83CFBC;
+          }
+        }
+    
+        .day {
+          color: #1983A5;
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+}
+
+.btnCreate {
+  background-color: #8d9bca;
+  opacity: 54%;;
+  height: 73px;
+  width: 269px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
+
+  .href {
+    text-decoration: none;
+    color: #fff;
+    width: 165px;
+  }
+}

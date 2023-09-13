@@ -1,9 +1,10 @@
-import { MainPage } from "./pages";
+import { MainPage, LoginPage } from "./pages";
 
 function App() {
   return (
     <>
-      <MainPage />
+      {/* <MainPage /> */}
+      <LoginPage />
     </>
   )
 }

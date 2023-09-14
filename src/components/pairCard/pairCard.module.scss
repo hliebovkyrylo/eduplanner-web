@@ -1,18 +1,20 @@
 .card {
   width: 163px;
-  background-color: #EDF4FF;
+  background-color: #E7F6FD;
   height: 85px;
   display: flex;
   align-items: center;
   position: relative;
-  color: #11566C;
+  color: #0369A1;
   margin-top: 18px;
+  font-weight: 500;
 
   &::after {
     content: "";
     display: block;
-    background-color: #83BCCF;
-    width: 10px;
+    background-color: #0EA5E9;
+    border-radius: 4px 0 0 4px;
+    width: 5px;
     height: 85px;
     position: absolute;
     z-index: 1;

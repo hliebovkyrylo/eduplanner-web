@@ -34,7 +34,7 @@ export const MainPage = () => {
         ) : (
           <a className={styles.signBtn} href="#">Sign in</a>
         )}
-        <div>
+        <div className={styles.sideBlock}>
           {[...Array(2)].map((_, index) => {
             return (
               <ScheduleButton onClick={() => handleButtonClick} className={index === activeButton ? styles.activeButton : ''} groupTitle={'Group 1'} _id={'sdfdsf'} onScheduleButtonClick={handleScheduleButtonClick} />

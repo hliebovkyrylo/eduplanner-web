@@ -1,10 +1,11 @@
-import { MainPage, LoginPage } from "./pages";
+import { MainPage, LoginPage, SignUpPage } from "./pages";
 
 function App() {
   return (
     <>
-      {/* <MainPage /> */}
-      <LoginPage />
+      <MainPage />
+      {/* <LoginPage /> */}
+      {/* <SignUpPage /> */}
     </>
   )
 }

@@ -10,7 +10,6 @@ interface PairCardProps {
 };
 
 export const PairCard: FC<PairCardProps> = ({
-  pairNumber,
   pairTitle,
   className,
   _id
@@ -18,7 +17,6 @@ export const PairCard: FC<PairCardProps> = ({
   return (
     <>
       <div className={[styles.card, className].join(' ')}>
-        <span className={styles.pairNumber}>{pairNumber}</span>
         <span className={styles.pairTitle}>{pairTitle}</span>
       </div>
     </>

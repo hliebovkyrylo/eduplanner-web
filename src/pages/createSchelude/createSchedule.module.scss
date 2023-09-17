@@ -1,0 +1,79 @@
+.createSchedule {
+  width: 100%;
+  max-width: 1470px;
+  height: 100vh;
+  margin: 0 auto;
+
+  h1 {
+    margin: 50px 0 10px 0;
+  }
+
+  h3 {
+    margin: 0;
+    color: #949494;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  .createForm {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px auto;
+    .input {
+      width: 250px;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 10px;
+
+      &:focus {
+        outline: 0;
+      }
+    }
+  
+    .day {
+      color: #0066ff;
+      display: block;
+      margin: 0 0 15px 15px;
+    }
+
+    .plusBtn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 250px;
+      height: 38px;
+      background-color: #0066ff83;
+      border: 0;
+      border-radius: 5px;
+      margin: 0;
+      cursor: pointer;
+
+      .plus {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    .buttons {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      bottom: 100px;
+
+      .btn1 {
+        color: #000;
+        text-decoration: none;
+        margin-right: 30px;
+      }
+
+      .btn2 {
+        color: #fff;
+        font-size: 16px;
+        font-family: 'Inter', sans-serif;
+        width: 200px;
+      }
+    }
+  }
+}

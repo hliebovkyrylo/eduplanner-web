@@ -3,10 +3,10 @@ import { MainPage, LoginPage, SignUpPage, CreateSchedulePage } from "./pages";
 function App() {
   return (
     <>
-      {/* <MainPage /> */}
+      <MainPage />
       {/* <LoginPage /> */}
       {/* <SignUpPage /> */}
-      <CreateSchedulePage />
+      {/* <CreateSchedulePage /> */}
     </>
   )
 }

@@ -34,7 +34,7 @@
         background-color: #7c7c7c;
         opacity: 54%;;
         height: 73px;
-        width: 269px;
+        max-width: 269px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -184,5 +184,70 @@
         }
       }
     }
+  }
+}
+
+@media (max-width: 1340px) {
+  .line {
+    border: 0.5px solid #e0e0e0 !important;
+  }
+
+  .scheduleGrid {
+    max-width: 69% !important;
+  }
+
+  .sideBlock {
+    width: 31%;
+  }
+
+  .week {
+    overflow-x: scroll;
+    overflow-y: visible;
+  }
+}
+
+@media (max-width: 584px) {
+  .container {
+    display: block !important;
+
+    .signBtn {
+      display: none !important;
+    }
+
+    .scheduleGrid {
+      margin: 0 auto;
+
+      .schelude__head {
+        display: block;
+
+        .scheduleBtn {
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+
+  .sideBlock {
+    display: none;
+  }
+
+  .first {
+    top: 290px !important;
+  }
+
+  .second {
+    top: 393px !important;
+  }
+
+  .third {
+    top: 496px !important;
+  }
+
+  .fourth {
+    top: 599px !important;
+  }
+
+  .fifth {
+    top: 702px !important;
   }
 }

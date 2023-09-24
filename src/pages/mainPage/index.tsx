@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-import { ScheduleButton, PairCard } from "../../components";
+import { ScheduleButton, PairCard, NavToggle } from "../../components";
 
 import styles from "./mainPage.module.scss";
 
@@ -17,7 +17,6 @@ export const MainPage = () => {
   // style for button
   const handleButtonClick = (btnIndex: number) => {
     setActiveButton(btnIndex);
-    console.log('btn clicked');
   };
 
   const handleScheduleButtonClick = (scheduleId: string) => {
@@ -34,6 +33,7 @@ export const MainPage = () => {
         ) : (
           <a className={styles.signBtn} href="#">Sign in</a>
         )}
+        <NavToggle />
         <div className={styles.sideBlock}>
           {[...Array(2)].map((_, index) => {
             return (
@@ -53,7 +53,7 @@ export const MainPage = () => {
             </button>
           </div>
           {showSecondWeek ? null : (
-            <>
+            <div className={styles.week}>
               <hr className={[styles.horizontalLine, styles.first].join(' ')} />
               <hr className={[styles.horizontalLine, styles.second].join(' ')} />
               <hr className={[styles.horizontalLine, styles.third].join(' ')} />
@@ -131,88 +131,88 @@ export const MainPage = () => {
                     })}
                   </div>
               </div>
-            </>
+            </div>
           )}
           {showSecondWeek ? (
-            <>
-            <hr className={[styles.horizontalLine, styles.first].join(' ')} />
-            <hr className={[styles.horizontalLine, styles.second].join(' ')} />
-            <hr className={[styles.horizontalLine, styles.third].join(' ')} />
-            <hr className={[styles.horizontalLine, styles.fourth].join(' ')} />
-            <hr className={[styles.horizontalLine, styles.fifth].join(' ')} />
-            <div className={styles.scheludePair}>
-                <div className={styles.column}>
-                  <span className={styles.day}>ПН</span>
-                  {[...Array(3)].map(() => {
-                    return (
-                      <>
+            <div className={styles.week}>
+              <hr className={[styles.horizontalLine, styles.first].join(' ')} />
+              <hr className={[styles.horizontalLine, styles.second].join(' ')} />
+              <hr className={[styles.horizontalLine, styles.third].join(' ')} />
+              <hr className={[styles.horizontalLine, styles.fourth].join(' ')} />
+              <hr className={[styles.horizontalLine, styles.fifth].join(' ')} />
+              <div className={styles.scheludePair}>
+                  <div className={styles.column}>
+                    <span className={styles.day}>ПН</span>
+                    {[...Array(3)].map(() => {
+                      return (
+                        <>
+                          <PairCard 
+                            pairNumber={1}
+                            pairTitle={'Українська мова за професійним спрямуванням ())л'}
+                            _id={"selectedScheduleId"}
+                          />
+                        </>
+                      )
+                    })}
+                  </div>
+                  <hr className={styles.line} />
+                  <div className={styles.column}>
+                    <span className={styles.day}>ВТ</span>
+                    {[...Array(1)].map(() => {
+                      return (
                         <PairCard 
-                          pairNumber={1}
-                          pairTitle={'Українська мова за професійним спрямуванням ())л'}
+                          pairNumber={1} 
+                          pairTitle={'Math'} 
+                          className={styles.tuesday}
                           _id={"selectedScheduleId"}
                         />
-                      </>
-                    )
-                  })}
-                </div>
-                <hr className={styles.line} />
-                <div className={styles.column}>
-                  <span className={styles.day}>ВТ</span>
-                  {[...Array(1)].map(() => {
-                    return (
-                      <PairCard 
-                        pairNumber={1} 
-                        pairTitle={'Math'} 
-                        className={styles.tuesday}
-                        _id={"selectedScheduleId"}
-                      />
-                    )
-                  })}
-                </div>
-                <hr className={styles.line} />
-                <div className={styles.column}>
-                  <span className={styles.day}>СР</span>
-                  {[...Array(5)].map(() => {
-                    return (
-                      <PairCard 
-                        pairNumber={1} 
-                        pairTitle={'Math'} 
-                        className={styles.wednesday}
-                        _id={"selectedScheduleId"}
-                      />
-                    )
-                  })}
-                </div>
-                <hr className={styles.line} />
-                <div className={styles.column}>
-                  <span className={styles.day}>ЧТ</span>
-                  {[...Array(1)].map(() => {
-                    return (
-                      <PairCard 
-                        pairNumber={1} 
-                        pairTitle={'Math'} 
-                        className={styles.thursday}
-                        _id={"selectedScheduleId"}
-                      />
-                    )
-                  })}
-                </div>
-                <hr className={styles.line} />
-                <div className={styles.column}>
-                  <span className={styles.day}>ПТ</span>
-                  {[...Array(2)].map(() => {
-                    return (
-                      <PairCard 
-                        pairNumber={1} 
-                        pairTitle={'Math'} 
-                        className={styles.friday}
-                        _id={"selectedScheduleId"}
-                      />
-                    )
-                  })}
-                </div>
-            </div>
-          </>
+                      )
+                    })}
+                  </div>
+                  <hr className={styles.line} />
+                  <div className={styles.column}>
+                    <span className={styles.day}>СР</span>
+                    {[...Array(5)].map(() => {
+                      return (
+                        <PairCard 
+                          pairNumber={1} 
+                          pairTitle={'Math'} 
+                          className={styles.wednesday}
+                          _id={"selectedScheduleId"}
+                        />
+                      )
+                    })}
+                  </div>
+                  <hr className={styles.line} />
+                  <div className={styles.column}>
+                    <span className={styles.day}>ЧТ</span>
+                    {[...Array(1)].map(() => {
+                      return (
+                        <PairCard 
+                          pairNumber={1} 
+                          pairTitle={'Math'} 
+                          className={styles.thursday}
+                          _id={"selectedScheduleId"}
+                        />
+                      )
+                    })}
+                  </div>
+                  <hr className={styles.line} />
+                  <div className={styles.column}>
+                    <span className={styles.day}>ПТ</span>
+                    {[...Array(2)].map(() => {
+                      return (
+                        <PairCard 
+                          pairNumber={1} 
+                          pairTitle={'Math'} 
+                          className={styles.friday}
+                          _id={"selectedScheduleId"}
+                        />
+                      )
+                    })}
+                  </div>
+              </div>
+          </div>
           ) : null}
         </div>
       </div>

@@ -1,5 +1,7 @@
+@import "../../components/navToggle/navToggle.module.scss";
+
 .main {
-  margin-top: 81px;
+  height: 100vh;
 
   .container {
     width: 100%;
@@ -8,6 +10,8 @@
     display: flex;
     margin: 0 auto;
     position: relative;
+    padding-top: 81px;
+    height: 100%;
 
     .signBtn {
       width: 174px;
@@ -15,7 +19,7 @@
       right: 0;
       font-size: 16px;
       cursor: pointer;
-      top: -67px;
+      top: 20px;
       background-color: #4D94FF;
       height: 40px;
       display: flex;

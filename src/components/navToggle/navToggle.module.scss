@@ -12,6 +12,7 @@
   &:checked ~ nav{
     background-color: #1414147e;
     backdrop-filter: blur(3px);
+    top: 0;
     touch-action: none;
     overscroll-behavior: none;
     position: fixed;
@@ -26,32 +27,31 @@
   }
 
   &:checked ~ .button {
-    animation: rotateIcon 600ms ease-in-out forwards;
+    animation: rotateIcon 200ms ease-in-out forwards;
   }
 
   &:checked ~ .button .line:nth-child(1) {
-    transition: 500ms;
-    animation: animate 600ms ease-in-out forwards;
+    transition: 200ms;
+    animation: animate 200ms ease-in-out forwards;
   }
 
   &:checked ~ .button .line:nth-child(2) {
-    transition: 500ms;
+    transition: 200ms;
     transform: scale(0);
     opacity: 0;
   }
 
   &:checked ~ .button .line:nth-child(3) {
-    transition: 500ms;
-    animation: animate2 600ms linear forwards;
+    transition: 200ms;
+    animation: animate2 200ms linear forwards;
   }
 }
 
 .button {
   width: 30px;
-  max-height: 30px;
+  height: 30px;
   display: block;
   line-height: 8px;
-  text-align: left;
   position: absolute;
   right: 30px;
   top: -60px;
@@ -65,50 +65,57 @@
     z-index: 4000;
 
     &:nth-child(1) {
-      transition: 500ms;
-      animation: animateReverse 600ms ease-in-out;
+      transition: 200ms;
+      animation: animateReverse 200ms ease-in-out;
     }
 
     &:nth-child(2) {
-      transition: 500ms;
+      transition: 200ms;
       transform: scale(1);
       opacity: 1;
     }
 
     &:nth-child(3) {
-      transition: 500ms;
-      animation: animate2Reverse 600ms ease-in-out;
+      transition: 200ms;
+      animation: animate2Reverse 200ms ease-in-out;
     }
   }
 }
 
-nav{
+nav {
   opacity: 0;
   text-align: left;
-  top: 0;
+  top: 81px;
   left: 0;
   width: 100%;
   height: 100vh;
-  transition: all .5s linear;
+  transition: all .1s linear;
   pointer-events: none;
   position: absolute;
+  text-align: center;
+  padding-top: 83px;
 
   .a {
     text-decoration: none;
     color: #fff;
-    display: block;
     font-size: 18px;
     opacity: 0;
     transform: scale(0);
     transform-origin: top;
-    text-align: center;
-    width: 130px;
-    margin: 17px auto;
 
     &:first-child {
       margin-top: 84px;
     }
   }
+}
+
+.nav_btn {
+  color: #fff;
+  background: none;
+  border: 0;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 15px;
 }
 
 // animations

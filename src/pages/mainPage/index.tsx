@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-import { ScheduleButton, PairCard, NavToggle } from "../../components";
+import { ScheduleButton, PairCard } from "../../components";
 
 import styles from "./mainPage.module.scss";
 
@@ -33,7 +33,39 @@ export const MainPage = () => {
         ) : (
           <a className={styles.signBtn} href="#">Sign in</a>
         )}
-        <NavToggle />
+        <div className={styles.menu}>
+          <input type="checkbox" id={styles.check} />
+          <label htmlFor={styles.check} className={styles.button}>
+            <span className={styles.line}></span>
+            <span className={styles.line}></span>
+            <span className={styles.line}></span>
+          </label>
+          {isAuth ? (
+            <nav>
+              {[...Array(2)].map((_, index) => {
+                return (
+                  <div>
+                    <ScheduleButton onClick={() => handleButtonClick} className={index === activeButton ? styles.activeButton : ''} groupTitle={'Group 1'} _id={'sdfdsf'} onScheduleButtonClick={handleScheduleButtonClick} />
+                  </div>
+                )
+              })}
+              <button className={styles.nav_btn}>Log out</button>
+            </nav>
+          ) : (
+            <nav>
+              {[...Array(2)].map((_, index) => {
+                return (
+                  <div>
+                    <ScheduleButton onClick={() => handleButtonClick} className={index === activeButton ? styles.activeButton : ''} groupTitle={'Group 1'} _id={'sdfdsf'} onScheduleButtonClick={handleScheduleButtonClick} />
+                  </div>
+                )
+              })}
+              <div className={styles.nav_btn}>
+                <a className={styles.a} href="/auth/login">Login</a>
+              </div>
+            </nav>
+          )}       
+        </div>	
         <div className={styles.sideBlock}>
           {[...Array(2)].map((_, index) => {
             return (

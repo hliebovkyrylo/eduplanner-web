@@ -73,7 +73,7 @@ export const MainPage = () => {
             )
           })}
           <div className={styles.btnCreate}>
-            <a className={styles.href} href="#">Створити свій розклад</a>
+            <a className={styles.href} href="#">Create your schedule</a>
           </div>
         </div>
     
@@ -81,7 +81,7 @@ export const MainPage = () => {
           <div className={styles.schelude__head}>
             <div className={styles.scheduleTitle}>{'Group 1'}</div>
             <button className={styles.scheduleBtn} onClick={toggleWeek}>
-              {showSecondWeek ? "Другий тиждень" : "Перший тиждень"}
+              {showSecondWeek ? "Second week" : "First week"}
             </button>
           </div>
           {showSecondWeek ? null : (

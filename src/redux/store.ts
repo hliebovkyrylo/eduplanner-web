@@ -1,15 +1,18 @@
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import thunkMiddleware from "redux-thunk";
-
-import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./slices/auth";
 import { scheduleReducer } from "./slices/schedules";
+
+const middleware = [...getDefaultMiddleware(), thunkMiddleware];
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     schedule: scheduleReducer,
   },
-  middleware: [thunkMiddleware]
+  middleware,
 });
+
+export type RootState = ReturnType<typeof store.getState>; // Определение типа RootState
 
 export default store;

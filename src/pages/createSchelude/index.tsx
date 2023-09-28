@@ -35,7 +35,7 @@ export const CreateSchedulePage: React.FC = () => {
   const toggleWeek = () => {
     setShowSecondWeek(!showSecondWeek)
   };
-
+  
   const handleSubmit = () => {};
 
   return (

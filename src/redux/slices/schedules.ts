@@ -1,18 +1,21 @@
-import axios from "axios";
+import axios from "../../axios";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface scheduleState {
-  items: any,
-  status: string,
-}
-
-const initialState: scheduleState = {
-  items: [],
-  status: 'lodaing',
+const initialState = {
+  schedules: {
+    items: [],
+    status: 'lodaing',
+  }
 };
 
 export const getSchedules = createAsyncThunk('schedules/getSchedule', async () => {
   const { data } = await axios.get('/schedules/all');
+
+  return data;
+});
+
+export const createSchedule = createAsyncThunk('schedules/createSchedule', async () => {
+  const { data } = await axios.post('/schedule/create');
 
   return data;
 });
@@ -24,16 +27,28 @@ const scheduleSlice = createSlice({
   extraReducers: (builder) => {
     builder
     .addCase(getSchedules.pending, (state) => {
-      state.items = null;
-      state.status = 'loading';
+      state.schedules.items = [];
+      state.schedules.status = 'loading';
     })
     .addCase(getSchedules.fulfilled, (state, action: PayloadAction<any>) => {
-      state.items = action.payload;
-      state.status = 'loaded';
+      state.schedules.items = action.payload;
+      state.schedules.status = 'loaded';
     })
     .addCase(getSchedules.rejected, (state) => {
-      state.items = null;
-      state.status = 'error';
+      state.schedules.items = [];
+      state.schedules.status = 'error';
+    })
+    .addCase(createSchedule.pending, (state) => {
+      state.schedules.items = [];
+      state.schedules.status = 'loading';
+    })
+    .addCase(createSchedule.fulfilled, (state, action: PayloadAction<any>) => {
+      state.schedules.items = action.payload;
+      state.schedules.status = 'loaded';
+    })
+    .addCase(createSchedule.rejected, (state) => {
+      state.schedules.items = [];
+      state.schedules.status = 'error';
     })
   }
 });

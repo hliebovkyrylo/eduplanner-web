@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { fetchReg } from "../redux/slices/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchReg, isAuthSelector } from "../redux/slices/auth";
+import { Navigate } from "react-router-dom";
 
 import styles from "./signIn/signIn.module.scss";
 import eye_slash from "../assets/icons/eye-slash-solid.svg";
@@ -12,6 +13,7 @@ export const SignUpPage = () => {
   const [icon, setIcon] = useState(eye_slash);
   const dispatch = useDispatch();
 
+  // show/hide password
   const togglePassInput = () => {
     if (type === 'password') {
       setType('text');
@@ -21,6 +23,9 @@ export const SignUpPage = () => {
       setIcon(eye_slash);
     }
   };
+
+  // functionality for register
+  const isAuth = useSelector(isAuthSelector)
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -46,6 +51,10 @@ export const SignUpPage = () => {
       console.error(error);
     }
   };
+
+  if (isAuth) {
+    return <Navigate to={'/'} />
+  }
 
   return (
     <section className={styles.loginPage}>

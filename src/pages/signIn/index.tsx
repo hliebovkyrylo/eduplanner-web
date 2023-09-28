@@ -32,7 +32,7 @@ export const LoginPage = () => {
           <label className={styles.checkboxBtn} htmlFor="checkbox"><img className={styles.imgaye} src={icon} alt={""} /></label>
         </div>
         <button className={styles.btn} type="submit">Sign in</button>
-        <a className={styles.href} href="#">Don't have an account? Sign up</a>
+        <a className={styles.href} href="/register">Don't have an account? Sign up</a>
       </form>
     </section>
   )

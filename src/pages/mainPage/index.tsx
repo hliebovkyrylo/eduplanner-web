@@ -31,7 +31,7 @@ export const MainPage = () => {
         {isAuth ? (
           <button className={styles.signBtn}>Log out</button>
         ) : (
-          <a className={styles.signBtn} href="#">Sign in</a>
+          <a className={styles.signBtn} href="/login">Sign in</a>
         )}
         <div className={styles.menu}>
           <input type="checkbox" id={styles.check} />
@@ -61,7 +61,7 @@ export const MainPage = () => {
                 )
               })}
               <div className={styles.nav_btn}>
-                <a className={styles.a} href="/auth/login">Login</a>
+                <a className={styles.a} href="/login">Login</a>
               </div>
             </nav>
           )}       
@@ -73,7 +73,7 @@ export const MainPage = () => {
             )
           })}
           <div className={styles.btnCreate}>
-            <a className={styles.href} href="#">Create your schedule</a>
+            <a className={styles.href} href="/create">Create your schedule</a>
           </div>
         </div>
     

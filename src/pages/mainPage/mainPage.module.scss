@@ -27,12 +27,41 @@
       align-items: center;
       color: #fff;
       text-decoration: none;
-      border-radius: 15px;
+      border-radius: 7px;
+    }
+
+    .logout {
+      background-color: #ff2f2f;
+      border: 0;
     }
 
     .sideBlock {
       background-color: #2c2c2c;
       padding: 30px;
+      height: 760px;
+
+      .btn {
+        position: relative;
+
+        .editButtons {
+          position: absolute;
+          top: 25px;
+          z-index: 1000;
+          right: 20px;
+
+          .btnForEdit {
+            width: 20px;
+            height: 20px;
+          }
+
+          button {
+            background: none;
+            border: 0;
+            cursor: pointer;
+            margin-left: 5px;
+          }
+        }
+      }
 
       .btnCreate {
         background-color: #7c7c7c;
@@ -179,6 +208,13 @@
 
           &::after {
             background-color: #10B981;
+          }
+        }
+
+        .empty {
+          background-color: transparent !important;
+          &::after {
+            background-color: transparent !important;
           }
         }
     

@@ -41,9 +41,10 @@ export const LoginPage = () => {
         return alert('Failed to login!')
       }
 
-      if ('token' in data) {
-        window.localStorage.setItem('token', data.token);
+      if ('token' in data.payload) {
+        window.localStorage.setItem('token', data.payload.token);
       }
+
     } catch (error) {
       console.log(error);
       return alert('Failed to login!')

@@ -6,13 +6,11 @@ interface PairCardProps {
   pairNumber: number;
   pairTitle: string;
   className?: string;
-  _id: string;
 };
 
 export const PairCard: FC<PairCardProps> = ({
   pairTitle,
   className,
-  _id
 }) => {
   return (
     <>

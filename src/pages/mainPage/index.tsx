@@ -3,16 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { ScheduleButton, PairCard } from "../../components";
 
 import styles from "./mainPage.module.scss";
+import edit from "../../assets/icons/pen-to-square-solid.svg";
+import deleteBtn from "../../assets/icons/trash-solid.svg";
 
 import { getSchedules } from "../../redux/slices/schedules";
 import { RootState } from "../../redux/store";
 import axios from "../../axios";
+import { isAuthSelector, logout } from "../../redux/slices/auth";
 
 export const MainPage = () => {
-  const isAuth = false;
+  const isAuth = useSelector(isAuthSelector);
 
   ////// passing data to elements //////
-  const [id, setSelectedScheduleId] = useState<string | null>(null);
+  const [id, setSelectedScheduleId] = useState<string | null>('');
   const [scheduleItems, setScheludeItems] = useState<any>();
 
   const handleButtonClick = (clickedScheduleId: any) => {
@@ -39,11 +42,19 @@ export const MainPage = () => {
     dispatch<any>(getSchedules())
   }, []);
 
+  ////// logout //////
+  const onClickLogout = () => { 
+    if (window.confirm('Are you sure you want to logout?')) {
+        dispatch(logout());
+        window.localStorage.removeItem('token');
+    }
+  };
+
   return (
     <div className={styles.main}>
       <div className={styles.container}>
         {isAuth ? (
-          <button className={styles.signBtn}>Log out</button>
+          <button onClick={onClickLogout} className={[styles.signBtn, styles.logout].join(' ')}>Log out</button>
         ) : (
           <a className={styles.signBtn} href="/login">Sign in</a>
         )}
@@ -60,10 +71,11 @@ export const MainPage = () => {
                 return (
                   <div>
                     <ScheduleButton groupTitle={obj.groupName} _id={obj._id} onScheduleButtonClick={handleButtonClick} />
+                    <a href="#"><img src={edit} alt="" /></a>
                   </div>
                 )
               })}
-              <button className={styles.nav_btn}>Log out</button>
+              <button onClick={onClickLogout} className={styles.nav_btn}>Log out</button>
             </nav>
           ) : (
             <nav>
@@ -71,6 +83,7 @@ export const MainPage = () => {
                 return (
                   <div>
                     <ScheduleButton groupTitle={obj.groupName} _id={obj._id} onScheduleButtonClick={handleButtonClick} />
+                    <a href="#"><img src={edit} alt="" /></a>
                   </div>
                 )
               })}
@@ -83,13 +96,17 @@ export const MainPage = () => {
         <div className={styles.sideBlock}>
           {schedules.items.map((obj: any) => {
             return (
-              <div>
+              <div className={styles.btn}>
                 <ScheduleButton groupTitle={obj.groupName} _id={obj._id} onScheduleButtonClick={handleButtonClick} />
+                <div className={styles.editButtons}>
+                  <a className={styles.btnForEdit} href="#"><img className={styles.btnForEdit} src={edit} alt="" /></a>
+                  <button><img className={styles.btnForEdit} src={deleteBtn} alt="" /></button>
+                </div>
               </div>
               )
           })}
           <div className={styles.btnCreate}>
-            <a className={styles.href} href="/create">Create your schedule</a>
+            <a className={styles.href} href={isAuth ? "/create" : "/login"}>Create your schedule</a>
           </div>
         </div>
     
@@ -115,7 +132,7 @@ export const MainPage = () => {
                           key={index} 
                           pairNumber={pair.pairNumber}
                           pairTitle={pair.pairTitle} 
-                          _id={'selectedScheduleId'} 
+                          className={pair.pairTitle === '' ? styles.empty : styles.monday}
                         />
                       ))}
                   </div>
@@ -127,8 +144,7 @@ export const MainPage = () => {
                           key={index} 
                           pairNumber={pair.pairNumber}
                           pairTitle={pair.pairTitle} 
-                          _id={'selectedScheduleId'} 
-                          className={styles.tuesday}
+                          className={pair.pairTitle === '' ? styles.empty : styles.tuesday}
                         />
                       ))}
                   </div>
@@ -140,8 +156,7 @@ export const MainPage = () => {
                           key={index} 
                           pairNumber={pair.pairNumber}
                           pairTitle={pair.pairTitle} 
-                          _id={'selectedScheduleId'} 
-                          className={styles.wednesday}
+                          className={pair.pairTitle === '' ? styles.empty : styles.wednesday}
                         />
                       ))}
                   </div>
@@ -153,8 +168,7 @@ export const MainPage = () => {
                           key={index} 
                           pairNumber={pair.pairNumber}
                           pairTitle={pair.pairTitle} 
-                          _id={'selectedScheduleId'} 
-                          className={styles.thursday}
+                          className={pair.pairTitle === '' ? styles.empty : styles.thursday}
                         />
                       ))}
                   </div>
@@ -165,9 +179,8 @@ export const MainPage = () => {
                         <PairCard
                           key={index} 
                           pairNumber={pair.pairNumber}
-                          pairTitle={pair.pairTitle} 
-                          _id={'selectedScheduleId'} 
-                          className={styles.friday}
+                          pairTitle={pair.pairTitle}
+                          className={pair.pairTitle === '' ? styles.empty : styles.friday}
                         />
                       ))}
                   </div>
@@ -189,7 +202,7 @@ export const MainPage = () => {
                           key={index} 
                           pairNumber={pair.pairNumber}
                           pairTitle={pair.pairTitle} 
-                          _id={'selectedScheduleId'} 
+                          className={pair.pairTitle === '' ? styles.empty : styles.monday}
                         />
                       ))}
                   </div>
@@ -201,8 +214,7 @@ export const MainPage = () => {
                           key={index} 
                           pairNumber={pair.pairNumber}
                           pairTitle={pair.pairTitle} 
-                          _id={'selectedScheduleId'} 
-                          className={styles.tuesday}
+                          className={pair.pairTitle === '' ? styles.empty : styles.tuesday}
                         />
                       ))}
                   </div>
@@ -214,8 +226,7 @@ export const MainPage = () => {
                           key={index} 
                           pairNumber={pair.pairNumber}
                           pairTitle={pair.pairTitle} 
-                          _id={'selectedScheduleId'} 
-                          className={styles.wednesday}
+                          className={pair.pairTitle === '' ? styles.empty : styles.wednesday}
                         />
                       ))}
                   </div>
@@ -227,8 +238,7 @@ export const MainPage = () => {
                           key={index} 
                           pairNumber={pair.pairNumber}
                           pairTitle={pair.pairTitle} 
-                          _id={'selectedScheduleId'} 
-                          className={styles.thursday}
+                          className={pair.pairTitle === '' ? styles.empty : styles.thursday}
                         />
                       ))}
                   </div>
@@ -240,8 +250,7 @@ export const MainPage = () => {
                           key={index} 
                           pairNumber={pair.pairNumber}
                           pairTitle={pair.pairTitle} 
-                          _id={'selectedScheduleId'} 
-                          className={styles.friday}
+                          className={pair.pairTitle === '' ? styles.empty : styles.friday}
                         />
                       ))}
                   </div>

@@ -21,13 +21,19 @@ export const fetchReg = createAsyncThunk('auth/fetchReg', async (params: any) =>
   return data;
 });
 
+export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async () => {
+  const { data } = await axios.get("/auth/me");
+  return data;
+});
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     logout: (state) => {
       state.data = null;
-    },
+      window.localStorage.removeItem("token");
+  },
   },
   extraReducers: (builder) => {
     builder
@@ -52,6 +58,18 @@ const authSlice = createSlice({
         state.status = 'loaded';
       })
       .addCase(fetchLogin.rejected, (state) => {
+        state.data = null;
+        state.status = 'error';
+      })
+      .addCase(fetchAuthMe.pending, (state) => {
+        state.data = null;
+        state.status = 'loading';
+      })
+      .addCase(fetchAuthMe.fulfilled, (state, action: PayloadAction<any>) => {
+        state.data = action.payload;
+        state.status = 'loaded';
+      })
+      .addCase(fetchAuthMe.rejected, (state) => {
         state.data = null;
         state.status = 'error';
       });

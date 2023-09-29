@@ -43,8 +43,8 @@ export const SignUpPage = () => {
         return;
       }
 
-      if ('token' in data) {
-        window.localStorage.setItem('token', data.token);
+      if ('token' in data.payload) {
+        window.localStorage.setItem('token', data.payload.token);
       }
     } catch (error) {
       alert('Произошла ошибка при отправке запроса.');

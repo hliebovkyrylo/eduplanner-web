@@ -3,6 +3,29 @@
 .main {
   height: 100vh;
 
+  .btn {
+    position: relative;
+
+    .editButtons {
+      position: absolute;
+      top: 25px;
+      z-index: 1000;
+      right: 20px;
+
+      .btnForEdit {
+        width: 20px;
+        height: 20px;
+      }
+
+      button {
+        background: none;
+        border: 0;
+        cursor: pointer;
+        margin-left: 5px;
+      }
+    }
+  }
+
   .container {
     width: 100%;
     max-width: 1457px;
@@ -39,29 +62,6 @@
       background-color: #2c2c2c;
       padding: 30px;
       height: 760px;
-
-      .btn {
-        position: relative;
-
-        .editButtons {
-          position: absolute;
-          top: 25px;
-          z-index: 1000;
-          right: 20px;
-
-          .btnForEdit {
-            width: 20px;
-            height: 20px;
-          }
-
-          button {
-            background: none;
-            border: 0;
-            cursor: pointer;
-            margin-left: 5px;
-          }
-        }
-      }
 
       .btnCreate {
         background-color: #7c7c7c;

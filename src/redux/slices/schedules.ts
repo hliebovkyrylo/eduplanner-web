@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
   schedules: {
-    items: [],
+    items: [] as any[],
     status: 'lodaing',
   }
 };
@@ -19,6 +19,11 @@ export const createSchedule = createAsyncThunk('schedules/createSchedule', async
 
   return data;
 });
+
+export const deleteSchedule = createAsyncThunk<void, string>('projects/userProjects', async (_id) => {
+    await axios.delete(`/schedule/delete/${_id}`);
+  }
+);
 
 const scheduleSlice = createSlice({
   name: 'schedules',
@@ -50,6 +55,10 @@ const scheduleSlice = createSlice({
       state.schedules.items = [];
       state.schedules.status = 'error';
     })
+    .addCase(deleteSchedule.fulfilled, (state, action) => {
+      state.schedules.items = state.schedules.items.filter(obj => obj._id !== action.payload);
+      state.schedules.status = 'loaded';
+    })    
   }
 });
 

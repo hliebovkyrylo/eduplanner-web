@@ -6,13 +6,15 @@ import styles from "./mainPage.module.scss";
 import edit from "../../assets/icons/pen-to-square-solid.svg";
 import deleteBtn from "../../assets/icons/trash-solid.svg";
 
-import { getSchedules } from "../../redux/slices/schedules";
+import { deleteSchedule, getSchedules } from "../../redux/slices/schedules";
 import { RootState } from "../../redux/store";
 import axios from "../../axios";
 import { isAuthSelector, logout } from "../../redux/slices/auth";
 
 export const MainPage = () => {
   const isAuth = useSelector(isAuthSelector);
+
+  const userData = useSelector((state: RootState) => state.auth.data);
 
   ////// passing data to elements //////
   const [id, setSelectedScheduleId] = useState<string | null>('');
@@ -45,8 +47,16 @@ export const MainPage = () => {
   ////// logout //////
   const onClickLogout = () => { 
     if (window.confirm('Are you sure you want to logout?')) {
-        dispatch(logout());
-        window.localStorage.removeItem('token');
+      dispatch(logout());
+      window.localStorage.removeItem('token');
+    }
+  };
+
+  ////// delete schedule //////
+  const handleDelete = (id: string) => {
+    if (window.confirm('Are you sure you want to delete this schedule?')) {
+      dispatch<any>(deleteSchedule(id));
+      window.location.reload();
     }
   };
 
@@ -69,9 +79,12 @@ export const MainPage = () => {
             <nav>
               {schedules.items.map((obj: any) => {
                 return (
-                  <div>
+                  <div className={styles.btn}>
                     <ScheduleButton groupTitle={obj.groupName} _id={obj._id} onScheduleButtonClick={handleButtonClick} />
-                    <a href="#"><img src={edit} alt="" /></a>
+                    <div className={styles.editButtons}>
+                      <a className={styles.btnForEdit} href={`/schedules/${obj._id}/update`}><img className={styles.btnForEdit} src={edit} alt="" /></a>
+                      <button onClick={() => handleDelete(obj._id)}><img className={styles.btnForEdit} src={deleteBtn} alt="" /></button>
+                    </div>
                   </div>
                 )
               })}
@@ -81,9 +94,12 @@ export const MainPage = () => {
             <nav>
               {schedules.items.map((obj: any) => {
                 return (
-                  <div>
+                  <div className={styles.btn}>
                     <ScheduleButton groupTitle={obj.groupName} _id={obj._id} onScheduleButtonClick={handleButtonClick} />
-                    <a href="#"><img src={edit} alt="" /></a>
+                    <div className={styles.editButtons}>
+                      <a className={styles.btnForEdit} href={`/schedules/${obj._id}/update`}><img className={styles.btnForEdit} src={edit} alt="" /></a>
+                      <button onClick={() => handleDelete(obj._id)}><img className={styles.btnForEdit} src={deleteBtn} alt="" /></button>
+                    </div>
                   </div>
                 )
               })}
@@ -98,12 +114,14 @@ export const MainPage = () => {
             return (
               <div className={styles.btn}>
                 <ScheduleButton groupTitle={obj.groupName} _id={obj._id} onScheduleButtonClick={handleButtonClick} />
-                <div className={styles.editButtons}>
-                  <a className={styles.btnForEdit} href="#"><img className={styles.btnForEdit} src={edit} alt="" /></a>
-                  <button><img className={styles.btnForEdit} src={deleteBtn} alt="" /></button>
-                </div>
+                {userData ?._id === obj.user && (
+                  <div className={styles.editButtons}>
+                    <a className={styles.btnForEdit} href={`/schedules/${obj._id}/update`}><img className={styles.btnForEdit} src={edit} alt="" /></a>
+                    <button onClick={() => handleDelete(obj._id)}><img className={styles.btnForEdit} src={deleteBtn} alt="" /></button>
+                  </div>
+                )}
               </div>
-              )
+            )
           })}
           <div className={styles.btnCreate}>
             <a className={styles.href} href={isAuth ? "/create" : "/login"}>Create your schedule</a>

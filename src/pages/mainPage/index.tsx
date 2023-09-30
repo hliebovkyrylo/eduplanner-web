@@ -85,10 +85,12 @@ export const MainPage = () => {
                 return (
                   <div className={styles.btn}>
                     <ScheduleButton groupTitle={obj.groupName} _id={obj._id} onScheduleButtonClick={handleButtonClick} />
-                    <div className={styles.editButtons}>
-                      <a className={styles.btnForEdit} href={`/schedules/${obj._id}/update`}><img className={styles.btnForEdit} src={edit} alt="" /></a>
-                      <button onClick={() => handleDelete(obj._id)}><img className={styles.btnForEdit} src={deleteBtn} alt="" /></button>
-                    </div>
+                    {userData ?._id === obj.user && (
+                      <div className={styles.editButtons}>
+                        <a className={styles.btnForEdit} href={`/schedules/${obj._id}/update`}><img className={styles.btnForEdit} src={edit} alt="" /></a>
+                        <button onClick={() => handleDelete(obj._id)}><img className={styles.btnForEdit} src={deleteBtn} alt="" /></button>
+                      </div>
+                    )}
                   </div>
                 )
               })}
@@ -100,10 +102,12 @@ export const MainPage = () => {
                 return (
                   <div className={styles.btn}>
                     <ScheduleButton groupTitle={obj.groupName} _id={obj._id} onScheduleButtonClick={handleButtonClick} />
-                    <div className={styles.editButtons}>
-                      <a className={styles.btnForEdit} href={`/schedules/${obj._id}/update`}><img className={styles.btnForEdit} src={edit} alt="" /></a>
-                      <button onClick={() => handleDelete(obj._id)}><img className={styles.btnForEdit} src={deleteBtn} alt="" /></button>
-                    </div>
+                    {userData ?._id === obj.user && (
+                      <div className={styles.editButtons}>
+                        <a className={styles.btnForEdit} href={`/schedules/${obj._id}/update`}><img className={styles.btnForEdit} src={edit} alt="" /></a>
+                        <button onClick={() => handleDelete(obj._id)}><img className={styles.btnForEdit} src={deleteBtn} alt="" /></button>
+                      </div>
+                    )}
                   </div>
                 )
               })}

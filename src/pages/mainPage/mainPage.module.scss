@@ -1,5 +1,14 @@
 @import "../../components/navToggle/navToggle.module.scss";
 
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #000;
+  font-size: 32px;
+}
+
 .main {
   height: 100vh;
 

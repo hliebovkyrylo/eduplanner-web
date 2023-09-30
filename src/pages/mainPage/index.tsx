@@ -17,7 +17,7 @@ export const MainPage = () => {
   const userData = useSelector((state: RootState) => state.auth.data);
 
   ////// passing data to elements //////
-  const [id, setSelectedScheduleId] = useState<string | null>('');
+  const [id, setSelectedScheduleId] = useState<string | null>('6517feb8752e66ba0e66cc4b');
   const [scheduleItems, setScheludeItems] = useState<any>();
 
   const handleButtonClick = (clickedScheduleId: any) => {
@@ -59,6 +59,10 @@ export const MainPage = () => {
       window.location.reload();
     }
   };
+
+  if (!scheduleItems) {
+    return <div className={styles.loading}>Loading...</div>; 
+  }
 
   return (
     <div className={styles.main}>

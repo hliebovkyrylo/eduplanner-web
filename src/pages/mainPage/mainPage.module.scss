@@ -9,6 +9,27 @@
   font-size: 32px;
 }
 
+.btnCreate {
+  background-color: #575757;
+  opacity: 54%;;
+  height: 73px;
+  width: 269px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
+
+  .href {
+    text-decoration: none;
+    color: #fff;
+    width: 269px;
+  }
+}
+
 .main {
   height: 100vh;
 
@@ -71,27 +92,6 @@
       background-color: #2c2c2c;
       padding: 30px;
       height: 760px;
-
-      .btnCreate {
-        background-color: #7c7c7c;
-        opacity: 54%;;
-        height: 73px;
-        max-width: 269px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        border: 0;
-        border-radius: 12px;
-        cursor: pointer;
-        margin-bottom: 10px;
-      
-        .href {
-          text-decoration: none;
-          color: #fff;
-          width: 165px;
-        }
-      }
     }
   }
 
@@ -254,6 +254,13 @@
     overflow-y: visible;
   }
 }
+
+@media (max-width: 1048px) {
+  .btnCreate {
+    width: 100%;
+  }
+}
+
 
 @media (max-width: 584px) {
   .container {

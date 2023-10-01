@@ -91,6 +91,9 @@ export const MainPage = () => {
                         <button onClick={() => handleDelete(obj._id)}><img className={styles.btnForEdit} src={deleteBtn} alt="" /></button>
                       </div>
                     )}
+                    <div className={styles.btnCreate}>
+                      <a className={styles.href} href={isAuth ? "/create" : "/login"}>Create your schedule</a>
+                    </div>
                   </div>
                 )
               })}
@@ -108,6 +111,9 @@ export const MainPage = () => {
                         <button onClick={() => handleDelete(obj._id)}><img className={styles.btnForEdit} src={deleteBtn} alt="" /></button>
                       </div>
                     )}
+                    <div className={styles.btnCreate}>
+                      <a className={styles.href} href={isAuth ? "/create" : "/login"}>Create your schedule</a>
+                    </div>
                   </div>
                 )
               })}

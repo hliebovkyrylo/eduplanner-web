@@ -1,0 +1,33 @@
+.card {
+  width: 163px;
+  background-color: #E7F6FD;
+  height: 85px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  color: #0369A1;
+  margin-top: 18px;
+  font-weight: 500;
+
+  &::after {
+    content: "";
+    display: block;
+    background-color: #0EA5E9;
+    border-radius: 4px 0 0 4px;
+    width: 5px;
+    height: 85px;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .pairNumber {
+    font-size: 16px;
+    padding: 0 1px;
+    z-index: 2;
+  }
+
+  .pairTitle {
+    font-size: 16px;
+    padding: 0 11px;
+  }
+}

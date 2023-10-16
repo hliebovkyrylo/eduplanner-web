@@ -80,7 +80,7 @@ export const MainPage = () => {
             <span className={styles.line}></span>
           </label>
           {isAuth ? (
-            <nav>
+            <nav className={styles.nav}>
               {schedules.items.map((obj: any) => {
                 return (
                   <div className={styles.btn}>

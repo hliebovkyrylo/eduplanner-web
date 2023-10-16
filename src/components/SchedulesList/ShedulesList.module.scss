@@ -1,0 +1,52 @@
+.scheduleItems {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #282B31;
+  padding: 11px 24px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: all .1s linear;
+
+  &:hover {
+    background-color: #2f3238;
+  }
+
+  .rightItems {
+    display: flex;
+    align-items: center;
+
+    button {
+      width: 16px;
+      height: 16px;
+      margin-left: 122px;
+      z-index: 1000;
+    }
+  }
+}
+
+.schedulesText {
+  color: #fff;
+}
+
+.settingsImage {
+  width: 16px;
+  height: 16px;
+  transition: all .2s linear;
+
+  &:hover {
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 620px) {
+  .schedulesText {
+    margin-right: 30px;
+  }
+
+  .scheduleItems {
+    button {
+      margin-left: 0 !important;
+    }
+  }
+}

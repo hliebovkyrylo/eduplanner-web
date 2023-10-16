@@ -9,7 +9,7 @@
 #check{
   display: none;
 
-  &:checked ~ nav{
+  &:checked ~ .nav{
     background-color: #1414147e;
     backdrop-filter: blur(3px);
     top: 0;
@@ -20,7 +20,7 @@
     pointer-events: all;
   }
   
-  &:checked ~ nav a{
+  &:checked ~ .nav a{
     padding: 10px;
     opacity: 1;
     transform: scale(1);
@@ -82,7 +82,7 @@
   }
 }
 
-nav {
+.nav {
   opacity: 0;
   text-align: left;
   top: 81px;

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { MainPage, LoginPage, SignUpPage, CreateSchedulePage, UpdateSchedulePage } from "./pages";
+import { MainPage, LoginPage, SignUpPage, CreateSchedulePage, UpdateSchedulePage, Home } from "./pages";
 
 import { Route, Routes } from "react-router-dom";
 import { fetchAuthMe } from "./redux/slices/auth";
@@ -15,6 +15,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<SignUpPage />} />
       <Route path="/create" element={<CreateSchedulePage />} />

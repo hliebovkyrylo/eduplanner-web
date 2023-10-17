@@ -3,22 +3,20 @@ import styles from "./ShedulesList.module.scss";
 import settingsImage from "../../assets/icons/gear-solid.svg";
 
 interface Props {
+  _id: string;
   scheduleName: string;
   createdAt: string;
-  href: string;
+  handleButtonClick: (ev: any) => void;
 }
 
 export const ShedulesList = ({
+  _id,
   scheduleName,
   createdAt,
-  href,
+  handleButtonClick
 }: Props) => {
-  const handleButtonClick = (ev: React.MouseEvent<HTMLElement>) => {
-    ev.preventDefault();
-  };
-
   return (
-    <a href={href} className={styles.scheduleItems}>
+    <a href={`/shedule/${_id}`} className={styles.scheduleItems}>
       <span className={styles.schedulesText}>{scheduleName}</span>
       <div className={styles.rightItems}>
         <span className={styles.schedulesText}>{createdAt}</span>

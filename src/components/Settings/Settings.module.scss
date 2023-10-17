@@ -1,0 +1,196 @@
+.blurBg {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  backdrop-filter: blur(5px);
+  z-index: 1001;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+.settings {
+  position: absolute;
+  touch-action: none;
+  overscroll-behavior: none;
+  top: calc(50% - 220px);
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  justify-content: space-between;
+  height: 500px;
+  background-color: #36383F;
+  z-index: 100000;
+  left: calc(50% - 450px);
+  border-radius: 15px;
+  padding: 35px 30px 77px 30px;
+
+  .leftSideBlock {
+    background-color: #3D3F48;
+    width: 100%;
+    max-width: 199px;
+    height: 388px;
+    padding: 24px 13px;
+    border-radius: 15px;
+
+    .editSchedule {
+      display: flex;
+      align-items: center;
+      width: 173px;
+      height: 33px;
+      text-align: left;
+      padding: 0;
+      padding: 8px 0 8px 13px;
+      border-radius: 8px;
+      margin-bottom: 7px;
+  
+      &:first-child {
+        background-color: #52545F;
+      }
+  
+      &:hover {
+        background-color: #52545F;
+      }
+
+      .btnIcon {
+        width: 15px;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .mainBlock {
+    position: relative;
+    width: 100%;
+    max-width: 607px;
+    height: 388px;
+    background-color: #3D3F48;
+    border-radius: 15px;
+    padding: 25px 42px;
+    
+    .btnAccess {
+      border-radius: 8px;
+      width: 210px;
+      height: 33px;
+      background-color: #47494F;
+    }
+
+    .linkItems {
+      position: relative;
+
+      .inputLink {
+        width: 100%;
+        background-color: #52545F;
+        border: 0;
+        height: 34px;
+        font-size: 16px;
+        border-radius: 8px;
+        color: #fff;
+        font-family: 'Inter', sans-serif;
+        padding: 0 60px 0 22px;
+        margin-top: 24px;
+  
+        &:focus {
+          outline: 0;
+        }
+      }
+  
+      .copyBtn {
+        position: absolute;
+        width: 16px;
+        height: 18px;
+        right: 22px;
+        top: 31px;
+      }
+    }
+
+    .cancelBtn {
+      position: absolute;
+      bottom: -48px;
+      right: 26px;
+    }
+  }
+}
+
+
+@media (max-width: 1010px) {
+  .blurBg {
+    
+  }
+
+  .settings {
+    top: 15%;
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+}
+
+@media (max-width: 901px) {
+  .settings {
+    left: calc(50% - 224px);
+    max-width: 450px;
+
+    .leftSideBlock {
+      max-width: 65px !important;
+  
+      .editSchedule {
+        max-width: 42px;
+    
+        .textBtn {
+          display: none;
+        }
+      }
+    }
+  
+    .mainBlock {
+      max-width: 300px !important;
+    }
+  }
+}
+
+@media (max-width: 469px) {
+  .settings {
+    left: calc(50% - 176px);
+    max-width: 350px;
+
+    .mainBlock {
+      max-width: 200px !important;
+      padding: 10px;
+
+      .btnAccess {
+        width: 100%;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 469px) {
+  .settings {
+    max-width: 270px;
+    left: calc(50% - 135px);
+
+    .leftSideBlock {
+      padding: 8px;
+      max-width: 58px !important;
+    }
+
+    .mainBlock {
+      padding: 8px;
+      max-width: 140px !important;
+    }
+  }
+}
+
+@media (max-height: 780px) {
+  .settings {
+    top: 100px;
+  }
+}
+
+@media (max-height: 600px) {
+  .settings {
+    top: 50px;
+  }
+}

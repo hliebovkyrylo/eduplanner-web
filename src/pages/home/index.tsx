@@ -4,7 +4,7 @@ import axios from "../../axios";
 import styles from "./home.module.scss";
 import homeImage from "../../assets/otherImages/Group 11.png";
 
-import { HomeTopbar, ShedulesList } from "../../components/index";
+import { HomeTopbar, ShedulesList, Settings } from "../../components/index";
 import { useNavigate, useParams } from "react-router-dom";
 
 export const Home = () => {
@@ -28,6 +28,21 @@ export const Home = () => {
   const onClickCreateSchedule = () => {
     navigate(`/schedule/${id}`);
   };
+
+  // settings
+  const [openSettings, setOpenSettings] = useState(false);
+
+  const handleBtnClick = (ev: any) => {
+    ev.preventDefault();
+
+    setOpenSettings(!openSettings);
+  }
+
+  // delete schedule
+  const handleDeleteSchedule = () => {}
+
+  // change access
+  const handleChangeAccess = () => {}
 
   return (
     <main className={styles.mainContainer}>
@@ -53,13 +68,17 @@ export const Home = () => {
               <span className={[styles.scheduleHeadText, styles.visibleOnPhones].join(' ')}>Settings</span>
             </div>
             <div className={styles.userSchedules}>
-              {[...Array(2)].map(() => (
-                <ShedulesList
-                  scheduleName={'Its Name'} 
-                  createdAt={'15.10.2023'}
-                  href="/"
-                />
-              ))}
+              {[...Array(2)].map(() => {
+                return (
+                  <ShedulesList
+                    key={'obj._id'}
+                    scheduleName={'obj.groupName'} 
+                    createdAt={'15.10.2023'}
+                    _id={'obj._id'}
+                    handleButtonClick={handleBtnClick}
+                  />
+                )
+              })}
             </div>
           </div>
         </div>
@@ -73,6 +92,14 @@ export const Home = () => {
             </div>
           ))}
         </div>
+        {openSettings ? (
+          <Settings
+            id="dsfsdf"
+            deleteSchedule={handleDeleteSchedule}
+            changeAccess={handleChangeAccess}
+            cancelButton={handleBtnClick}
+          />
+        ) : null}
       </section>
     </main>
   )

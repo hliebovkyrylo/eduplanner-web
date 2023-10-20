@@ -1,5 +1,9 @@
-export { PairCard } from "./pairCard";
+export { PairCard } from "./cards/pairCard";
 export { ScheduleButton } from "./scheduleButton";
 export { ShedulesList } from "./SchedulesList";
 export { HomeTopbar } from "./HomeTopbar";
 export { Settings } from "./Settings";
+export { HomeMainCard } from "./cards/HomeMainCard";
+export { LeftSideBlock } from "./blocks/LeftSideBlock";
+export { RightSideBlock } from "./blocks/RightSIdeBlock"
+export { SchedulePreviewCard } from "./cards/SchedulePreviewCard";

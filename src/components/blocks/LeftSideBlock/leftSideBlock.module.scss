@@ -1,0 +1,78 @@
+.leftSideCards {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1224px;
+  height: 691px;
+
+  .schedulesCard {
+    background-color: #1C1E23;
+    width: 100%;
+    max-width: 1224px;
+    align-self: flex-end;
+    padding: 24px 65px;
+    border-radius: 15px;
+  
+    .schedulesHead {
+      display: flex;
+      justify-content: space-between;
+      margin: 19px 0 20px 0;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #21252F;
+  
+      .scheduleHeadText {
+        color: #ACE9FF;
+        font-size: 16px;
+      }
+  
+      .visibleOnPhones {
+        display: none;
+      }
+  
+      .lastHeadText {
+        margin-left: 100px;
+      }
+    }
+  
+    .userSchedules {
+      height: 159px;
+      overflow-y: auto;
+    }
+  }
+}
+
+@media (max-width: 1767px) {
+  .leftSideCards {
+    max-width: 900px !important;
+  }
+}
+
+@media (max-width: 1410px) {
+  .leftSideCards {
+    max-width: 600px !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .schedulesCard {
+    padding: 10px !important;
+  }
+  
+  .scheduleHeadText {
+    width: 70px;
+  }
+
+  .rightSideHeadtext {
+    display: flex;
+    justify-content: space-between;
+
+    .lastHeadText {
+      display: none;
+    }
+  } 
+  
+  .visibleOnPhones {
+    display: block !important;
+  }
+}

@@ -6,18 +6,152 @@
   .mainSection {
     display: flex;
     justify-content: space-between;
+    
+    .leftSideCards {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1224px;
+      height: 691px;
+    }
+
+    .rightSideCard {
+      background-color: #1C1E23;
+      padding: 23px 54px 0 54px;
+      border-radius: 15px;
+
+      .recentlyText {
+        color: #fff;
+        font-size: 16px;
+        text-align: left;
+        margin-bottom: 37px;
+      }
+
+      .imgItem {
+        margin-top: 20px;
+        overflow: hidden;
+
+        .recentlyImage {
+          width: 293px;
+          height: 138px;
+          object-fit: cover;
+          transition: transform .2s linear;
+
+          &:hover {
+            transform: scale(1.1);
+	          transition: transform .2s linear;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.mainCard {
+  display: flex;
+  justify-content: space-between;
+  align-self: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 328px;
+  padding: 48px 116px 48px 65px;
+  background-color: #1C1E23;
+  border-radius: 15px;
+
+  .homeImage {
+    width: 292px;
+    height: 281px;
+  }
+}
+
+.schedulesCard {
+  background-color: #1C1E23;
+  width: 100%;
+  max-width: 1224px;
+  align-self: flex-end;
+  padding: 24px 65px;
+  border-radius: 15px;
+
+  .schedulesHead {
+    display: flex;
+    justify-content: space-between;
+    margin: 19px 0 20px 0;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #21252F;
+
+    .scheduleHeadText {
+      color: #ACE9FF;
+      font-size: 16px;
+    }
+
+    .visibleOnPhones {
+      display: none;
+    }
+
+    .lastHeadText {
+      margin-left: 100px;
+    }
+  }
+
+  .userSchedules {
+    height: 159px;
+    overflow-y: auto;
+  }
+}
+
+.userNameIncription {
+  margin: 15px 0 62px 0;
+}
+
+.createBtn {
+  width: 215px;
+  height: 68px;
+  background-color: #292E38;
+  border-radius: 13px;
+  transition: all .1s linear;
+
+  &:hover {
+    background-color: #303541;
   }
 }
 
 @media (max-width: 1767px) {
+  .userNameIncription {
+    font-size: 38px !important;
+  }
+
   .mainContainer {
     max-width: 1400px;
+  }
+
+  .leftSideCards {
+    max-width: 900px !important;
+  }
+
+  .homeImage {
+    width: 200px !important;
+    height: 200px !important;
   }
 }
 
 @media (max-width: 1410px) {
   .mainContainer {
     max-width: 1000px;
+  }
+
+  .homeImage {
+    display: none;
+  }
+
+  .leftSideCards {
+    max-width: 600px !important;
+  }
+
+  .recentlyImage {
+    width: 230px !important;
+    height: 105px !important;
   }
 }
 
@@ -28,6 +162,14 @@
     .mainSection {
       flex-direction: column;
       height: 1190px;
+
+      .rightSideCard {
+        text-align: center;
+
+        .recentlyText {
+          text-align: center;
+        }
+      }
     }
   }
 }
@@ -36,4 +178,39 @@
   .mainContainer {
     max-width: 300px;
   }
+
+  .userNameIncription {
+    font-size: 28px !important;
+    width: 100%;
+  }
+
+  h2 {
+    font-size: 20px !important;
+  }
+
+  .mainCard {
+    padding: 10px !important;
+    justify-content: center;
+  }
+
+  .schedulesCard {
+    padding: 10px;
+  }
+
+  .scheduleHeadText {
+    width: 70px;
+  }
+
+  .visibleOnPhones {
+    display: block !important;
+  }
+
+  .rightSideHeadtext {
+    display: flex;
+    justify-content: space-between;
+
+    .lastHeadText {
+      display: none;
+    }
+  } 
 }

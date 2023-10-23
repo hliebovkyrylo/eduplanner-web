@@ -10,9 +10,11 @@ import { deleteSchedule, getSchedules } from "../../redux/slices/schedules";
 import { RootState } from "../../redux/store";
 import axios from "../../axios";
 import { isAuthSelector, logout } from "../../redux/slices/auth";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const MainPage = () => {
   const isAuth = useSelector(isAuthSelector);
+  const { loginWithRedirect } = useAuth0();
 
   const userData = useSelector((state: RootState) => state.auth.data);
 
@@ -70,7 +72,7 @@ export const MainPage = () => {
         {isAuth ? (
           <button onClick={onClickLogout} className={[styles.signBtn, styles.logout].join(' ')}>Log out</button>
         ) : (
-          <a className={styles.signBtn} href="/login">Sign in</a>
+          <button onClick={() => loginWithRedirect()} className={styles.signBtn}>Log in</button>
         )}
         <div className={styles.menu}>
           <input type="checkbox" id={styles.check} />
@@ -118,7 +120,7 @@ export const MainPage = () => {
                 )
               })}
               <div className={styles.nav_btn}>
-                <a className={styles.a} href="/login">Login</a>
+                <button onClick={() => loginWithRedirect()} className={styles.a}>Log in</button>
               </div>
             </nav>
           )}       

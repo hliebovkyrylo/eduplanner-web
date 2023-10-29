@@ -3,7 +3,7 @@ import homeImage from "../../../assets/otherImages/Group 11.png";
 
 interface Props {
   clickBtn: () => void;
-  name: string;
+  name: string | undefined;
 }
 
 export const HomeMainCard = ({ 

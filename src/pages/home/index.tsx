@@ -1,11 +1,13 @@
 import styles from "./home.module.scss";
 
-import { HomeTopbar, LeftSideBlock, RightSideBlock } from "../../components/index";
+import { Topbar, LeftSideBlock, RightSideBlock } from "../../components/index";
 
 export const Home = () => {
   return (
     <main className={styles.mainContainer}>
-      <HomeTopbar />
+      <Topbar 
+        pageName={"Home"}
+      />
       <section className={styles.mainSection}>
         <LeftSideBlock />
 

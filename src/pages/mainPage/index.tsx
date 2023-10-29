@@ -9,12 +9,12 @@ import deleteBtn from "../../assets/icons/trash-solid.svg";
 import { deleteSchedule, getSchedules } from "../../redux/slices/schedules";
 import { RootState } from "../../redux/store";
 import axios from "../../axios";
-import { isAuthSelector, logout } from "../../redux/slices/auth";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const MainPage = () => {
-  const isAuth = useSelector(isAuthSelector);
-  const { loginWithRedirect } = useAuth0();
+  const isAuth = useState();
+  const { loginWithRedirect, logout } = useAuth0();
+  
 
   const userData = useSelector((state: RootState) => state.auth.data);
 
@@ -26,11 +26,11 @@ export const MainPage = () => {
     setSelectedScheduleId(clickedScheduleId);
   };
   // getting data from server
-  useEffect(() => {
-    axios.get(`/schedule/${id}`)
-    .then((res => setScheludeItems(res.data)))
-    .catch((error) => console.log(error))
-  }, [id]);
+  // useEffect(() => {
+  //   axios.get(`/schedules/${id}`)
+  //   .then((res => setScheludeItems(res.data)))
+  //   .catch((error) => console.log(error))
+  // }, [id]);
 
   ////// switch week schedule //////
   const [showSecondWeek, setShowSecondWeek] = useState(false);
@@ -47,12 +47,12 @@ export const MainPage = () => {
   }, []);
 
   ////// logout //////
-  const onClickLogout = () => { 
-    if (window.confirm('Are you sure you want to logout?')) {
-      dispatch(logout());
-      window.localStorage.removeItem('token');
-    }
-  };
+  // const onClickLogout = () => { 
+  //   if (window.confirm('Are you sure you want to logout?')) {
+  //     dispatch(logout());
+  //     window.localStorage.removeItem('token');
+  //   }
+  // };
 
   ////// delete schedule //////
   const handleDelete = (id: string) => {
@@ -62,15 +62,15 @@ export const MainPage = () => {
     }
   };
 
-  if (!scheduleItems) {
-    return <div className={styles.loading}>Loading...</div>; 
-  }
+  // if (!scheduleItems) {
+  //   return <div className={styles.loading}>Loading...</div>; 
+  // }
 
   return (
     <div className={styles.main}>
       <div className={styles.container}>
         {isAuth ? (
-          <button onClick={onClickLogout} className={[styles.signBtn, styles.logout].join(' ')}>Log out</button>
+          <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} className={[styles.signBtn, styles.logout].join(' ')}>Log out</button>
         ) : (
           <button onClick={() => loginWithRedirect()} className={styles.signBtn}>Log in</button>
         )}
@@ -99,7 +99,7 @@ export const MainPage = () => {
                   </div>
                 )
               })}
-              <button onClick={onClickLogout} className={styles.nav_btn}>Log out</button>
+              <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} className={styles.nav_btn}>Log out</button>
             </nav>
           ) : (
             <nav>
@@ -122,6 +122,7 @@ export const MainPage = () => {
               <div className={styles.nav_btn}>
                 <button onClick={() => loginWithRedirect()} className={styles.a}>Log in</button>
               </div>
+              <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} className={styles.nav_btn}>Log out</button>
             </nav>
           )}       
         </div>	
@@ -142,6 +143,8 @@ export const MainPage = () => {
           <div className={styles.btnCreate}>
             <a className={styles.href} href={isAuth ? "/create" : "/login"}>Create your schedule</a>
           </div>
+          <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} className={styles.nav_btn}>Log out</button>
+
         </div>
     
         <div className={styles.scheduleGrid}>

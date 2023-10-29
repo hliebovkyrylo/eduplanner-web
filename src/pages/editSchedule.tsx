@@ -7,12 +7,11 @@ import plus from "../assets/icons/plus-solid.svg";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { isAuthSelector } from "../redux/slices/auth";
 
 export const UpdateSchedulePage: React.FC = () => {
   const [groupName, setGroupName] = useState("");
   const [showSecondWeek, setShowSecondWeek] = useState(false);
-  const isAuth = useSelector(isAuthSelector);
+  const isAuth = useState;
   const navigate = useNavigate();
   const { id } = useParams();
 

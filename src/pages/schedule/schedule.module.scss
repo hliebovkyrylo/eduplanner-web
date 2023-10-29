@@ -1,0 +1,25 @@
+.container {
+  width: 100%;
+  max-width: 1680px;
+  margin: 0 auto;
+
+  .scheduleInner {
+    width: 100%;
+
+    .scheduleHead {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .day {
+        color: #fff;
+        opacity: .6;
+        margin-left: 32px;
+
+        &:last-child {
+          margin-right: 207px;
+        }
+      }
+    }
+  }
+}

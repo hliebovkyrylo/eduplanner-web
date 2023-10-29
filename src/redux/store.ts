@@ -1,6 +1,6 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import thunkMiddleware from "redux-thunk";
-import { authReducer } from "./slices/auth";
+import { authReducer } from "./slices/user";
 import { scheduleReducer } from "./slices/schedules";
 
 const middleware = [...getDefaultMiddleware(), thunkMiddleware];

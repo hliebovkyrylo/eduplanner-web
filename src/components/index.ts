@@ -1,7 +1,7 @@
 export { PairCard } from "./cards/pairCard";
 export { ScheduleButton } from "./scheduleButton";
 export { ShedulesList } from "./SchedulesList";
-export { HomeTopbar } from "./HomeTopbar";
+export { Topbar } from "./Topbar";
 export { Settings } from "./Settings";
 export { HomeMainCard } from "./cards/HomeMainCard";
 export { LeftSideBlock } from "./blocks/LeftSideBlock";

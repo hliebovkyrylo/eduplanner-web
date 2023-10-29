@@ -1,0 +1,64 @@
+.onboarding {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+
+  .onboardingInner {
+    background-color: #1C1E23;
+    padding: 20px 20px 30px 20px;
+    text-align: center;
+
+    .inputItem {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+
+      .inputPlaceholder {
+        background-color: #31353d;
+        color: #fff;
+        opacity: .6;
+        font-size: 13px;
+      }
+      
+      .onboardingInput {
+        border: 0;
+        width: 100%;
+        height: 30px;
+        outline: 0;
+        background-color: #31353d;
+        color: #fff;
+        font-size: 16px;
+        font-family: 'Inter', sans-serif;
+        margin-bottom: 10px;
+        border-radius: 0 5px 5px 5px;
+        padding: 8px 16px;
+      }
+    }
+
+    .photoBtn {
+      border-radius: 50%;
+      margin: 20px 0;
+
+      .onboardingPicture {
+        width: 98px;
+        height: 98px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+
+    .submitBtn {
+      width: 100%;
+      height: 35px;
+      border-radius: 5px;
+      background-color: #3A5159;
+      transition: background-color .1s linear;
+
+      &:hover {
+        background-color: #4a6770;
+      }
+    }
+  }
+}

@@ -3,8 +3,21 @@ import { HomeMainCard, Settings, ShedulesList } from "../../index";
 
 import styles from "./leftSideBlock.module.scss";
 
+import axios from "../../../axios";
+import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+
 export const LeftSideBlock = () => {
-  const onClickCreateSchedule = () => {};
+  // Creating schedule
+  const navigate = useNavigate();
+
+  const onClickCreateSchedule = async () => {
+    const { data } = await axios.post('/schedule/create'); // Route to create a schedule
+
+    const _id = data._id; // Getting schedule id to redirecting
+
+    navigate(`/schedule/${_id}`); // Redirecting to schedule page
+  };
 
   // Settings
   const [openSettings, setOpenSettings] = useState(false); // By default the menu is closed
@@ -12,8 +25,11 @@ export const LeftSideBlock = () => {
   const handleBtnClick = (ev: any) => { // When the button was pressed the settings menu opens/closes
     ev.preventDefault();
 
-    setOpenSettings(!openSettings);
+    setOpenSettings(!openSettings); // Change boolean value 
   }
+
+  // Getting information of current user
+  const { user } = useAuth0();
 
   // Actions with schedules
   const handleDeleteSchedule = () => {};
@@ -24,7 +40,7 @@ export const LeftSideBlock = () => {
     <>
       <div className={styles.leftSideCards}>
         <HomeMainCard
-          name="sdf"
+          name={user?.name || 'User'}
           clickBtn={onClickCreateSchedule} 
         />
         <div className={styles.schedulesCard}>
@@ -54,7 +70,7 @@ export const LeftSideBlock = () => {
       </div>
       {openSettings ? (
         <Settings
-          id="dsfsdf"
+          id={'fgedgsdfrghbfdsg'}
           deleteSchedule={handleDeleteSchedule}
           changeAccess={handleChangeAccess}
           cancelButton={handleBtnClick}

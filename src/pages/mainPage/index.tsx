@@ -122,7 +122,7 @@ export const MainPage = () => {
               <div className={styles.nav_btn}>
                 <button onClick={() => loginWithRedirect()} className={styles.a}>Log in</button>
               </div>
-              <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} className={styles.nav_btn}>Log out</button>
+              <button onClick={() => loginWithRedirect()} className={styles.signBtn}>Log in</button>
             </nav>
           )}       
         </div>	
@@ -143,6 +143,7 @@ export const MainPage = () => {
           <div className={styles.btnCreate}>
             <a className={styles.href} href={isAuth ? "/create" : "/login"}>Create your schedule</a>
           </div>
+          <button onClick={() => loginWithRedirect()} className={styles.signBtn}>Log in</button>
           <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} className={styles.nav_btn}>Log out</button>
 
         </div>

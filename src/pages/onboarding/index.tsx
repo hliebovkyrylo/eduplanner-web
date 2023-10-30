@@ -2,10 +2,13 @@ import { useRef, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import styles from "./onboarding.module.scss";
-import { uploadImage } from "../../redux/slices/user";
+import { createUser, isOndoarded, uploadImage } from "../../redux/slices/user";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const Onboarding = () => {
+  const dispatch = useDispatch<any>();
+
   // Getting user info
   const { user } = useAuth0(); // Data of current user
   if (!user) { // If user is not found return null
@@ -25,23 +28,54 @@ export const Onboarding = () => {
   };
 
   // Creating a user
-  const dispatch = useDispatch<any>();
+  const navigate = useNavigate();
+
+  const id = user.sub;
+  const [name, setName] = useState(user.name || '');
+  const [username, setUsername] = useState(user.nickname || '');
+  const [image, setImage] = useState(user.picture);
+  const [onboarded, setOnboarded] = useState(false);
 
   const handleSubmit = async (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault(); // Remove the standard behavior of the button
 
     try {
+      setOnboarded(true);
+      
       if (selectedFile !== null) { // Checking the authenticity of the uploaded photo
         const formData = new FormData();
         formData.append('image', selectedFile); // Add the selected file to FormData with the name 'image'
 
-        await dispatch(uploadImage(formData)); // Send a request to download an image using the dispatch function.
+        const res = await dispatch(uploadImage(formData)); // Send a request to download an image using the dispatch function.
+
+        setImage(res.payload.imageUrl); // Transferring the uploaded photo to the variable 'image'
+      } else {
+        setImage(user.picture); // If the user has not uploaded his picture, then we use the standard Auth0 photo
       }
+
+      // Sending user input to the server
+      await dispatch(createUser({
+        id,
+        name,
+        username,
+        image,
+        onboarded,
+      }));
+
+      navigate('/home');
       
     } catch (error: any) {
-      throw new Error(`Failed to upload image: ${error.message}`); // If an error occurs, throw a new error with an error message
+      throw new Error(`Failed to create user: ${error.message}`); // If an error occurs, throw a new error with an error message
     }
   }
+
+  // Checking whether the user is configured
+  dispatch(isOndoarded({ id })).then((onboardedUser: any) => { // Search for user by ID
+    if (onboardedUser.payload.userFound) {
+      navigate('/home') // if the user is found, we redirect to the home page
+    }
+  })
+  
 
   return (
     <main className={styles.onboarding}>
@@ -57,13 +91,13 @@ export const Onboarding = () => {
           <div>
             <span className={styles.inputPlaceholder}>Name</span>
           </div>
-          <input className={styles.onboardingInput} type="text" value={user.name} />
+          <input className={styles.onboardingInput} type="text" value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div className={styles.inputItem}>
           <div>
             <span className={styles.inputPlaceholder}>Username</span>
           </div>
-          <input className={styles.onboardingInput} type="text" value={user.nickname} />
+          <input className={styles.onboardingInput} type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
         <button onClick={handleSubmit} className={styles.submitBtn}>Submit</button>
       </form>

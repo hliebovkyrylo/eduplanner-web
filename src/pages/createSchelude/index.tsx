@@ -5,7 +5,6 @@ import axios from "../../axios";
 import styles from "./createSchedule.module.scss";
 import plus from "../../assets/icons/plus-solid.svg";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 export const CreateSchedulePage: React.FC = () => {
   const [groupName, setGroupName] = useState("");

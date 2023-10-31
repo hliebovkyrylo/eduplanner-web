@@ -6,8 +6,6 @@ import styles from "./createSchelude/createSchedule.module.scss";
 import plus from "../assets/icons/plus-solid.svg";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-
 export const UpdateSchedulePage: React.FC = () => {
   const [groupName, setGroupName] = useState("");
   const [showSecondWeek, setShowSecondWeek] = useState(false);

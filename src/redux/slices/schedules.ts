@@ -1,21 +1,24 @@
 import axios from "../../axios";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+// Initialize initial authentication state
 const initialState = {
   schedules: {
-    items: [] as any[],
-    status: 'lodaing',
+    items: [] as any[], // Initially there is no authentication data
+    status: 'lodaing', // Initial status is set to "loading"
   }
 };
 
-export const getSchedules = createAsyncThunk('schedules/getSchedule', async () => {
-  const { data } = await axios.get('/schedules/all');
+// Create an asynchronous thunk to get user data
+export const createSchedule = createAsyncThunk('schedules/createSchedule', async () => {
+  const { data } = await axios.post('/schedule/create');
 
   return data;
 });
 
-export const createSchedule = createAsyncThunk('schedules/createSchedule', async () => {
-  const { data } = await axios.post('/schedule/create');
+// Create an asynchronous thunk to get user data
+export const fetchUserSchedules = createAsyncThunk('schedules/getAll', async (userId: any) => {
+  const { data } = await axios.get('/schedules/getAllUserSchedules', userId);
 
   return data;
 });
@@ -31,18 +34,6 @@ const scheduleSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-    .addCase(getSchedules.pending, (state) => {
-      state.schedules.items = [];
-      state.schedules.status = 'loading';
-    })
-    .addCase(getSchedules.fulfilled, (state, action: PayloadAction<any>) => {
-      state.schedules.items = action.payload;
-      state.schedules.status = 'loaded';
-    })
-    .addCase(getSchedules.rejected, (state) => {
-      state.schedules.items = [];
-      state.schedules.status = 'error';
-    })
     .addCase(createSchedule.pending, (state) => {
       state.schedules.items = [];
       state.schedules.status = 'loading';
@@ -52,6 +43,18 @@ const scheduleSlice = createSlice({
       state.schedules.status = 'loaded';
     })
     .addCase(createSchedule.rejected, (state) => {
+      state.schedules.items = [];
+      state.schedules.status = 'error';
+    })
+    .addCase(fetchUserSchedules.pending, (state) => {
+      state.schedules.items = [];
+      state.schedules.status = 'loading';
+    })
+    .addCase(fetchUserSchedules.fulfilled, (state, action: PayloadAction<any>) => {
+      state.schedules.items = action.payload;
+      state.schedules.status = 'loaded';
+    })
+    .addCase(fetchUserSchedules.rejected, (state) => {
       state.schedules.items = [];
       state.schedules.status = 'error';
     })

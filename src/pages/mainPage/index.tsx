@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ScheduleButton, PairCard } from "../../components";
 
@@ -6,9 +6,8 @@ import styles from "./mainPage.module.scss";
 import edit from "../../assets/icons/pen-to-square-solid.svg";
 import deleteBtn from "../../assets/icons/trash-solid.svg";
 
-import { deleteSchedule, getSchedules } from "../../redux/slices/schedules";
+import { deleteSchedule } from "../../redux/slices/schedules";
 import { RootState } from "../../redux/store";
-import axios from "../../axios";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const MainPage = () => {
@@ -19,11 +18,9 @@ export const MainPage = () => {
   const userData = useSelector((state: RootState) => state.auth.data);
 
   ////// passing data to elements //////
-  const [id, setSelectedScheduleId] = useState<string | null>('6517feb8752e66ba0e66cc4b');
-  const [scheduleItems, setScheludeItems] = useState<any>();
+  const [scheduleItems] = useState<any>();
 
-  const handleButtonClick = (clickedScheduleId: any) => {
-    setSelectedScheduleId(clickedScheduleId);
+  const handleButtonClick = () => {
   };
   // getting data from server
   // useEffect(() => {
@@ -41,10 +38,6 @@ export const MainPage = () => {
   ////// functionality //////
   const dispatch = useDispatch();
   const schedules = useSelector((state: RootState) => state.schedule.schedules);
-
-  useEffect(() => {
-    dispatch<any>(getSchedules())
-  }, []);
 
   ////// logout //////
   // const onClickLogout = () => { 

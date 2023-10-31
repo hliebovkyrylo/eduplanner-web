@@ -16,7 +16,7 @@ export const ShedulesList = ({
   handleButtonClick
 }: Props) => {
   return (
-    <a href={`/shedule/${_id}`} className={styles.scheduleItems}>
+    <a href={`/schedule/${_id}`} className={styles.scheduleItems}>
       <span className={styles.schedulesText}>{scheduleName}</span>
       <div className={styles.rightItems}>
         <span className={styles.schedulesText}>{createdAt}</span>

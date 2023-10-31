@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HomeMainCard, Settings, ShedulesList } from "../../index";
 
 import styles from "./leftSideBlock.module.scss";
@@ -6,8 +6,12 @@ import styles from "./leftSideBlock.module.scss";
 import axios from "../../../axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch } from "react-redux";
+import { fetchUserSchedules } from "../../../redux/slices/schedules";
 
 export const LeftSideBlock = () => {
+  const dispatch = useDispatch<any>();
+
   // Creating schedule
   const navigate = useNavigate();
 
@@ -30,8 +34,26 @@ export const LeftSideBlock = () => {
 
   // Getting information of current user
   const { user } = useAuth0();
+  const [userSchedules, setUserSchedules] = useState<any[]>([]);
 
   // Actions with schedules
+  useEffect(() => {
+    const fetchSchedules = async () => {
+      try {
+        const data = await dispatch(fetchUserSchedules(user?.sub));
+        const schedules = data.payload;
+        setUserSchedules(schedules);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchSchedules();
+  }, [dispatch, user]);
+
+  console.log(userSchedules);
+  
+  
+  
   const handleDeleteSchedule = () => {};
 
   const handleChangeAccess = () => {};
@@ -54,13 +76,15 @@ export const LeftSideBlock = () => {
             <span className={[styles.scheduleHeadText, styles.visibleOnPhones].join(' ')}>Settings</span>
           </div>
           <div className={styles.userSchedules}>
-            {[...Array(2)].map(() => {
+            {userSchedules && userSchedules.map((obj) => {
+              const date = new Date(obj.createdAt);
+              const formattedDate = date.toLocaleDateString();
               return (
                 <ShedulesList
-                  key={'obj._id'}
-                  scheduleName={'obj.groupName'} 
-                  createdAt={'15.10.2023'}
-                  _id={'obj._id'}
+                  key={obj._id}
+                  scheduleName={obj.scheduleName} 
+                  createdAt={formattedDate}
+                  _id={obj._id}
                   handleButtonClick={handleBtnClick}
                 />
               )

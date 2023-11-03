@@ -11,7 +11,7 @@ function App() {
   const { user } = useAuth0();
 
   React.useEffect(() => {
-    dispatch<any>(fetchUser(user?.id));
+    dispatch<any>(fetchUser(user?.sub));
   }, []);
 
   return (

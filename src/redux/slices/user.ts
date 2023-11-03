@@ -15,8 +15,8 @@ const initialState: AuthState = {
 
 // Create an asynchronous thunk to get user data
 export const fetchUser = createAsyncThunk('auth/fetchAuthMe', async (userId: any) => { // We get user data by his id
-  const response = await axios.get(`/auth/me/${userId}`); // Route for getting user info
-  return response.data;
+  const { data } = await axios.get(`/user/me/${userId}`); // Route for getting user info
+  return data;
 });
 
 // Create an asynchronous thunk to upload image

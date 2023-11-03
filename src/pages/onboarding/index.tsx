@@ -30,7 +30,7 @@ export const Onboarding = () => {
   // Creating a user
   const navigate = useNavigate();
 
-  const id = user.sub;
+  const userId = user.sub;
   const [name, setName] = useState(user.name || '');
   const [username, setUsername] = useState(user.nickname || '');
   const [image, setImage] = useState(user.picture);
@@ -55,7 +55,7 @@ export const Onboarding = () => {
 
       // Sending user input to the server
       await dispatch(createUser({
-        id,
+        userId,
         name,
         username,
         image,
@@ -70,7 +70,7 @@ export const Onboarding = () => {
   }
 
   // Checking whether the user is configured
-  dispatch(isOndoarded({ id })).then((onboardedUser: any) => { // Search for user by ID
+  dispatch(isOndoarded({ userId })).then((onboardedUser: any) => { // Search for user by ID
     if (onboardedUser.payload.userFound) {
       navigate('/home') // if the user is found, we redirect to the home page
     }

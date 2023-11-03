@@ -10,8 +10,8 @@ const initialState = {
 };
 
 // Create an asynchronous thunk to get user data
-export const createSchedule = createAsyncThunk('schedules/createSchedule', async () => {
-  const { data } = await axios.post('/schedule/create');
+export const createSchedule = createAsyncThunk('schedules/createSchedule', async (params: any) => {
+  const { data } = await axios.post('/schedule/create', params);
 
   return data;
 });

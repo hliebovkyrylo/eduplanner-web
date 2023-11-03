@@ -3,25 +3,14 @@ import { HomeMainCard, Settings, ShedulesList } from "../../index";
 
 import styles from "./leftSideBlock.module.scss";
 
-import axios from "../../../axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
-import { fetchUserSchedules } from "../../../redux/slices/schedules";
+import { createSchedule, fetchUserSchedules } from "../../../redux/slices/schedules";
+import { fetchUser } from "../../../redux/slices/user";
 
 export const LeftSideBlock = () => {
   const dispatch = useDispatch<any>();
-
-  // Creating schedule
-  const navigate = useNavigate();
-
-  const onClickCreateSchedule = async () => {
-    const { data } = await axios.post('/schedule/create'); // Route to create a schedule
-
-    const _id = data._id; // Getting schedule id to redirecting
-
-    navigate(`/schedule/${_id}`); // Redirecting to schedule page
-  };
 
   // Settings
   const [openSettings, setOpenSettings] = useState(false); // By default the menu is closed
@@ -33,14 +22,25 @@ export const LeftSideBlock = () => {
   }
 
   // Getting information of current user
-  const { user } = useAuth0();
-  const [userSchedules, setUserSchedules] = useState<any[]>([]);
+  const { user } = useAuth0(); // Get current logged in user 
+  const [currentUser, setCurrentuser] = useState<any>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await dispatch(fetchUser(user?.sub)); // Looking for the id of the authorized user in the database
+      setCurrentuser(data.payload); // If the user has been found, we pass his data to a variable 'currentUser'
+    };
+  
+    fetchData(); // Call this function
+  }, [user]);
 
   // Actions with schedules
+  const [userSchedules, setUserSchedules] = useState<any[]>([]);
+
   useEffect(() => {
     const fetchSchedules = async () => {
       try {
-        const data = await dispatch(fetchUserSchedules(user?.sub));
+        const data = await dispatch(fetchUserSchedules(currentUser?._id));
         const schedules = data.payload;
         setUserSchedules(schedules);
       } catch (error) {
@@ -48,11 +48,29 @@ export const LeftSideBlock = () => {
       }
     };
     fetchSchedules();
-  }, [dispatch, user]);
+  }, [user]);
+  
+  // Creating schedule
+  const navigate = useNavigate();
 
-  console.log(userSchedules);
-  
-  
+  const scheduleName = 'New schedule';
+  const author = currentUser?._id;
+
+  const onClickCreateSchedule = async () => {
+    try {
+      const data = await dispatch(createSchedule({
+        scheduleName,
+        author,
+      })) // Route to create a schedule
+      
+      const _id = data.payload._id; // Getting schedule id to redirecting
+      
+      navigate(`/schedule/${_id}`); // Redirecting to schedule page
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
   
   const handleDeleteSchedule = () => {};
 
@@ -62,7 +80,7 @@ export const LeftSideBlock = () => {
     <>
       <div className={styles.leftSideCards}>
         <HomeMainCard
-          name={user?.name || 'User'}
+          name={currentUser?.name || 'User'}
           clickBtn={onClickCreateSchedule} 
         />
         <div className={styles.schedulesCard}>

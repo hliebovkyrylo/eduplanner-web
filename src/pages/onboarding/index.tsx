@@ -30,17 +30,18 @@ export const Onboarding = () => {
   // Creating a user
   const navigate = useNavigate();
 
-  const userId = user.sub;
+  const id = user?.sub;
   const [name, setName] = useState(user.name || '');
   const [username, setUsername] = useState(user.nickname || '');
   const [image, setImage] = useState(user.picture);
   const [onboarded, setOnboarded] = useState(false);
+  const userId = id;
 
   const handleSubmit = async (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault(); // Remove the standard behavior of the button
+    setOnboarded(true);
 
     try {
-      setOnboarded(true);
       
       if (selectedFile !== null) { // Checking the authenticity of the uploaded photo
         const formData = new FormData();

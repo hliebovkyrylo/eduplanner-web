@@ -9,10 +9,11 @@ import edit from "../../assets/icons/pen-to-square-solid.svg";
 import trash from "../../assets/icons/trash-solid.svg";
 
 interface Props {
-  id: string;
+  id: string | null;
   deleteSchedule: () => void;
   changeAccess: () => void;
   cancelButton: (ev: any) => void;
+  buttonState: Boolean;
 }
 
 export const Settings = ({
@@ -20,11 +21,9 @@ export const Settings = ({
   deleteSchedule,
   changeAccess,
   cancelButton,
+  buttonState,
 }: Props) => {
-  const [enableBtn, setEnableBtn] = useState(false);
-
   const toggleAccess = () => {
-    setEnableBtn(!enableBtn);
     changeAccess();
   }
 
@@ -63,9 +62,9 @@ export const Settings = ({
           </button>
         </div>
         <div className={styles.mainBlock}>
-          <button className={styles.btnAccess} onClick={toggleAccess}>{enableBtn ? 'Disable access via link' : 'Enable access via link'}</button>
+          <button className={styles.btnAccess} onClick={toggleAccess}>{buttonState ? 'Disable access via link' : 'Enable access via link'}</button>
           <div className={styles.linkItems}>
-            {enableBtn ? (
+            {buttonState ? (
               <>
                 <input ref={inputRef} className={styles.inputLink} type="text" defaultValue={`https://schedule-frontend-pi.vercel.app/scheedule/${id}`} readOnly />
                 <button onClick={copyLink}>

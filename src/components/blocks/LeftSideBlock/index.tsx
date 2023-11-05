@@ -6,7 +6,7 @@ import styles from "./leftSideBlock.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
-import { createSchedule, fetchUserSchedules } from "../../../redux/slices/schedules";
+import { createSchedule, fetchSchedule, fetchUserSchedules, updatePublicStatus } from "../../../redux/slices/schedules";
 import { fetchUser } from "../../../redux/slices/user";
 
 export const LeftSideBlock = () => {
@@ -14,12 +14,25 @@ export const LeftSideBlock = () => {
 
   // Settings
   const [openSettings, setOpenSettings] = useState(false); // By default the menu is closed
+  const [selectedScheduleId, setSelectedScheduleId] = useState(''); 
+  const [isPublic, setIsPublic] = useState(false);
 
-  const handleBtnClick = (ev: any) => { // When the button was pressed the settings menu opens/closes
-    ev.preventDefault();
+  const handleBtnClick = async (id: string) => {
+    setOpenSettings(true); // Open the settings panel
+    setSelectedScheduleId(id); // Transfer the id of the selected schedule to the variable selectedScheduleId
 
-    setOpenSettings(!openSettings); // Change boolean value 
+    const scheduleData = await dispatch(fetchSchedule(id));
+
+    if (scheduleData.payload && scheduleData.payload.isPublic !== undefined) {
+      setIsPublic(scheduleData.payload.isPublic);
+    }
   }
+
+  const handleCancelClick = () => {
+    setOpenSettings(false); // Close the settings panel
+    setSelectedScheduleId(''); // Remove the id
+  }
+
 
   // Getting information of current user
   const { user } = useAuth0(); // Get current logged in user 
@@ -40,15 +53,18 @@ export const LeftSideBlock = () => {
   useEffect(() => {
     const fetchSchedules = async () => {
       try {
-        const data = await dispatch(fetchUserSchedules(currentUser?._id));
-        const schedules = data.payload;
-        setUserSchedules(schedules);
+        if (currentUser?._id) {
+          const data = await dispatch(fetchUserSchedules(currentUser._id));
+          const schedules = data.payload;
+          setUserSchedules(schedules);
+        }
+  
       } catch (error) {
         console.error(error);
       }
     };
     fetchSchedules();
-  }, [user]);
+  }, [currentUser]);
   
   // Creating schedule
   const navigate = useNavigate();
@@ -74,7 +90,14 @@ export const LeftSideBlock = () => {
   
   const handleDeleteSchedule = () => {};
 
-  const handleChangeAccess = () => {};
+  const handleChangeAccess = async () => {
+    try {
+      await dispatch(updatePublicStatus(selectedScheduleId));
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -103,7 +126,7 @@ export const LeftSideBlock = () => {
                   scheduleName={obj.scheduleName} 
                   createdAt={formattedDate}
                   _id={obj._id}
-                  handleButtonClick={handleBtnClick}
+                  handleButtonClick={() => handleBtnClick(obj._id)}
                 />
               )
             })}
@@ -112,10 +135,12 @@ export const LeftSideBlock = () => {
       </div>
       {openSettings ? (
         <Settings
-          id={'fgedgsdfrghbfdsg'}
+          key={selectedScheduleId}
+          id={selectedScheduleId}
           deleteSchedule={handleDeleteSchedule}
           changeAccess={handleChangeAccess}
-          cancelButton={handleBtnClick}
+          cancelButton={handleCancelClick}
+          buttonState={isPublic}
         />
       ) : null}
     </>

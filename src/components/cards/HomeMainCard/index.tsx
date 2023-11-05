@@ -14,7 +14,7 @@ export const HomeMainCard = ({
     <div className={styles.mainCard}>
       <div>
         <h2>Home Page</h2>
-        <h1 className={styles.userNameIncription}>{`Hello ${name} 👋`}</h1>
+        <h1 className={styles.userNameIncription}>{`Hello, ${name} 👋`}</h1>
         <button onClick={clickBtn} className={styles.createBtn}>Create Schedule</button>
       </div>
       <img className={styles.homeImage} src={homeImage} alt="Home image" />

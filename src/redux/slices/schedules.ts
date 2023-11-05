@@ -18,15 +18,30 @@ export const createSchedule = createAsyncThunk('schedules/createSchedule', async
 
 // Create an asynchronous thunk to get user data
 export const fetchUserSchedules = createAsyncThunk('schedules/getAll', async (userId: any) => {
-  const { data } = await axios.get('/schedules/getAllUserSchedules', userId);
+  const { data } = await axios.get(`/schedules/getAllUserSchedules/${userId}`);
 
   return data;
 });
 
+// Deleting a schedule
 export const deleteSchedule = createAsyncThunk<void, string>('projects/userProjects', async (_id) => {
     await axios.delete(`/schedule/delete/${_id}`);
   }
 );
+
+// Create an asynchronous thunk to change public status
+export const updatePublicStatus = createAsyncThunk('schedules/updatePublicStatus', async (id: any) => {
+  const { data } = await axios.patch(`/schedule/${id}/changePublicStatus`);
+
+  return data;
+})
+
+// Create an asynchronous thunk to get schedule
+export const fetchSchedule = createAsyncThunk('schedule/fetchSchedule', async (id: any) => {
+  const { data } = await axios.get(`/schedule/${id}`);
+
+  return data;
+})
 
 const scheduleSlice = createSlice({
   name: 'schedules',
@@ -34,6 +49,7 @@ const scheduleSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+    // Create schedule
     .addCase(createSchedule.pending, (state) => {
       state.schedules.items = [];
       state.schedules.status = 'loading';
@@ -46,6 +62,7 @@ const scheduleSlice = createSlice({
       state.schedules.items = [];
       state.schedules.status = 'error';
     })
+    // Get user schedules
     .addCase(fetchUserSchedules.pending, (state) => {
       state.schedules.items = [];
       state.schedules.status = 'loading';
@@ -58,10 +75,37 @@ const scheduleSlice = createSlice({
       state.schedules.items = [];
       state.schedules.status = 'error';
     })
+    // Delete schedule
     .addCase(deleteSchedule.fulfilled, (state, action) => {
       state.schedules.items = state.schedules.items.filter(obj => obj._id !== action.payload);
       state.schedules.status = 'loaded';
-    })    
+    })   
+    // Update a schedule public status
+    .addCase(updatePublicStatus.pending, (state) => {
+      state.schedules.items = [];
+      state.schedules.status = 'loading';
+    })
+    .addCase(updatePublicStatus.fulfilled, (state, action: PayloadAction<any>) => {
+      state.schedules.items = action.payload;
+      state.schedules.status = 'loaded';
+    })
+    .addCase(updatePublicStatus.rejected, (state) => {
+      state.schedules.items = [];
+      state.schedules.status = 'error';
+    })
+    // Fetch schedule
+    .addCase(fetchSchedule.pending, (state) => {
+      state.schedules.items = [];
+      state.schedules.status = 'loading';
+    })
+    .addCase(fetchSchedule.fulfilled, (state, action: PayloadAction<any>) => {
+      state.schedules.items = action.payload;
+      state.schedules.status = 'loaded';
+    })
+    .addCase(fetchSchedule.rejected, (state) => {
+      state.schedules.items = [];
+      state.schedules.status = 'error';
+    })
   }
 });
 

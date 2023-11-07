@@ -15,12 +15,17 @@ export const ShedulesList = ({
   createdAt,
   handleButtonClick
 }: Props) => {
+  const handleBtnClick = (ev: React.MouseEvent) => {
+    ev.preventDefault(); // Preventing links from being followed
+    handleButtonClick(ev);
+  }
+
   return (
     <a href={`/schedule/${_id}`} className={styles.scheduleItems}>
       <span className={styles.schedulesText}>{scheduleName}</span>
       <div className={styles.rightItems}>
         <span className={styles.schedulesText}>{createdAt}</span>
-        <button onClick={handleButtonClick}>
+        <button onClick={handleBtnClick}>
           <img className={styles.settingsImage} src={settingsImage} alt="Settings" />
         </button>
       </div>

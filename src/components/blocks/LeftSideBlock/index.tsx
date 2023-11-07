@@ -6,7 +6,7 @@ import styles from "./leftSideBlock.module.scss";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
-import { createSchedule, fetchSchedule, fetchUserSchedules, updatePublicStatus } from "../../../redux/slices/schedules";
+import { createSchedule, deleteSchedule, fetchSchedule, fetchUserSchedules, updatePublicStatus } from "../../../redux/slices/schedules";
 import { fetchUser } from "../../../redux/slices/user";
 
 export const LeftSideBlock = () => {
@@ -15,7 +15,12 @@ export const LeftSideBlock = () => {
   // Settings
   const [openSettings, setOpenSettings] = useState(false); // By default the menu is closed
   const [selectedScheduleId, setSelectedScheduleId] = useState(''); 
-  const [isPublic, setIsPublic] = useState(false);
+  const [isPublic, setIsPublic] = useState<boolean>();
+  const [displayIsPublic, setDisplayIsPublic] = useState<boolean | undefined>(isPublic);
+
+  useEffect(() => {
+    setDisplayIsPublic(isPublic);
+  }, [isPublic]);
 
   const handleBtnClick = async (id: string) => {
     setOpenSettings(true); // Open the settings panel
@@ -24,7 +29,7 @@ export const LeftSideBlock = () => {
     const scheduleData = await dispatch(fetchSchedule(id));
 
     if (scheduleData.payload && scheduleData.payload.isPublic !== undefined) {
-      setIsPublic(scheduleData.payload.isPublic);
+      setIsPublic(scheduleData?.payload?.isPublic);
     }
   }
 
@@ -32,7 +37,6 @@ export const LeftSideBlock = () => {
     setOpenSettings(false); // Close the settings panel
     setSelectedScheduleId(''); // Remove the id
   }
-
 
   // Getting information of current user
   const { user } = useAuth0(); // Get current logged in user 
@@ -88,11 +92,18 @@ export const LeftSideBlock = () => {
     }
   };
   
-  const handleDeleteSchedule = () => {};
+  const handleDeleteSchedule = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete this schedule?");
+
+    if (confirmed) {
+      await dispatch(deleteSchedule(selectedScheduleId));
+    }
+  };
 
   const handleChangeAccess = async () => {
     try {
       await dispatch(updatePublicStatus(selectedScheduleId));
+      setDisplayIsPublic(!displayIsPublic);
 
     } catch (error) {
       console.log(error);
@@ -140,7 +151,7 @@ export const LeftSideBlock = () => {
           deleteSchedule={handleDeleteSchedule}
           changeAccess={handleChangeAccess}
           cancelButton={handleCancelClick}
-          buttonState={isPublic}
+          buttonState={displayIsPublic}
         />
       ) : null}
     </>

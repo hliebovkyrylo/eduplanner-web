@@ -13,7 +13,7 @@ interface Props {
   deleteSchedule: () => void;
   changeAccess: () => void;
   cancelButton: (ev: any) => void;
-  buttonState: Boolean;
+  buttonState: Boolean | undefined;
 }
 
 export const Settings = ({
@@ -77,7 +77,7 @@ export const Settings = ({
               </>
             ) : null}
           </div>
-          <button className={styles.cancelBtn} onClick={cancelButton} >Cancel</button>
+          <button className={styles.cancelBtn} onClick={cancelButton}>Cancel</button>
         </div>
       </div>
     </>

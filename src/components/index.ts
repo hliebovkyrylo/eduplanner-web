@@ -7,3 +7,4 @@ export { HomeMainCard } from "./cards/HomeMainCard";
 export { LeftSideBlock } from "./blocks/LeftSideBlock";
 export { RightSideBlock } from "./blocks/RightSIdeBlock"
 export { SchedulePreviewCard } from "./cards/SchedulePreviewCard";
+export { EventCard } from "./cards/EventCard"

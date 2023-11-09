@@ -21,5 +21,31 @@
         }
       }
     }
+
+    .schedule {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      width: 100%;
+      max-width: 1662px;
+      height: 688px;
+      border-radius: 15px;
+      background-color: #1C1E23;
+      overflow: hidden;
+      margin-top: 10px;
+      
+      .scheduleRow {
+        border-right: 1px solid #3E3E3E;
+        height: 688px;
+
+        &:last-child {
+          border: 0;
+        }
+      }
+    }
+  }
+
+  .backHomeBtn {
+    margin-top: 10px;
   }
 }

@@ -1,0 +1,69 @@
+$blue: #39566A;
+$purple: #46396A;
+$green: #496A39;
+$yellow: #696A39;
+$red: #6A3939;
+$pink: #6A395C;
+
+.event {
+  width: 276px;
+  height: 86px;
+  border-bottom: 1px solid #3E3E3E;
+
+  &:last-child {
+    border: 0;
+  }
+
+  .eventItems {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    text-align: left;
+
+    .date {
+      position: absolute;
+      right: 5px;
+      bottom: 5px;
+    }
+  }
+}
+
+@mixin buttonStyle($bgColor, $textColor) {
+  background-color: $bgColor;
+
+  .eventText {
+    color: $textColor;
+
+    &:first-child {
+      margin-left: 18px;
+      max-width: 225px
+    }
+  }
+}
+
+.blueBtn {
+  @include buttonStyle($blue, #83CCFF);
+}
+
+.purpleBtn {
+  @include buttonStyle($purple, #8397FF);
+}
+
+.greenBtn {
+  @include buttonStyle($green, #B2FF83);
+}
+
+.yellowBtn {
+  @include buttonStyle($yellow, #EEFF83);
+}
+
+.redBtn {
+  @include buttonStyle($red, #FF9983);
+}
+
+.pinkBtn {
+  @include buttonStyle($pink, #FF83C6);
+}

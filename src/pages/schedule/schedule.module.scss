@@ -5,9 +5,10 @@
 
   .scheduleInner {
     width: 100%;
+    overflow-x: auto;
 
     .scheduleHead {
-      width: 100%;
+      width: 1662px;
       display: flex;
       justify-content: space-between;
 
@@ -26,8 +27,7 @@
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       grid-template-rows: repeat(8, 1fr);
-      width: 100%;
-      max-width: 1662px;
+      width: 1680px;
       height: 688px;
       border-radius: 15px;
       background-color: #1C1E23;
@@ -47,5 +47,35 @@
 
   .backHomeBtn {
     margin-top: 10px;
+  }
+}
+
+@media (max-width: 1684px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    max-width: 800px;
+  }
+}
+
+@media (max-width: 800px) {
+  .container {
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 620px) {
+  .container {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 415px) {
+  .container {
+    max-width: 270px;
   }
 }

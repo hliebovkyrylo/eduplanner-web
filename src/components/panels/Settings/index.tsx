@@ -2,11 +2,11 @@ import { useRef, useState } from "react";
 
 import styles from "./Settings.module.scss";
 
-import copy from "../../assets/icons/copy-solid.svg";
-import check from "../../assets/icons/circle-check-solid.svg";
-import lock from "../../assets/icons/lock-solid.svg";
-import edit from "../../assets/icons/pen-to-square-solid.svg";
-import trash from "../../assets/icons/trash-solid.svg";
+import copy from "@icons/copy-solid.svg";
+import check from "@icons/circle-check-solid.svg";
+import lock from "@icons/lock-solid.svg";
+import edit from "@icons/pen-to-square-solid.svg";
+import trash from "@icons/trash-solid.svg";
 
 interface Props {
   id: string | null;

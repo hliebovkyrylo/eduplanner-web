@@ -39,6 +39,13 @@ a {
   color: #fff;
 }
 
+input {
+  border: 0;
+  outline: 0;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+}
+
 // styles for scrollbar
 ::-webkit-scrollbar-track {
 	background-color: #353535;
@@ -46,6 +53,7 @@ a {
 
 ::-webkit-scrollbar {
 	width: 10px;
+  height: 10px;
 	background-color: #353535;
 }
 

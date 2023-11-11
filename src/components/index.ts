@@ -2,9 +2,10 @@ export { PairCard } from "./cards/pairCard";
 export { ScheduleButton } from "./scheduleButton";
 export { ShedulesList } from "./SchedulesList";
 export { Topbar } from "./Topbar";
-export { Settings } from "./Settings";
+export { Settings } from "./panels/Settings";
 export { HomeMainCard } from "./cards/HomeMainCard";
 export { LeftSideBlock } from "./blocks/LeftSideBlock";
 export { RightSideBlock } from "./blocks/RightSIdeBlock"
 export { SchedulePreviewCard } from "./cards/SchedulePreviewCard";
 export { EventCard } from "./cards/EventCard"
+export { EditEvent } from "./panels/EditEvents";

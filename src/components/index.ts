@@ -6,6 +6,6 @@ export { Settings } from "./panels/Settings";
 export { HomeMainCard } from "./cards/HomeMainCard";
 export { LeftSideBlock } from "./blocks/LeftSideBlock";
 export { RightSideBlock } from "./blocks/RightSIdeBlock"
-export { SchedulePreviewCard } from "./cards/SchedulePreviewCard";
+export { StrangerScheduleCard } from "./cards/StrangerScheduleCard";
 export { EventCard } from "./cards/EventCard"
 export { EditEvent } from "./panels/EditEvents";

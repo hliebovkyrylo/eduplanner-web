@@ -1,3 +1,4 @@
+import { lighten } from "polished";
 import styles from "./eventCard.module.scss";
 
 interface Props {
@@ -10,6 +11,20 @@ interface Props {
   colNum: number;
 }
 
+// HEX to RGB conversion
+function hexToRgb(hex: string) {
+  // Remove the # symbol
+  hex = hex.replace(/^#/, '');
+
+  // Split the string into three parts (R, G, B)
+  let bigint = parseInt(hex, 16);
+  let r = (bigint >> 16) & 255;
+  let g = (bigint >> 8) & 255;
+  let b = bigint & 255;
+
+  return `rgb(${r}, ${g}, ${b})`; // Return color in rgb format
+}
+
 export const EventCard = ({
   _id,
   eventName,
@@ -20,37 +35,14 @@ export const EventCard = ({
   colNum,
 
 }: Props) => {
-  let buttonClassName;
-
-  switch (eventColor) {
-    case "purple":
-      buttonClassName = styles.purpleBtn;
-      break;
-    case "green":
-      buttonClassName = styles.greenBtn;
-      break;
-    case "yellow":
-      buttonClassName = styles.yellowBtn;
-      break;
-    case "red":
-      buttonClassName = styles.redBtn;
-      break;
-    case "pink":
-      buttonClassName = styles.pinkBtn;
-      break;
-    case "blue":
-      buttonClassName = styles.blueBtn;
-      break;
-    default:
-      buttonClassName = styles.defaultBtn;
-      break;
-  }
+  const rgbColor = hexToRgb(eventColor); // Conversion current color
+  const brighterTextColor = eventColor ? lighten(0.35, rgbColor) : undefined; // Set the text color lighter than the background background
 
   return (
     <article className={styles.event} key={_id}>
-      <button className={[styles.eventItems, buttonClassName].join(' ')} onClick={btnClick}>
-        <span className={styles.eventText}>{eventName}</span>
-        <span className={[styles.eventText, styles.date].join(' ')}>{eventTime}</span>
+      <button style={{ backgroundColor: eventColor }} className={styles.eventItems} onClick={btnClick}>
+        <span style={{ color: brighterTextColor }} className={styles.eventText}>{eventName}</span>
+        <span style={{ color: brighterTextColor }} className={[styles.eventText, styles.date].join(' ')}>{eventTime}</span>
       </button>
     </article>
   )

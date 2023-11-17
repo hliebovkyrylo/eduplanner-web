@@ -5,14 +5,14 @@ import settingsImage from "../../assets/icons/gear-solid.svg";
 interface Props {
   _id: string;
   scheduleName: string;
-  createdAt: string;
+  updatedAt: string;
   handleButtonClick: (ev: any) => void;
 }
 
 export const ShedulesList = ({
   _id,
   scheduleName,
-  createdAt,
+  updatedAt,
   handleButtonClick
 }: Props) => {
   const handleBtnClick = (ev: React.MouseEvent) => {
@@ -21,10 +21,10 @@ export const ShedulesList = ({
   }
 
   return (
-    <a href={`/schedule/${_id}`} className={styles.scheduleItems}>
+    <a href={`/s/${_id}`} className={styles.scheduleItems}>
       <span className={styles.schedulesText}>{scheduleName}</span>
       <div className={styles.rightItems}>
-        <span className={styles.schedulesText}>{createdAt}</span>
+        <span className={styles.schedulesText}>{updatedAt}</span>
         <button onClick={handleBtnClick}>
           <img className={styles.settingsImage} src={settingsImage} alt="Settings" />
         </button>

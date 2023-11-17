@@ -34,12 +34,10 @@ export const Onboarding = () => {
   const [name, setName] = useState(user.name || '');
   const [username, setUsername] = useState(user.nickname || '');
   const [image, setImage] = useState(user.picture);
-  const [onboarded, setOnboarded] = useState(false);
   const userId = id;
 
   const handleSubmit = async (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault(); // Remove the standard behavior of the button
-    setOnboarded(true);
 
     try {
       
@@ -60,7 +58,6 @@ export const Onboarding = () => {
         name,
         username,
         image,
-        onboarded,
       }));
 
       navigate('/home');
@@ -71,8 +68,8 @@ export const Onboarding = () => {
   }
 
   // Checking whether the user is configured
-  dispatch(isOndoarded({ userId })).then((onboardedUser: any) => { // Search for user by ID
-    if (onboardedUser.payload.userFound) {
+  dispatch(isOndoarded(userId)).then((onboardedUser: any) => { // Search for user by ID
+    if (onboardedUser.payload.userFound === true) {
       navigate('/home') // if the user is found, we redirect to the home page
     }
   })

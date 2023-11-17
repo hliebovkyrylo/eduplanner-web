@@ -1,0 +1,77 @@
+.strangerScheduleCard {
+  width: 293px;
+  height: 80px;
+  margin-bottom: 10px;
+
+  .scheduleCardItems {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 14px;
+    height: 100%;
+    background-color: #282B31;
+    padding: 12px 10px 12px 23px;
+    transition: background-color .1s linear;
+  
+    &:hover {
+      background-color: #2f3238;
+    }
+  
+    .scheduleCardInfo {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+  
+      .scheduleCardTextAbout {
+        position: relative;
+        margin-left: 11px;
+  
+        .isPublicDot {
+          content: "";
+          position: absolute;
+          top: 7px;
+          left: -11px;
+          background-color: #00E376;
+          border-radius: 50%;
+          width: 5px;
+          height: 5px;
+        }
+
+        .isPublicDotRed {
+          background-color: rgb(227, 0, 0);
+        }
+  
+        .scheduleCardText {
+          color: #fff;
+          opacity: .6;
+        }
+      }
+    }
+  
+    .dots {
+      display: flex;
+      align-items: flex-end;
+  
+      .dot {
+        content: "";
+        display: block;
+        border-radius: 50%;
+        width: 5px;
+        height: 5px;
+        background-color: #D9D9D9;
+  
+        &:nth-child(2) {
+          margin: 0 1px;
+        }
+      }
+    }
+    
+  }
+}
+
+@media (max-width: 1410px) {
+  .strangerScheduleCard {
+    width: 230px !important;
+    height: 70px !important;
+  }
+}

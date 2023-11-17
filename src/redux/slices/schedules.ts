@@ -5,7 +5,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState = {
   schedules: {
     items: [] as any[], // Initially there is no authentication data
-    status: 'lodaing', // Initial status is set to "loading"
+    status: 'loading', // Initial status is set to "loading"
   }
 };
 
@@ -37,11 +37,18 @@ export const updatePublicStatus = createAsyncThunk('schedules/updatePublicStatus
 })
 
 // Create an asynchronous thunk to get schedule
-export const fetchSchedule = createAsyncThunk('schedule/fetchSchedule', async (id: any) => {
-  const { data } = await axios.get(`/schedule/${id}`);
+export const fetchSchedule = createAsyncThunk('schedule/fetchSchedule', async (params: { id: any, userId: string }) => {
+  const { data } = await axios.get(`/schedule/${params.id}?userId=${params.userId}`);
+  return data;
+});
+
+// Create an asynchronous thunk to update schedule
+export const updateSchedule = createAsyncThunk('schedule/update', async ({ id, params }: { id: string, params: any }) => {
+  const { data } = await axios.patch(`/schedule/update/${id}`, params);
 
   return data;
-})
+  }
+);
 
 const scheduleSlice = createSlice({
   name: 'schedules',
@@ -103,6 +110,19 @@ const scheduleSlice = createSlice({
       state.schedules.status = 'loaded';
     })
     .addCase(fetchSchedule.rejected, (state) => {
+      state.schedules.items = [];
+      state.schedules.status = 'error';
+    })
+    // Update schedule
+    .addCase(updateSchedule.pending, (state) => {
+      state.schedules.items = [];
+      state.schedules.status = 'loading';
+    })
+    .addCase(updateSchedule.fulfilled, (state, action: PayloadAction<any>) => {
+      state.schedules.items = action.payload;
+      state.schedules.status = 'loaded';
+    })
+    .addCase(updateSchedule.rejected, (state) => {
       state.schedules.items = [];
       state.schedules.status = 'error';
     })

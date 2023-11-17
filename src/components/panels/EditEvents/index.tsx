@@ -1,40 +1,78 @@
-import React, { useImperativeHandle, useRef } from "react";
+import { useImperativeHandle, useRef, useState, forwardRef } from "react";
 import styles from "./editEvents.module.scss";
+import { useDispatch } from "react-redux";
+import { updateSchedule } from "../../../redux/slices/schedules";
+import { createEvent, updateEvent } from "../../../redux/slices/event";
 
 interface EditEventProps {
-  _id?: string;
+  scheduleData: any;
   cancelPanel: (ev: any) => void;
-  defaultScheduleName: string;
-  defaultEventName: string;
-  defaultEventTime: string;
-  defaultEventColor: string;
+  currentEventData?: any;
+  rowNum?: number;
+  colNum?: number;
 }
 
-export const EditEvent = React.forwardRef(
+export const EditEvent = forwardRef(
   ({
-    _id,
+    scheduleData,
+    currentEventData,
     cancelPanel, 
-    defaultScheduleName,
-    defaultEventName,
-    defaultEventTime,
-    defaultEventColor,
-  }: EditEventProps, 
-  ref: React.Ref<any>) => {
+    rowNum,
+    colNum,
+  }: EditEventProps, ref: React.Ref<any>) => {
     const innerRef = useRef(null);
-
     useImperativeHandle(ref, () => ({
       innerRef,
     }));
 
+    // Udate schedule/create event
+    const dispatch = useDispatch<any>();
+
+    const isEdit = Boolean(currentEventData?._id);
+    
+    const [scheduleName, setScheduleName] = useState(scheduleData?.scheduleName);
+    const [eventName, setEventName] = useState(currentEventData?.eventName);
+    const [eventTime, setEventTime] = useState(currentEventData?.eventTime);
+    const [eventColor, setEventColor] = useState(currentEventData?.eventColor);
+
+    const parentId = scheduleData._id;
+
+    const onSubmit = async (ev: React.FormEvent) => {
+      ev.preventDefault();
+
+      const scheduleParams = {
+        scheduleName,
+      };
+
+      await dispatch(updateSchedule({ id: scheduleData._id, params: scheduleParams })); // Updating the schedule
+
+      const params = {
+        eventName,
+        eventTime,
+        eventColor,
+        rowNum,
+        colNum,
+        parentId,
+      };
+
+      // Determine whether content exists in the selected cell
+      isEdit 
+        ? await dispatch(updateEvent({ id: currentEventData?._id, params: params })) // If there is data
+        : await dispatch(createEvent(params)); // if there is no data
+
+      window.location.reload(); // Reload the page after saving
+    }
+
   return (
     <div className={styles.panel}>
       <div className={styles.panelBg}>
-        <form className={styles.panelInner} ref={innerRef} action="">
+        <form className={styles.panelInner} ref={innerRef} onSubmit={onSubmit}>
           <div className={styles.inputItems}>
             <input
               className={styles.scheduleNameInput}
-              defaultValue={defaultScheduleName}
               type="text"
+              value={scheduleName}
+              onChange={(e: any) => setScheduleName(e.target.value)}
             />
           </div>
           <hr className={styles.inputsLine} />
@@ -45,7 +83,8 @@ export const EditEvent = React.forwardRef(
                 className={styles.input}
                 type="text"
                 placeholder="Enter name of the event..."
-                defaultValue={defaultEventName}
+                value={eventName}
+                onChange={(e: any) => setEventName(e.target.value)}
               />
             </div>
             <div className={styles.inputItem}>
@@ -54,21 +93,23 @@ export const EditEvent = React.forwardRef(
                 className={styles.input}
                 type="text"
                 placeholder="Enter event time (ex. 11:10)..."
-                defaultValue={defaultEventTime}
+                value={eventTime}
+                onChange={(e: any) => setEventTime(e.target.value)}
               />
             </div>
             <div className={styles.inputItem}>
               <span className={styles.inputText}>Select event color</span>
               <input 
                 className={styles.selectColor} 
-                type="color" 
-                defaultValue={defaultEventColor}
+                type="color"
+                value={eventColor}
+                onChange={(e: any) => setEventColor(e.target.value)}
               />
             </div>
           </div>
           <div className={styles.buttons}>
-            <button onClick={cancelPanel}>Cancel</button>
-            <button className={styles.saveBtn}>Save</button>
+            <button type="button" onClick={cancelPanel}>Cancel</button>
+            <button type="submit" className={styles.saveBtn}>Save</button>
           </div>
         </form>
       </div>

@@ -1,16 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-// Define the authentication state structure
-interface AuthState {
-  data: any; 
-  status: string;
-}
-
 // Initialize initial authentication state
-const initialState: AuthState = {
-  data: null, // Initially there is no authentication data
-  status: "loading", // Initial status is set to "loading"
+const initialState = {
+  user: {
+    items: [] as any[], // Initially there is no authentication data
+    status: 'loading', // Initial status is set to "loading"
+  }
 };
 
 // Create an asynchronous thunk to get user data
@@ -32,12 +28,12 @@ export const createUser = createAsyncThunk('/user/createInfo', async (params: an
 });
 
 // Checking whether the user is onboarded
-export const isOndoarded = createAsyncThunk('/user/check', async (id: any) => {
-  const { data } = await axios.post("/user/isOnboarded", id);
+export const isOndoarded = createAsyncThunk('/user/check', async (userId: any) => {
+  const { data } = await axios.post(`/user/isOnboarded/${userId}`);
   return data;
 })
 
-const authSlice = createSlice({
+const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {},
@@ -46,58 +42,58 @@ const authSlice = createSlice({
     builder
       // Get user info
       .addCase(fetchUser.pending, (state) => {
-        state.data = null;
-        state.status = 'loading';
+        state.user.items = [];
+        state.user.status = 'loading';
       })
       .addCase(fetchUser.fulfilled, (state, action: PayloadAction<any>) => {
-        state.data = action.payload;
-        state.status = 'loaded';
+        state.user.items = action.payload;
+        state.user.status = 'loaded';
       })
       .addCase(fetchUser.rejected, (state) => {
-        state.data = null;
-        state.status = 'error';
+        state.user.items = [];
+        state.user.status = 'error';
       })
       // Upload image
       .addCase(uploadImage.pending, (state) => {
-        state.data = null;
-        state.status = 'loading';
+        state.user.items = [];
+        state.user.status = 'loading';
       })
       .addCase(uploadImage.fulfilled, (state, action: PayloadAction<any>) => {
-        state.data = action.payload;
-        state.status = 'loaded';
+        state.user.items = action.payload;
+        state.user.status = 'loaded';
       })
       .addCase(uploadImage.rejected, (state) => {
-        state.data = null;
-        state.status = 'error';
+        state.user.items = [];
+        state.user.status = 'error';
       })
       // Create user
       .addCase(createUser.pending, (state) => {
-        state.data = null;
-        state.status = 'loading';
+        state.user.items = [];
+        state.user.status = 'loading';
       })
       .addCase(createUser.fulfilled, (state, action: PayloadAction<any>) => {
-        state.data = action.payload;
-        state.status = 'loaded';
+        state.user.items = action.payload;
+        state.user.status = 'loaded';
       })
       .addCase(createUser.rejected, (state) => {
-        state.data = null;
-        state.status = 'error';
+        state.user.items = [];
+        state.user.status = 'error';
       })
       // Checking whether the user is onboarded
       .addCase(isOndoarded.pending, (state) => {
-        state.data = null;
-        state.status = 'loading';
+        state.user.items = [];
+        state.user.status = 'loading';
       })
       .addCase(isOndoarded.fulfilled, (state, action: PayloadAction<any>) => {
-        state.data = action.payload;
-        state.status = 'loaded';
+        state.user.items = action.payload;
+        state.user.status = 'loaded';
       })
       .addCase(isOndoarded.rejected, (state) => {
-        state.data = null;
-        state.status = 'error';
+        state.user.items = [];
+        state.user.status = 'error';
       })
   },
 });
 
 // Export the reducer and action creator
-export const authReducer = authSlice.reducer;
+export const userReducer = userSlice.reducer;

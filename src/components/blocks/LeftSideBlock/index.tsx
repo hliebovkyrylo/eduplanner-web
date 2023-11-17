@@ -12,6 +12,19 @@ import { fetchUser } from "../../../redux/slices/user";
 export const LeftSideBlock = () => {
   const dispatch = useDispatch<any>();
 
+  // Getting information of current user
+  const { user } = useAuth0(); // Get current logged in user 
+  const [currentUser, setCurrentuser] = useState<any>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await dispatch(fetchUser(user?.sub)); // Looking for the id of the authorized user in the database
+      setCurrentuser(data.payload); // If the user has been found, we pass his data to a variable 'currentUser'
+    };
+  
+    fetchData(); // Call this function
+  }, [user]);
+
   // Settings
   const [openSettings, setOpenSettings] = useState(false); // By default the menu is closed
   const [selectedScheduleId, setSelectedScheduleId] = useState(''); 
@@ -26,7 +39,7 @@ export const LeftSideBlock = () => {
     setOpenSettings(true); // Open the settings panel
     setSelectedScheduleId(id); // Transfer the id of the selected schedule to the variable selectedScheduleId
 
-    const scheduleData = await dispatch(fetchSchedule(id));
+    const scheduleData = await dispatch(fetchSchedule({id: id, userId: currentUser?._id}));
 
     if (scheduleData.payload && scheduleData.payload.isPublic !== undefined) {
       setIsPublic(scheduleData?.payload?.isPublic);
@@ -37,19 +50,6 @@ export const LeftSideBlock = () => {
     setOpenSettings(false); // Close the settings panel
     setSelectedScheduleId(''); // Remove the id
   }
-
-  // Getting information of current user
-  const { user } = useAuth0(); // Get current logged in user 
-  const [currentUser, setCurrentuser] = useState<any>();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await dispatch(fetchUser(user?.sub)); // Looking for the id of the authorized user in the database
-      setCurrentuser(data.payload); // If the user has been found, we pass his data to a variable 'currentUser'
-    };
-  
-    fetchData(); // Call this function
-  }, [user]);
 
   // Actions with schedules
   const [userSchedules, setUserSchedules] = useState<any[]>([]);
@@ -75,17 +75,19 @@ export const LeftSideBlock = () => {
 
   const scheduleName = 'New schedule';
   const author = currentUser?._id;
+  const authorUsername = currentUser?.username;
 
   const onClickCreateSchedule = async () => {
     try {
       const data = await dispatch(createSchedule({
         scheduleName,
         author,
+        authorUsername,
       })) // Route to create a schedule
       
       const _id = data.payload._id; // Getting schedule id to redirecting
       
-      navigate(`/schedule/${_id}`); // Redirecting to schedule page
+      navigate(`/s/${_id}`); // Redirecting to schedule page
 
     } catch (error) {
       console.log(error);
@@ -122,20 +124,20 @@ export const LeftSideBlock = () => {
           <div className={styles.schedulesHead}>
             <span className={styles.scheduleHeadText}>Schedule name</span>
             <div className={styles.rightSideHeadtext}>
-              <span className={styles.scheduleHeadText}>Created at</span>
+              <span className={styles.scheduleHeadText}>Updated at</span>
               <span className={[styles.scheduleHeadText, styles.lastHeadText].join(' ')}>Settings</span>
             </div>
             <span className={[styles.scheduleHeadText, styles.visibleOnPhones].join(' ')}>Settings</span>
           </div>
           <div className={styles.userSchedules}>
             {userSchedules && userSchedules.map((obj) => {
-              const date = new Date(obj.createdAt);
+              const date = new Date(obj.updatedAt);
               const formattedDate = date.toLocaleDateString();
               return (
                 <ShedulesList
                   key={obj._id}
                   scheduleName={obj.scheduleName} 
-                  createdAt={formattedDate}
+                  updatedAt={formattedDate}
                   _id={obj._id}
                   handleButtonClick={() => handleBtnClick(obj._id)}
                 />

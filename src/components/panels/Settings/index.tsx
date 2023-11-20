@@ -5,7 +5,7 @@ import styles from "./Settings.module.scss";
 import copy from "@icons/copy-solid.svg";
 import check from "@icons/circle-check-solid.svg";
 import lock from "@icons/lock-solid.svg";
-import edit from "@icons/pen-to-square-solid.svg";
+// import edit from "@icons/pen-to-square-solid.svg";
 import trash from "@icons/trash-solid.svg";
 
 interface Props {
@@ -52,10 +52,10 @@ export const Settings = ({
             <img className={styles.btnIcon} src={lock} alt="Access" />
             <span className={styles.textBtn}>Access</span>
           </button>
-          <a className={styles.editSchedule} href={`/schedule/${id}/update`}>
+          {/* <a className={styles.editSchedule} href={`/schedule/${id}/update`}>
             <img className={styles.btnIcon} src={edit} alt="Edit" />
             <span className={styles.textBtn}>Edit schedule</span>
-          </a>
+          </a> */}
           <button className={styles.editSchedule} onClick={deleteSchedule}>
             <img className={styles.btnIcon} src={trash} alt="Delete" />
             <span className={styles.textBtn}>Delete schedule</span>

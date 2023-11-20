@@ -1,5 +1,4 @@
 export { PairCard } from "./cards/pairCard";
-export { ScheduleButton } from "./scheduleButton";
 export { ShedulesList } from "./SchedulesList";
 export { Topbar } from "./Topbar";
 export { Settings } from "./panels/Settings";

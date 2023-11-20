@@ -10,15 +10,15 @@ const initialState = {
 };
 
 // Create an asynchronous thunk to create event
-export const createEvent = createAsyncThunk('event/createEvent', async (params: any) => {
-  const { data } = await axios.post('/event/create', params);
+export const createEvent = createAsyncThunk('event/createEvent', async ({ params, currentUser, parentId }: { params: any, currentUser: string, parentId: string }) => {
+  const { data } = await axios.post(`/event/create?userId=${currentUser}&parentId=${parentId}`, params);
 
   return data;
 });
 
 // Create an asynchronous thunk to fetch all events event
-export const fetchAllEvents = createAsyncThunk('events/getAllEvents', async (parentId: any) => {
-  const { data } = await axios.get(`/event/getAll/${parentId}`);
+export const fetchAllEvents = createAsyncThunk('events/getAllEvents', async (params: { id: any, userId: any }) => {
+  const { data } = await axios.get(`/event/getAll/${params.id}?userId=${params.userId}`);
 
   return data;
 });
@@ -31,8 +31,8 @@ export const fetchEvent = createAsyncThunk('events/getEvent', async (id: any) =>
 });
 
 // Create an asynchronous thunk to create event
-export const updateEvent = createAsyncThunk('event/update', async ({ id, params }: { id: string, params: any }) => {
-  const { data } = await axios.patch(`/event/${id}/update`, params);
+export const updateEvent = createAsyncThunk('event/update', async ({ id, params, currentUser }: { id: string, params: any, currentUser: string }) => {
+  const { data } = await axios.patch(`/event/${id}/update?userId=${currentUser}`, params);
 
   return data;
 });

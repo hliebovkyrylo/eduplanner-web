@@ -1,8 +1,10 @@
-import { useImperativeHandle, useRef, useState, forwardRef } from "react";
+import { useImperativeHandle, useRef, useState, forwardRef, useEffect } from "react";
 import styles from "./editEvents.module.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateSchedule } from "../../../redux/slices/schedules";
 import { createEvent, updateEvent } from "../../../redux/slices/event";
+import { useAuth0 } from "@auth0/auth0-react";
+import { fetchUser } from "../../../redux/slices/user";
 
 interface EditEventProps {
   scheduleData: any;
@@ -24,6 +26,20 @@ export const EditEvent = forwardRef(
     useImperativeHandle(ref, () => ({
       innerRef,
     }));
+
+    //
+    const { user } = useAuth0();
+    const currentUser = useSelector((state: any) => state.user.user.items);
+
+    useEffect(() => {
+      const fetchUserData = async () => {
+        if (user && user.sub) {
+          await dispatch(fetchUser(user.sub));
+        }
+      }
+
+      fetchUserData();
+    }, [user])
 
     // Udate schedule/create event
     const dispatch = useDispatch<any>();
@@ -57,8 +73,8 @@ export const EditEvent = forwardRef(
 
       // Determine whether content exists in the selected cell
       isEdit 
-        ? await dispatch(updateEvent({ id: currentEventData?._id, params: params })) // If there is data
-        : await dispatch(createEvent(params)); // if there is no data
+        ? await dispatch(updateEvent({ id: currentEventData?._id, params: params, currentUser: currentUser._id })) // If there is data
+        : await dispatch(createEvent({ params: params, currentUser: currentUser._id, parentId: parentId })); // if there is no data
 
       window.location.reload(); // Reload the page after saving
     }

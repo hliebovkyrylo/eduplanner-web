@@ -43,7 +43,9 @@ export const Schedule = () => {
     const fetchData = async () => {
       try {
         if (currentUser) {
-          await dispatch(fetchSchedule({ id: id, userId: currentUser._id }));
+          await dispatch(fetchSchedule({ id: scheduleId, userId: currentUser._id }));
+
+          await dispatch(fetchAllEvents({ id: scheduleId, userId: currentUser._id }));
         }
 
       } catch (error) {
@@ -52,10 +54,6 @@ export const Schedule = () => {
     };
 
     fetchData();
-
-    if (scheduleId) {
-      dispatch(fetchAllEvents(scheduleId));
-    }
   }, [currentUser]);
 
   // Click handler outside the panel
@@ -114,28 +112,30 @@ export const Schedule = () => {
           </div>
 
           <div className={styles.schedule}>
-            {Array.from({ length: 6 }).map((_, colIndex) => (
-              <div className={styles.scheduleRow} key={colIndex}>
-                {Array.from({ length: 8 }).map((_, rowIndex) => {
-                  const cellData = events?.find(
-                    (data: any) => data.rowNum === rowIndex + 1 && data.colNum === colIndex + 1
-                  );
+          {Array.from({ length: 6 }).map((_, colIndex) => (
+            <div className={styles.scheduleRow} key={colIndex}>
+              {Array.from({ length: 8 }).map((_, rowIndex) => {
+                const eventArray = Array.isArray(events) ? events : [];
+                
+                const cellData = eventArray.find(
+                  (data: any) => data.rowNum === rowIndex + 1 && data.colNum === colIndex + 1
+                );
 
-                  return (
-                    <EventCard
-                      key={`${rowIndex + 1}-${colIndex + 1}`}
-                      _id={cellData?._id || ""}
-                      eventName={cellData?.eventName || ""}
-                      eventTime={cellData?.eventTime || ""}
-                      eventColor={cellData?.eventColor || ""}
-                      rowNum={rowIndex + 1}
-                      colNum={colIndex + 1}
-                      btnClick={() => handleBtnClick({ data: cellData, rowNum: rowIndex + 1, colNum: colIndex + 1 })}
-                    />
-                  );
-                })}
-              </div>
-            ))}
+                return (
+                  <EventCard
+                    key={`${rowIndex + 1}-${colIndex + 1}`}
+                    _id={cellData?._id || ""}
+                    eventName={cellData?.eventName || ""}
+                    eventTime={cellData?.eventTime || ""}
+                    eventColor={cellData?.eventColor || ""}
+                    rowNum={rowIndex + 1}
+                    colNum={colIndex + 1}
+                    btnClick={() => handleBtnClick({ data: cellData, rowNum: rowIndex + 1, colNum: colIndex + 1 })}
+                  />
+                );
+              })}
+            </div>
+          ))}
           </div>
 
           {isVisible && (

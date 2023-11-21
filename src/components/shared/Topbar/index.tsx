@@ -63,7 +63,7 @@ export const Topbar = ({ pageName }: {pageName: string}) => {
         {showItems && (
           <animated.div style={fadeIn} className={styles.dropBtn}>
             <div className={styles.dropBtnItems}>
-              <button onClick={() => logout({ logoutParams: { returnTo: 'http://localhost:5173/' } })} className={styles.dropBtnItem}><img className={styles.dropBtnIcon} src={logoutPhoto} alt="" /> Logout</button>
+              <button onClick={() => logout({ logoutParams: { returnTo: 'https://eduplanner-iota.vercel.app/' } })} className={styles.dropBtnItem}><img className={styles.dropBtnIcon} src={logoutPhoto} alt="" /> Logout</button>
             </div>
           </animated.div>
         )}

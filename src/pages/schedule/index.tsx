@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
-import { Topbar, EventCard, EditEvent } from "../../components/index";
+import { Topbar, EventCard, EditEvent, Loading, NoAccess } from "../../components/index";
 import { scheduleHead } from "../../constants";
 
 import styles from "./schedule.module.scss";
@@ -16,7 +16,7 @@ export const Schedule = () => {
   const editScheduleRef = useRef<any>(null);
 
   // Getting information of current user
-  const { user } = useAuth0(); // Get current logged in user 
+  const { user, isAuthenticated } = useAuth0(); // Get current logged in user 
   const [currentUser, setCurrentuser] = useState<any>();
 
   useEffect(() => {
@@ -38,18 +38,16 @@ export const Schedule = () => {
 
   const schedule = useSelector((state: any) => state.schedule.schedules.items);
   const events = useSelector((state: any) => state.event.events.items);
+  const scheduleState = useSelector((state: any) => state.schedule.schedules.status);
+  const eventsState = useSelector((state: any) => state.event.events.status);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (currentUser) {
-          await dispatch(fetchSchedule({ id: scheduleId, userId: currentUser._id }));
-
-          await dispatch(fetchAllEvents({ id: scheduleId, userId: currentUser._id }));
-        }
-
+        await dispatch(fetchSchedule({ id: scheduleId, userId: currentUser?._id }));
+        await dispatch(fetchAllEvents({ id: scheduleId, userId: currentUser?._id }));
       } catch (error) {
-        console.error("Failed to get schedule:", error);
+        console.log(error);
       }
     };
 
@@ -84,9 +82,11 @@ export const Schedule = () => {
   const [currentEventData, setCurrentEventData] = useState<{ data?: any; rowNum?: number; colNum?: number }>({});
 
   const handleBtnClick = useCallback(({ data, rowNum, colNum }: { data?: any; rowNum: number; colNum: number }) => {
-    setIsVisible((prevVisible) => !prevVisible);
-    setCurrentEventData({ data: data, rowNum, colNum });
-  }, []);
+    if (currentUser && currentUser._id && schedule.author && currentUser._id === schedule.author) {
+      setIsVisible((prevVisible) => !prevVisible);
+      setCurrentEventData({ data: data, rowNum, colNum });
+    }
+  }, [currentUser, schedule]);
 
   // Add an event handler when the component is mounted
   useEffect(() => {
@@ -96,6 +96,14 @@ export const Schedule = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
+
+  if (scheduleState === 'error' || eventsState === 'error') {
+    return <NoAccess />;
+  }
+
+  if (!schedule || eventsState === 'loading') {
+    return <Loading/>;
+  }
 
   return (
     <main>
@@ -151,9 +159,11 @@ export const Schedule = () => {
             </div>
           )}
         </section>
-        <div className={styles.backHomeBtn}>
+        {isAuthenticated && (
+          <div className={styles.backHomeBtn}>
             <a href="/home">Back home</a>
           </div>
+        )}
       </div>
     </main>
   );

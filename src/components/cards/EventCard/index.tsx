@@ -42,7 +42,7 @@ export const EventCard = ({
     <article className={styles.event} key={_id}>
       <button style={{ backgroundColor: eventColor }} className={styles.eventItems} onClick={btnClick}>
         <span style={{ color: brighterTextColor }} className={styles.eventText}>{eventName}</span>
-        <span style={{ color: brighterTextColor }} className={[styles.eventText, styles.date].join(' ')}>{eventTime}</span>
+        <span style={{ color: brighterTextColor }} className={styles.date}>{eventTime}</span>
       </button>
     </article>
   )

@@ -1,4 +1,4 @@
-import { MainPage, CreateSchedulePage, UpdateSchedulePage, Home, Schedule, Onboarding } from "./pages";
+import { MainPage, Home, Schedule, Onboarding } from "./pages";
 
 import { Route, Routes } from "react-router-dom";
 
@@ -8,8 +8,6 @@ function App() {
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/create" element={<CreateSchedulePage />} />
-      <Route path="/schedules/:id/update" element={<UpdateSchedulePage />} />
       <Route path="/s/:id" element={<Schedule/>} />
       <Route path="/onboarding" element={<Onboarding />} />
     </Routes>

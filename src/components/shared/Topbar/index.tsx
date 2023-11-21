@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 
 import styles from "./topbar.module.scss";
-import userPhoto from "../../assets/icons/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
-import logoutPhoto from "../../assets/icons/arrow-right-from-bracket-solid.svg";
+import userPhoto from "@icons/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
+import logoutPhoto from "@icons/arrow-right-from-bracket-solid.svg";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import { fetchUser } from "../../redux/slices/user";
+import { fetchUser } from "../../../redux/slices/user";
 import { useDispatch } from "react-redux";
 import { animated, useSpring } from "react-spring";
 
@@ -23,6 +23,7 @@ export const Topbar = ({ pageName }: {pageName: string}) => {
   }, []);
 
   //
+  const { logout, isAuthenticated } = useAuth0();
   const [showItems, setShowItems] = useState(false);
 
   const fadeIn = useSpring({ // Animation for elements to appear
@@ -31,10 +32,10 @@ export const Topbar = ({ pageName }: {pageName: string}) => {
   });
 
   const handleAvatarClick = () => {
-    setShowItems(!showItems);
+    if (isAuthenticated) {
+      setShowItems(!showItems);
+    }
   }
-
-  const { logout } = useAuth0();
 
   // Getting information of current user
   const { user } = useAuth0(); // Get current logged in user 
@@ -62,7 +63,7 @@ export const Topbar = ({ pageName }: {pageName: string}) => {
         {showItems && (
           <animated.div style={fadeIn} className={styles.dropBtn}>
             <div className={styles.dropBtnItems}>
-              <button onClick={() => logout({ logoutParams: { returnTo: '/' } })} className={styles.dropBtnItem}><img className={styles.dropBtnIcon} src={logoutPhoto} alt="" /> Logout</button>
+              <button onClick={() => logout({ logoutParams: { returnTo: 'http://localhost:5173/' } })} className={styles.dropBtnItem}><img className={styles.dropBtnIcon} src={logoutPhoto} alt="" /> Logout</button>
             </div>
           </animated.div>
         )}

@@ -1,27 +1,49 @@
-# React + TypeScript + Vite
+# EduPlanner - Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Screenshots
 
-Currently, two official plugins are available:
+<div style="display: flex; justify-content: space-between;">
+    <img src="screenshots/1.png" width="200"/>
+    <img src="screenshots/2.png" width="200"/>
+    <img src="screenshots/3.png" width="200"/>
+    <img src="screenshots/4.png" width="200"/>
+</div>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Table of Contents
 
-## Expanding the ESLint configuration
+- [Introduction](#introduction)
+- [Key Features](#key-features)
+- [Usage](#usage)
+- [Technologies used](#technologies-used)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Introduction
 
-- Configure the top-level `parserOptions` property like this:
+EduPlanner - is a web application where you can create, edit and share schedules with your classmates or classmates.
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+## Key Features
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Manage your schedules.
+- Use other users' schedules
+- Quick access to recently visited schedules.
+- User-friendly design.
+
+## Usage
+- Navigate to [main](https://eduplanner-iota.vercel.app/) page
+- Register or log in to the application.
+- Create a schedule.
+- Сustomize your events.
+- Open access to everyone who has the link if you want it.
+
+## Will be in the future
+- Selecting the number of days in the schedule.
+- Adding or removing event numbering.
+- Сustom fields in event settings.
+- Language and theme changes
+- Landing page.
+- Change in the number of events per day.
+
+## Technologies used
+- *React* - The JavaScript library used to build the web app's user interface.
+- *REST API* - Provides data and serves as the backend for the web app.
+- *Scss* - Writing styles for elements.
+- *TypeScript* - Provides static typing, improving security, code readability, and maintaining modern language capabilities.

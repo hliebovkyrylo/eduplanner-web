@@ -1,6 +1,5 @@
-export { PairCard } from "./cards/pairCard";
 export { ShedulesList } from "./SchedulesList";
-export { Topbar } from "./Topbar";
+export { Topbar } from "./shared/Topbar";
 export { Settings } from "./panels/Settings";
 export { HomeMainCard } from "./cards/HomeMainCard";
 export { LeftSideBlock } from "./blocks/LeftSideBlock";
@@ -8,3 +7,5 @@ export { RightSideBlock } from "./blocks/RightSIdeBlock"
 export { StrangerScheduleCard } from "./cards/StrangerScheduleCard";
 export { EventCard } from "./cards/EventCard"
 export { EditEvent } from "./panels/EditEvents";
+export { Loading } from "./shared/Loading";
+export { NoAccess } from "./shared/NoAccess";

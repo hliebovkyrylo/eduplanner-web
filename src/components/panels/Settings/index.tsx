@@ -66,7 +66,7 @@ export const Settings = ({
           <div className={styles.linkItems}>
             {buttonState ? (
               <>
-                <input ref={inputRef} className={styles.inputLink} type="text" defaultValue={`https://schedule-frontend-pi.vercel.app/scheedule/${id}`} readOnly />
+                <input ref={inputRef} className={styles.inputLink} type="text" defaultValue={`https://eduplanner-iota.vercel.app/s/${id}`} readOnly />
                 <button onClick={copyLink}>
                   {buttonCopy ? (
                     <img className={styles.copyBtn} src={copy} alt="Copy" />

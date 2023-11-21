@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { HomeMainCard, Settings, ShedulesList } from "../../index";
+import { HomeMainCard, Settings, ShedulesList, Loading } from "../../index";
 
 import styles from "./leftSideBlock.module.scss";
 
@@ -99,6 +99,8 @@ export const LeftSideBlock = () => {
 
     if (confirmed) {
       await dispatch(deleteSchedule(selectedScheduleId));
+
+      window.location.reload();
     }
   };
 
@@ -111,6 +113,10 @@ export const LeftSideBlock = () => {
       console.log(error);
     }
   };
+
+  if (!currentUser) {
+    return <Loading/>
+  }
 
   return (
     <>
@@ -130,19 +136,23 @@ export const LeftSideBlock = () => {
             <span className={[styles.scheduleHeadText, styles.visibleOnPhones].join(' ')}>Settings</span>
           </div>
           <div className={styles.userSchedules}>
-            {userSchedules && userSchedules.map((obj) => {
-              const date = new Date(obj.updatedAt);
-              const formattedDate = date.toLocaleDateString();
-              return (
-                <ShedulesList
-                  key={obj._id}
-                  scheduleName={obj.scheduleName} 
-                  updatedAt={formattedDate}
-                  _id={obj._id}
-                  handleButtonClick={() => handleBtnClick(obj._id)}
-                />
-              )
-            })}
+            {userSchedules && userSchedules.length > 0 ? (
+              userSchedules.map((obj) => {
+                const date = new Date(obj.updatedAt);
+                const formattedDate = date.toLocaleDateString();
+                return (
+                  <ShedulesList
+                    key={obj._id}
+                    scheduleName={obj.scheduleName} 
+                    updatedAt={formattedDate}
+                    _id={obj._id}
+                    handleButtonClick={() => handleBtnClick(obj._id)}
+                  />
+                );
+              })
+            ) : (
+              <div className={styles.noSchedules}>You don't have a schedules</div>
+            )}
           </div>
         </div>
       </div>

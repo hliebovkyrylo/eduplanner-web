@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
+import { Loading } from '../../components';
 
 export const MainPage = () => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
@@ -13,8 +14,8 @@ export const MainPage = () => {
 
   // You can render some loading state while the redirection is in progress
   return (
-    <div>
-      <p>Loading...</p>
-    </div>
+    <>
+      <Loading />
+    </>
   );
 }

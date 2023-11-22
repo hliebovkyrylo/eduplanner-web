@@ -39,7 +39,7 @@ export const EditEvent = forwardRef(
       }
 
       fetchUserData();
-    }, [user])
+    }, [])
 
     // Udate schedule/create event
     const dispatch = useDispatch<any>();
@@ -107,7 +107,7 @@ export const EditEvent = forwardRef(
               <span className={styles.inputText}>Event time</span>
               <input
                 className={styles.input}
-                type="text"
+                type="time"
                 placeholder="Enter event time (ex. 11:10)..."
                 value={eventTime}
                 onChange={(e: any) => setEventTime(e.target.value)}

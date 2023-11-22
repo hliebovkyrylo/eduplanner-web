@@ -37,7 +37,7 @@ export const updatePublicStatus = createAsyncThunk('schedules/updatePublicStatus
 })
 
 // Create an asynchronous thunk to get schedule
-export const fetchSchedule = createAsyncThunk('schedule/fetchSchedule', async (params: { id: any, userId: string }) => {
+export const fetchSchedule = createAsyncThunk('schedule/fetchSchedule', async (params: { id: any, userId: any }) => {
   const { data } = await axios.get(`/schedule/${params.id}?userId=${params.userId}`);
   return data;
 });

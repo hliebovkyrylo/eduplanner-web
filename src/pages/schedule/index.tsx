@@ -4,7 +4,7 @@ import { scheduleHead } from "../../constants";
 
 import styles from "./schedule.module.scss";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchSchedule } from "../../redux/slices/schedules";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllEvents } from "../../redux/slices/event";
@@ -14,25 +14,12 @@ import { fetchUser } from "../../redux/slices/user";
 export const Schedule = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const editScheduleRef = useRef<any>(null);
+  const navigate = useNavigate();
 
-  // Getting information of current user
-  const { user, isAuthenticated } = useAuth0(); // Get current logged in user 
+  const { user, isAuthenticated } = useAuth0();
   const [currentUser, setCurrentuser] = useState<any>();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await dispatch(fetchUser(user?.sub));
-      setCurrentuser(data.payload);
-    };
-  
-    if (user) {
-      fetchData();
-    }
-  }, [user]);
-  
-
-  // Getting information about the current schedule
-  const { id } = useParams(); // Getting schedule id
+  const { id } = useParams();
   const scheduleId = id;
   const dispatch = useDispatch<any>();
 
@@ -44,15 +31,21 @@ export const Schedule = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await dispatch(fetchSchedule({ id: scheduleId, userId: currentUser?._id }));
-        await dispatch(fetchAllEvents({ id: scheduleId, userId: currentUser?._id }));
+        if (user) {
+          const userResponse = await dispatch(fetchUser(user?.sub));
+
+          await dispatch(fetchSchedule({ id: scheduleId, userId: userResponse.payload?._id }));
+          await dispatch(fetchAllEvents({ id: scheduleId, userId: userResponse.payload?._id }));
+          setCurrentuser(userResponse.payload);
+        }
+
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchData();
-  }, [currentUser]);
+  }, [user]);
 
   // Click handler outside the panel
   const handleClickOutside = useCallback(
@@ -99,6 +92,10 @@ export const Schedule = () => {
 
   if (scheduleState === 'error' || eventsState === 'error') {
     return <NoAccess />;
+  }
+
+  if (!user) {
+    navigate('/')
   }
 
   if (!schedule || eventsState === 'loading') {

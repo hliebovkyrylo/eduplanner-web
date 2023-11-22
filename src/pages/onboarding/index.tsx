@@ -31,33 +31,34 @@ export const Onboarding = () => {
   const navigate = useNavigate();
 
   const id = user?.sub;
-  const [name, setName] = useState(user.name || '');
-  const [username, setUsername] = useState(user.nickname || '');
-  const [image, setImage] = useState(user.picture);
+  const [name, setName] = useState(user?.name || '');
+  const [username, setUsername] = useState(user?.nickname || '');
+  const [image, setImage] = useState(user?.picture);
   const userId = id;
 
   const handleSubmit = async (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.preventDefault(); // Remove the standard behavior of the button
 
     try {
-      
-      if (selectedFile !== null) { // Checking the authenticity of the uploaded photo
+      let updatedImage = image;
+
+      if (selectedFile && selectedFile !== null) { // Checking the authenticity of the uploaded photo
+        
         const formData = new FormData();
         formData.append('image', selectedFile); // Add the selected file to FormData with the name 'image'
 
         const res = await dispatch(uploadImage(formData)); // Send a request to download an image using the dispatch function.
-
-        setImage(res.payload.imageUrl); // Transferring the uploaded photo to the variable 'image'
-      } else {
-        setImage(user.picture); // If the user has not uploaded his picture, then we use the standard Auth0 photo
-      }
-
+        
+        updatedImage = res.payload.imageUrl;
+        setImage(updatedImage);
+      } 
+      
       // Sending user input to the server
       await dispatch(createUser({
         userId,
         name,
         username,
-        image,
+        image: updatedImage,
       }));
 
       navigate('/home');
@@ -82,7 +83,7 @@ export const Onboarding = () => {
         <div>
           <input type="file" ref={inputFileRef} onChange={handleImageChange} hidden />
           <button type="button" onClick={() => inputFileRef.current?.click()} className={styles.photoBtn}>
-            <img className={styles.onboardingPicture} src={selectedFile ? URL.createObjectURL(selectedFile) : user.picture} alt="User photo" />
+            <img className={styles.onboardingPicture} src={selectedFile ? URL.createObjectURL(selectedFile) : user?.picture} alt="User photo" />
           </button>
         </div>
         <div className={styles.inputItem}>

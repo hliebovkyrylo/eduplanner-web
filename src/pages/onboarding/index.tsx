@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import styles from "./onboarding.module.scss";
 import { createUser, isOndoarded, uploadImage } from "../../redux/slices/user";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Loading } from "../../components";
 
 export const Onboarding = () => {
   const dispatch = useDispatch<any>();
@@ -12,7 +13,7 @@ export const Onboarding = () => {
   // Getting user info
   const { user } = useAuth0(); // Data of current user
   if (!user) { // If user is not found return null
-    return null;
+    return <Loading />;
   }
 
   // Change user photo
@@ -69,37 +70,51 @@ export const Onboarding = () => {
   }
 
   // Checking whether the user is configured
-  dispatch(isOndoarded(userId)).then((onboardedUser: any) => { // Search for user by ID
-    if (onboardedUser.payload.userFound === true) {
-      navigate('/home') // if the user is found, we redirect to the home page
+  const [isLoaded, setIsLoaded] = useState<Boolean>(false);
+
+  useEffect(() => {
+    const userData = async () => {
+      dispatch(isOndoarded(userId)).then((onboardedUser: any) => { // Search for user by ID
+        if (onboardedUser.payload.userFound === true) {
+          navigate('/home') // if the user is found, we redirect to the home page
+        } else {
+          setIsLoaded(true);
+        }
+      })
     }
-  })
+
+    userData();
+  }, [])
   
 
   return (
-    <main className={styles.onboarding}>
-      <form className={styles.onboardingInner}>
-        <h3>Complete your profile</h3>
-        <div>
-          <input type="file" ref={inputFileRef} onChange={handleImageChange} hidden />
-          <button type="button" onClick={() => inputFileRef.current?.click()} className={styles.photoBtn}>
-            <img className={styles.onboardingPicture} src={selectedFile ? URL.createObjectURL(selectedFile) : user?.picture} alt="User photo" />
-          </button>
-        </div>
-        <div className={styles.inputItem}>
-          <div>
-            <span className={styles.inputPlaceholder}>Name</span>
-          </div>
-          <input className={styles.onboardingInput} type="text" value={name} onChange={(e) => setName(e.target.value)} />
-        </div>
-        <div className={styles.inputItem}>
-          <div>
-            <span className={styles.inputPlaceholder}>Username</span>
-          </div>
-          <input className={styles.onboardingInput} type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </div>
-        <button onClick={handleSubmit} className={styles.submitBtn}>Submit</button>
-      </form>
-    </main>
+    <>
+      {isLoaded && (
+        <main className={styles.onboarding}>
+          <form className={styles.onboardingInner}>
+            <h3>Complete your profile</h3>
+            <div>
+              <input type="file" ref={inputFileRef} onChange={handleImageChange} hidden />
+              <button type="button" onClick={() => inputFileRef.current?.click()} className={styles.photoBtn}>
+                <img className={styles.onboardingPicture} src={selectedFile ? URL.createObjectURL(selectedFile) : user?.picture} alt="User photo" />
+              </button>
+            </div>
+            <div className={styles.inputItem}>
+              <div>
+                <span className={styles.inputPlaceholder}>Name</span>
+              </div>
+              <input className={styles.onboardingInput} type="text" value={name} onChange={(e) => setName(e.target.value)} />
+            </div>
+            <div className={styles.inputItem}>
+              <div>
+                <span className={styles.inputPlaceholder}>Username</span>
+              </div>
+              <input className={styles.onboardingInput} type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+            </div>
+            <button onClick={handleSubmit} className={styles.submitBtn}>Submit</button>
+          </form>
+        </main>
+      )}
+    </>
   )
 }

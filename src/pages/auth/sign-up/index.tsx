@@ -73,7 +73,7 @@ export const SignUp = () => {
         setError('username', { message: "Such username already exist!" });
       }
     })
-  }, [signUp]);
+  }, [signUp, imageUrl]);
 
   const [inputType, setinputType] = useState("password");
   const handleChangeVisibility = (event: React.FormEvent) => {

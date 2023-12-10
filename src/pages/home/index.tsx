@@ -1,8 +1,12 @@
-import styles from "./home.module.scss";
+import styles     from "./home.module.scss";
+import { Topbar } from "../../components/index";
+import { 
+  LeftSideBlock, 
+  RightSideBlock 
+}                 from "./blocks/index";
+import { auth }   from "@hocs/auth";
 
-import { Topbar, LeftSideBlock, RightSideBlock } from "../../components/index";
-
-export const Home = () => {
+export const Home = auth(() => {
   return (
     <main className={styles.mainContainer}>
       <Topbar 
@@ -15,4 +19,4 @@ export const Home = () => {
       </section>
     </main>
   )
-}
+});

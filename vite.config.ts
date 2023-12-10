@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://schedule-backend-git-main-hliebovkyrylo.vercel.app/',
+        target: 'http://localhost:4000/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }
@@ -15,7 +15,13 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@icons': path.resolve(__dirname, 'src/assets/icons/'),
+      '@icons'     : path.resolve(__dirname, 'src/assets/icons/'),
+      '@components': path.resolve(__dirname, 'src/components/'),
+      '@pages'     : path.resolve(__dirname, 'src/pages/'),
+      '@redux'     : path.resolve(__dirname, 'src/redux/'),
+      '@typings'   : path.resolve(__dirname, 'src/typings/'),
+      '@assets'    : path.resolve(__dirname, 'src/assets/'),
+      '@hocs'      : path.resolve(__dirname, 'src/hocs/'),
     }
   }
 })

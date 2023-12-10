@@ -1,14 +1,14 @@
 import { lighten } from "polished";
-import styles from "./eventCard.module.scss";
+import styles      from "./eventCard.module.scss";
 
 interface Props {
-  _id: string;
-  eventName: string;
-  eventTime: string;
+  _id       : string;
+  eventName : string;
+  eventTime : string;
   eventColor: string;
-  btnClick: () => void;
-  rowNum: number;
-  colNum: number;
+  btnClick  : () => void;
+  rowNum    : number;
+  colNum    : number;
 }
 
 // HEX to RGB conversion
@@ -18,9 +18,9 @@ function hexToRgb(hex: string) {
 
   // Split the string into three parts (R, G, B)
   let bigint = parseInt(hex, 16);
-  let r = (bigint >> 16) & 255;
-  let g = (bigint >> 8) & 255;
-  let b = bigint & 255;
+  let r      = (bigint >> 16) & 255;
+  let g      = (bigint >> 8) & 255;
+  let b      = bigint & 255;
 
   return `rgb(${r}, ${g}, ${b})`; // Return color in rgb format
 }

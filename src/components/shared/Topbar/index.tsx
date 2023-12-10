@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-
-import styles from "./topbar.module.scss";
-import userPhoto from "@icons/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
-import logoutPhoto from "@icons/arrow-right-from-bracket-solid.svg";
-
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchUser } from "../../../redux/slices/user";
-import { useDispatch } from "react-redux";
+import styles                  from "./topbar.module.scss";
+import userPhoto               from "@icons/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg";
+import logoutPhoto             from "@icons/arrow-right-from-bracket-solid.svg";
 import { animated, useSpring } from "react-spring";
+import { useGetUserQuery }     from "@redux/api/userAPI";
+import { IUser }               from "@typings/user";
+import { useSignOutMutation }  from "@redux/api/authAPI";
 
 export const Topbar = ({ pageName }: {pageName: string}) => {
-  const dispatch = useDispatch<any>();
+  const { data: user } = useGetUserQuery();
+  const userMe         = user as IUser;
+  const [signOut]      = useSignOutMutation();
 
   // Getting current date
   let [date, setDate] = useState(new Date());
@@ -22,8 +22,6 @@ export const Topbar = ({ pageName }: {pageName: string}) => {
     }
   }, []);
 
-  //
-  const { logout, isAuthenticated } = useAuth0();
   const [showItems, setShowItems] = useState(false);
 
   const fadeIn = useSpring({ // Animation for elements to appear
@@ -32,22 +30,13 @@ export const Topbar = ({ pageName }: {pageName: string}) => {
   });
 
   const handleAvatarClick = () => {
-    if (isAuthenticated) {
-      setShowItems(!showItems);
-    }
+    setShowItems(!showItems);
+  };
+
+  const onClickSignOut = () => {
+    signOut();
+    window.location.reload();
   }
-
-  // Getting information of current user
-  const { user } = useAuth0(); // Get current logged in user 
-  const [currentUser, setCurrentuser] = useState<any>();
-
-  useEffect(() => {
-    if (user?.sub) {
-      dispatch(fetchUser(user?.sub)).then((us: any) => {
-        setCurrentuser(us.payload);
-      })
-    }
-  }, [user])
 
   return (
     <header className={styles.header}>
@@ -56,14 +45,14 @@ export const Topbar = ({ pageName }: {pageName: string}) => {
         <div className={styles.navFlex}>
           <span className={styles.date}>{date.toLocaleDateString()}, {date.toLocaleTimeString()}</span>
           <button onClick={handleAvatarClick}>
-            <img className={styles.userPhoto} src={currentUser?.image || userPhoto} alt="User Photo" />
+            <img className={styles.userPhoto} src={userMe?.image || userPhoto} alt="User Photo" />
           </button>
         </div>
 
         {showItems && (
           <animated.div style={fadeIn} className={styles.dropBtn}>
             <div className={styles.dropBtnItems}>
-              <button onClick={() => logout({ logoutParams: { returnTo: 'https://eduplanner-iota.vercel.app/' } })} className={styles.dropBtnItem}><img className={styles.dropBtnIcon} src={logoutPhoto} alt="" /> Logout</button>
+              <button onClick={onClickSignOut} className={styles.dropBtnItem}><img className={styles.dropBtnIcon} src={logoutPhoto} alt="" /> Logout</button>
             </div>
           </animated.div>
         )}

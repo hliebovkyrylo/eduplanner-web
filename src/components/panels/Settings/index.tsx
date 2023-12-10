@@ -1,19 +1,17 @@
 import { useRef, useState } from "react";
-
-import styles from "./Settings.module.scss";
-
-import copy from "@icons/copy-solid.svg";
-import check from "@icons/circle-check-solid.svg";
-import lock from "@icons/lock-solid.svg";
-// import edit from "@icons/pen-to-square-solid.svg";
-import trash from "@icons/trash-solid.svg";
+import styles               from "./Settings.module.scss";
+import copy                 from "@icons/copy-solid.svg";
+import check                from "@icons/circle-check-solid.svg";
+import lock                 from "@icons/lock-solid.svg";
+// import edit              from "@icons/pen-to-square-solid.svg";
+import trash                from "@icons/trash-solid.svg";
 
 interface Props {
-  id: string | null;
+  id            : string | null;
   deleteSchedule: () => void;
-  changeAccess: () => void;
-  cancelButton: (ev: any) => void;
-  buttonState: Boolean | undefined;
+  changeAccess  : () => void;
+  cancelButton  : (ev: any) => void;
+  buttonState   : Boolean | undefined;
 }
 
 export const Settings = ({
@@ -64,7 +62,7 @@ export const Settings = ({
         <div className={styles.mainBlock}>
           <button className={styles.btnAccess} onClick={toggleAccess}>{buttonState ? 'Disable access via link' : 'Enable access via link'}</button>
           <div className={styles.linkItems}>
-            {buttonState ? (
+            {buttonState && (
               <>
                 <input ref={inputRef} className={styles.inputLink} type="text" defaultValue={`https://eduplanner-iota.vercel.app/s/${id}`} readOnly />
                 <button onClick={copyLink}>
@@ -75,7 +73,7 @@ export const Settings = ({
                   )}
                 </button>
               </>
-            ) : null}
+            )}
           </div>
           <button className={styles.cancelBtn} onClick={cancelButton}>Cancel</button>
         </div>

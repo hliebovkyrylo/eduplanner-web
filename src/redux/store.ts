@@ -1,20 +1,37 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import thunkMiddleware from "redux-thunk";
-import { userReducer } from "./slices/user";
-import { scheduleReducer } from "./slices/schedules";
-import { eventReducer } from "./slices/event";
+import {
+  StateFromReducersMapObject,
+  combineReducers,
+  configureStore,
+}                          from '@reduxjs/toolkit';
+import storage             from 'redux-persist/lib/storage';
+import persistReducer      from 'redux-persist/es/persistReducer';
+import persistStore        from 'redux-persist/es/persistStore';
+import { authSlice }       from './slices/authSlice';
+import { PersistConfig }   from 'redux-persist';
+import { api }             from '@redux/api/index';
+import { authInterceptor } from './middleware/authInterceptor';
 
-const middleware = [...getDefaultMiddleware(), thunkMiddleware];
+export const reducers = {
+  auth: authSlice.reducer,
+  api : api.reducer,
+};
 
-const store = configureStore({
-  reducer: {
-    user: userReducer,
-    schedule: scheduleReducer,
-    event: eventReducer,
-  },
-  middleware,
+export type IAppState = StateFromReducersMapObject<typeof reducers>;
+export const rootReducer = combineReducers(reducers);
+
+export const persistConfig: PersistConfig<IAppState> = {
+  key      : 'root',
+  whitelist: ['auth'],
+  storage,
+};
+
+export const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer   : persistedReducer,
+  middleware: getDefaultMiddleware => getDefaultMiddleware({
+    serializableCheck: false,
+  }).concat(api.middleware, authInterceptor),
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-
-export default store;
+export const persistor = persistStore(store);

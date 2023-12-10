@@ -1,0 +1,25 @@
+.error {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  right: 0;
+  top: 150px;
+  background-color: #8b1313;
+
+  .errorImage {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+  }
+
+  .errorText {
+    color: #ff4f4f;
+  }
+}
+
+@media (max-height: 750px) {
+  .error {
+    top: 50px;
+  }
+}

@@ -1,11 +1,11 @@
-import styles from "./srangerShedule.module.scss";
+import styles    from "./srangerShedule.module.scss";
 import trash_btn from "../../../assets/icons/trash-solid.svg";
 
 interface Props {
-  id: string;
-  scheduleName: string;
-  owner: string;
-  isPublic: Boolean;
+  id            : string;
+  scheduleName  : string;
+  owner         : string;
+  isPublic      : Boolean;
   removeSchedule: (ev: any) => void;
 }
 

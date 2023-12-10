@@ -1,4 +1,4 @@
-export { MainPage } from "./mainPage";
-export { Home } from "./home";
+export { Home }     from "./home";
 export { Schedule } from "./schedule";
-export { Onboarding } from "./onboarding";
+export { SignIn }   from "./auth/sign-in";
+export { SignUp }   from "./auth/sign-up";

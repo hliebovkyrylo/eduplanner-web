@@ -1,9 +1,9 @@
-import styles from "./homeMainCard.module.scss";
-import homeImage from "../../../assets/otherImages/Group 11.png";
+import styles    from "./homeMainCard.module.scss";
+import homeImage from "@assets/otherImages/Group 11.png";
 
 interface Props {
   clickBtn: () => void;
-  name: string | undefined;
+  name    : string | undefined;
 }
 
 export const HomeMainCard = ({ 

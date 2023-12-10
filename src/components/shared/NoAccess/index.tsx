@@ -1,5 +1,5 @@
 import styles from "./noaccess.module.scss";
-import lock from "@icons/lock-solid.svg";
+import lock   from "@icons/lock-solid.svg";
 
 export const NoAccess = () => {
   return (

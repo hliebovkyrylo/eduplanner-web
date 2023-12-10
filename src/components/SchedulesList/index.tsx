@@ -1,16 +1,15 @@
-import styles from "./ShedulesList.module.scss";
-
-import settingsImage from "../../assets/icons/gear-solid.svg";
+import styles        from "./ShedulesList.module.scss";
+import settingsImage from "@assets/icons/gear-solid.svg";
 
 interface Props {
-  _id: string;
-  scheduleName: string;
-  updatedAt: string;
+  id               : string;
+  scheduleName     : string;
+  updatedAt        : string;
   handleButtonClick: (ev: any) => void;
 }
 
 export const ShedulesList = ({
-  _id,
+  id,
   scheduleName,
   updatedAt,
   handleButtonClick
@@ -21,7 +20,7 @@ export const ShedulesList = ({
   }
 
   return (
-    <a href={`/s/${_id}`} className={styles.scheduleItems}>
+    <a href={`/s/${id}`} className={styles.scheduleItems}>
       <span className={styles.schedulesText}>{scheduleName}</span>
       <div className={styles.rightItems}>
         <span className={styles.schedulesText}>{updatedAt}</span>

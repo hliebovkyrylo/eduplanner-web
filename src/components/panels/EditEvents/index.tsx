@@ -1,18 +1,23 @@
-import { useImperativeHandle, useRef, useState, forwardRef, useEffect } from "react";
-import styles from "./editEvents.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { updateSchedule } from "../../../redux/slices/schedules";
-import { createEvent, updateEvent } from "../../../redux/slices/event";
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchUser } from "../../../redux/slices/user";
+import { 
+  useImperativeHandle, 
+  useRef, 
+  useState, 
+  forwardRef 
+}                                    from "react";
+import { 
+  useCreateEventMutation, 
+  useUpdateEventMutation 
+}                                    from "@redux/api/eventAPI";
+import styles                        from "./editEvents.module.scss";
+import { useUpdateScheduleMutation } from "@redux/api/scheduleAPI";
 
 interface EditEventProps {
-  scheduleData: any;
-  cancelPanel: (ev: any) => void;
+  scheduleData     : any;
+  cancelPanel      : (ev: any) => void;
   currentEventData?: any;
-  rowNum?: number;
-  colNum?: number;
-}
+  rowNum           : any;
+  colNum           : any;
+};
 
 export const EditEvent = forwardRef(
   ({
@@ -22,47 +27,40 @@ export const EditEvent = forwardRef(
     rowNum,
     colNum,
   }: EditEventProps, ref: React.Ref<any>) => {
+    const [schedule]    = useUpdateScheduleMutation();
+    const [event]       = useCreateEventMutation();
+    const [updateEvent] = useUpdateEventMutation();
+    const isPublic      = scheduleData?.isPublic;
+    const scheduleId    = scheduleData?.id;
+    const eventId       = currentEventData?.id;
+
     const innerRef = useRef(null);
     useImperativeHandle(ref, () => ({
       innerRef,
     }));
 
-    //
-    const { user } = useAuth0();
-    const currentUser = useSelector((state: any) => state.user.user.items);
-
-    useEffect(() => {
-      const fetchUserData = async () => {
-        if (user && user.sub) {
-          await dispatch(fetchUser(user.sub));
-        }
-      }
-
-      fetchUserData();
-    }, [])
-
     // Udate schedule/create event
-    const dispatch = useDispatch<any>();
-
-    const isEdit = Boolean(currentEventData?._id);
+    const isEdit = Boolean(currentEventData?.id);
     
     const [scheduleName, setScheduleName] = useState(scheduleData?.scheduleName);
-    const [eventName, setEventName] = useState(currentEventData?.eventName);
-    const [eventTime, setEventTime] = useState(currentEventData?.eventTime);
-    const [eventColor, setEventColor] = useState(currentEventData?.eventColor);
+    const [eventName, setEventName]       = useState(currentEventData?.eventName);
+    const [eventTime, setEventTime]       = useState(currentEventData?.eventTime);
+    const [eventColor, setEventColor]     = useState(currentEventData?.eventColor);
 
-    const parentId = scheduleData._id;
+    const parentId = scheduleData.id;
 
     const onSubmit = async (ev: React.FormEvent) => {
       ev.preventDefault();
 
-      const scheduleParams = {
+      const updateScheduleValues = {
         scheduleName,
+        isPublic,
+        scheduleId,
       };
 
-      await dispatch(updateSchedule({ id: scheduleData._id, params: scheduleParams })); // Updating the schedule
+      schedule(updateScheduleValues) // Updating the schedule
 
-      const params = {
+      const createValues = {
         eventName,
         eventTime,
         eventColor,
@@ -71,12 +69,19 @@ export const EditEvent = forwardRef(
         parentId,
       };
 
+      const updateValues = {
+        eventId,
+        eventName,
+        eventTime,
+        eventColor,
+      };
+
       // Determine whether content exists in the selected cell
       isEdit 
-        ? await dispatch(updateEvent({ id: currentEventData?._id, params: params, currentUser: currentUser._id })) // If there is data
-        : await dispatch(createEvent({ params: params, currentUser: currentUser._id, parentId: parentId })); // if there is no data
+        ? await updateEvent(updateValues) // If there is data
+        : await event(createValues) // if there is no data
 
-      window.location.reload(); // Reload the page after saving
+      window.location.reload(); 
     }
 
   return (
@@ -100,6 +105,7 @@ export const EditEvent = forwardRef(
                 type="text"
                 placeholder="Enter name of the event..."
                 value={eventName}
+                maxLength={76}
                 onChange={(e: any) => setEventName(e.target.value)}
               />
             </div>
@@ -108,7 +114,7 @@ export const EditEvent = forwardRef(
               <input
                 className={styles.input}
                 type="time"
-                placeholder="Enter event time (ex. 11:10)..."
+                placeholder="Enter event time..."
                 value={eventTime}
                 onChange={(e: any) => setEventTime(e.target.value)}
               />

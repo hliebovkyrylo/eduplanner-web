@@ -1,53 +1,30 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef }        from "react";
 import { Topbar, EventCard, EditEvent, Loading, NoAccess } from "../../components/index";
-import { scheduleHead } from "../../constants";
+import { scheduleHead }                                    from "../../constants";
+import styles                                              from "./schedule.module.scss";
+import { useParams }                                       from "react-router-dom";
+import { useGetScheduleQuery }                             from "@redux/api/scheduleAPI";
+import { useGetAllEventsQuery }                            from "@redux/api/eventAPI";
+import { useGetUserQuery }                                 from "@redux/api/userAPI";
+import { IUser }                                           from "@typings/user";
+import { auth }                                            from "@hocs/auth";
 
-import styles from "./schedule.module.scss";
-
-import { useNavigate, useParams } from "react-router-dom";
-import { fetchSchedule } from "../../redux/slices/schedules";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAllEvents } from "../../redux/slices/event";
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchUser } from "../../redux/slices/user";
-
-export const Schedule = () => {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const editScheduleRef = useRef<any>(null);
-  const navigate = useNavigate();
-
-  const { user, isAuthenticated } = useAuth0();
-  const [currentUser, setCurrentuser] = useState<any>();
-
-  const { id } = useParams();
-  const scheduleId = id;
-  const dispatch = useDispatch<any>();
-
-  const schedule = useSelector((state: any) => state.schedule.schedules.items);
-  const events = useSelector((state: any) => state.event.events.items);
-  const scheduleState = useSelector((state: any) => state.schedule.schedules.status);
-  const eventsState = useSelector((state: any) => state.event.events.status);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (user) {
-          const userResponse = await dispatch(fetchUser(user?.sub));
-
-          await dispatch(fetchSchedule({ id: scheduleId, userId: userResponse.payload?._id }));
-          await dispatch(fetchAllEvents({ id: scheduleId, userId: userResponse.payload?._id }));
-          setCurrentuser(userResponse.payload);
-        }
-
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, [user]);
+export const Schedule = auth(() => {
+  const { id }             = useParams();
+  const scheduleId         = id as string;
+  const { data: user }     = useGetUserQuery();
+  const { 
+    data: schedule, 
+    isLoading, 
+    isError 
+  }                        = useGetScheduleQuery(scheduleId);
+  const { data: events}    = useGetAllEventsQuery(scheduleId);
+  const userMe             = user as IUser;
 
   // Click handler outside the panel
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const editScheduleRef           = useRef<any>(null);
+
   const handleClickOutside = useCallback(
     (event: MouseEvent) => {
       // Check that the click was the left mouse button
@@ -75,11 +52,11 @@ export const Schedule = () => {
   const [currentEventData, setCurrentEventData] = useState<{ data?: any; rowNum?: number; colNum?: number }>({});
 
   const handleBtnClick = useCallback(({ data, rowNum, colNum }: { data?: any; rowNum: number; colNum: number }) => {
-    if (currentUser && currentUser._id && schedule.author && currentUser._id === schedule.author) {
+    if (userMe?.id === schedule?.authorId) {
       setIsVisible((prevVisible) => !prevVisible);
       setCurrentEventData({ data: data, rowNum, colNum });
     }
-  }, [currentUser, schedule]);
+  }, [user, schedule]);
 
   // Add an event handler when the component is mounted
   useEffect(() => {
@@ -90,22 +67,18 @@ export const Schedule = () => {
     };
   }, [handleClickOutside]);
 
-  if (scheduleState === 'error' || eventsState === 'error') {
-    return <NoAccess />;
-  }
-
-  if (!user) {
-    navigate('/')
-  }
-
-  if (!schedule || eventsState === 'loading') {
+  if (isLoading) {
     return <Loading/>;
+  }
+
+  if (isError) {
+    return <NoAccess />
   }
 
   return (
     <main>
       <div className={styles.container}>
-        <Topbar pageName={schedule.scheduleName} />
+        <Topbar pageName={schedule?.scheduleName || ''} />
 
         <section className={styles.scheduleInner} ref={editScheduleRef}>
           <div className={styles.scheduleHead}>
@@ -121,15 +94,13 @@ export const Schedule = () => {
             <div className={styles.scheduleRow} key={colIndex}>
               {Array.from({ length: 8 }).map((_, rowIndex) => {
                 const eventArray = Array.isArray(events) ? events : [];
-                
                 const cellData = eventArray.find(
                   (data: any) => data.rowNum === rowIndex + 1 && data.colNum === colIndex + 1
                 );
-
                 return (
                   <EventCard
                     key={`${rowIndex + 1}-${colIndex + 1}`}
-                    _id={cellData?._id || ""}
+                    _id={cellData?.id || ""}
                     eventName={cellData?.eventName || ""}
                     eventTime={cellData?.eventTime || ""}
                     eventColor={cellData?.eventColor || ""}
@@ -156,12 +127,12 @@ export const Schedule = () => {
             </div>
           )}
         </section>
-        {isAuthenticated && (
+        {userMe && (
           <div className={styles.backHomeBtn}>
-            <a href="/home">Back home</a>
+            <a href="/">Back home</a>
           </div>
         )}
       </div>
     </main>
   );
-};
+});

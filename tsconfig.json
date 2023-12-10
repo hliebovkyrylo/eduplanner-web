@@ -1,26 +1,33 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
+    "allowJs"                   : true,
+    "target"                    : "ES2020",
+    "useDefineForClassFields"   : true,
+    "lib"                       : ["ES2020", "DOM", "DOM.Iterable"],
+    "module"                    : "ESNext",
+    "skipLibCheck"              : true,
+    "moduleResolution"          : "bundler",
     "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
+    "resolveJsonModule"         : true,
+    "isolatedModules"           : true,
+    "noEmit"                    : true,
+    "jsx"                       : "react-jsx",
+    "strict"                    : true,
+    "noUnusedLocals"            : true,
+    "noUnusedParameters"        : false,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl"                   : "./src",
 
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true
+    "paths": {
+      "@icons/*"     : ["assets/icons/*"],
+      "@components/*": ["components/*"],
+      "@pages/*"     : ["pages/*"],
+      "@redux/*"     : ["redux/*"],
+      "@typings/*"   : ["typings/*"],
+      "@assets/*"    : ["assets/*"],
+      "@hocs/*"      : ["hocs/*"],
+    }
   },
-  "include": ["src"],
+  "include"   : ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

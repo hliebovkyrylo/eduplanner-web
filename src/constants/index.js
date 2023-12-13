@@ -5,4 +5,5 @@ export const scheduleHead = [
   { value: 'Thu' },
   { value: 'Fri' },
   { value: 'Sat' },
+  { value: 'Sun' },
 ];

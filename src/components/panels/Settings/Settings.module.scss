@@ -1,66 +1,61 @@
 .blurBg {
   position: absolute;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   top: 0;
   right: 0;
   backdrop-filter: blur(5px);
   z-index: 1001;
-  touch-action: none;
-  overscroll-behavior: none;
 }
 
 .settings {
   position: absolute;
-  touch-action: none;
-  overscroll-behavior: none;
   top: calc(50% - 220px);
   width: 100%;
   max-width: 900px;
   display: flex;
   justify-content: space-between;
   height: 500px;
-  background-color: #36383F;
+  background-color: #16171a;
   z-index: 100000;
   left: calc(50% - 450px);
   border-radius: 15px;
   padding: 35px 30px 77px 30px;
+  border: 2px solid #272727;
 
   .leftSideBlock {
-    background-color: #3D3F48;
+    background-color: #1f2025;
     width: 100%;
     max-width: 199px;
     height: 388px;
-    padding: 24px 13px;
-    border-radius: 15px;
+    padding: 24px 5px;
+    border-radius: 8px;
 
     .editSchedule {
       display: flex;
       align-items: center;
-      width: 173px;
+      width: 100%;
       height: 33px;
       text-align: left;
       padding: 0;
       padding: 8px 0 8px 13px;
-      border-radius: 8px;
-      margin-bottom: 7px;
-  
-      &:first-child {
-        background-color: #52545F;
-      }
 
       &:last-child:hover {
         background-color: rgb(134, 0, 0)
       }
   
       &:hover {
-        background-color: #52545F;
+        background-color: #292a2e;
       }
 
       .btnIcon {
         width: 15px;
         margin-right: 10px;
       }
+    }
+
+    .active {
+      background-color: #292a2e;
     }
   }
 
@@ -69,15 +64,49 @@
     width: 100%;
     max-width: 607px;
     height: 388px;
-    background-color: #3D3F48;
-    border-radius: 15px;
+    background-color: #1f2025;
+    border-radius: 8px;
     padding: 25px 42px;
+
+
+    .items {
+      display: flex;
+      align-items: center;
+
+      .edit {
+        width: 250px;
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #383c3f;
+  
+        .editText {
+          color: #fff;
+          font-size: 16px;
+        }
+      }
+    }
+
+    .editBtn {
+      margin-top: 10px;
+      background-color: #292a2e;
+      padding: 8px 23px;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: #2f3136;
+      }
+    }
     
     .btnAccess {
       border-radius: 8px;
       width: 210px;
       height: 33px;
-      background-color: #47494F;
+      background-color: #292a2e;
+
+      &:hover {
+        background-color: #2c2d31;
+      }
     }
 
     .linkItems {
@@ -134,6 +163,7 @@
   
       .editSchedule {
         max-width: 42px;
+        border-radius: 5px;
     
         .textBtn {
           display: none;
@@ -143,6 +173,18 @@
   
     .mainBlock {
       max-width: 300px !important;
+
+      .items {
+        display: block;
+
+        .edit {
+          width: 100% !important;
+
+          &:nth-child(2) {
+            margin-top: 10px
+          }
+        }
+      }
     }
   }
 }

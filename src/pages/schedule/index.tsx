@@ -82,36 +82,38 @@ export const Schedule = auth(() => {
 
         <section className={styles.scheduleInner} ref={editScheduleRef}>
           <div className={styles.scheduleHead}>
-            {scheduleHead.map((day) => (
+            {scheduleHead.slice(0, schedule?.numOfCol).map((day) => (
               <span className={styles.day} key={day.value}>
                 {day.value}
               </span>
             ))}
           </div>
-
-          <div className={styles.schedule}>
-          {Array.from({ length: 6 }).map((_, colIndex) => (
-            <div className={styles.scheduleRow} key={colIndex}>
-              {Array.from({ length: 8 }).map((_, rowIndex) => {
-                const eventArray = Array.isArray(events) ? events : [];
-                const cellData = eventArray.find(
-                  (data: any) => data.rowNum === rowIndex + 1 && data.colNum === colIndex + 1
-                );
-                return (
-                  <EventCard
-                    key={`${rowIndex + 1}-${colIndex + 1}`}
-                    _id={cellData?.id || ""}
-                    eventName={cellData?.eventName || ""}
-                    eventTime={cellData?.eventTime || ""}
-                    eventColor={cellData?.eventColor || ""}
-                    rowNum={rowIndex + 1}
-                    colNum={colIndex + 1}
-                    btnClick={() => handleBtnClick({ data: cellData, rowNum: rowIndex + 1, colNum: colIndex + 1 })}
-                  />
-                );
-              })}
-            </div>
-          ))}
+          <div className={styles.schedule} style={{
+            gridTemplateColumns: `repeat(${schedule?.numOfCol}, 1fr)`, 
+            gridTemplateRows: `repeat(${schedule?.numOfRow}, 1fr)` 
+          }}>
+            {schedule && Array.from({ length: schedule.numOfCol }).map((_, colIndex) => (
+              <div className={styles.scheduleRow} key={colIndex}>
+                {Array.from({ length: schedule.numOfRow }).map((_, rowIndex) => {
+                  const eventArray = Array.isArray(events) ? events : [];
+                  const cellData = eventArray.find(
+                    (data: any) => data.rowNum === rowIndex + 1 && data.colNum === colIndex + 1
+                  );
+                  return (
+                    <EventCard
+                      key={`${rowIndex + 1}-${colIndex + 1}`}
+                      _id={cellData?.id || ""}
+                      eventName={cellData?.eventName || ""}
+                      eventTime={cellData?.eventTime || ""}
+                      eventColor={cellData?.eventColor || ""}
+                      rowNum={rowIndex + 1}
+                      colNum={colIndex + 1}
+                      btnClick={() => handleBtnClick({ data: cellData, rowNum: rowIndex + 1, colNum: colIndex + 1 })}
+                    />
+                  );
+                })}
+              </div>
+            ))}
           </div>
 
           {isVisible && (

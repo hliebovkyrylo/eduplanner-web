@@ -1,0 +1,14 @@
+.numberInput {
+  background-color: transparent;
+  margin-left: 10px;
+  font-size: 16px;
+  color: #ACE9FF;
+  width: 70px;
+}
+
+@media (max-width: 901px) {
+  .numberInput {
+    width: 30px !important;
+    margin: 0;
+  }
+}

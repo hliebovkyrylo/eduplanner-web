@@ -4,6 +4,8 @@ export interface ISchedule {
   isPublic      : boolean;
   authorId      : string;
   authorUsername: string;
+  numOfCol      : number;
+  numOfRow      : number;
   createdAt     : string;
   updatedAt     : string;
 };

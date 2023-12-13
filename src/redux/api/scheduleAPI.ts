@@ -11,9 +11,11 @@ export interface ICreateScheduleRequest {
 };
 
 export interface IUpdateScheduleRequest {
-  scheduleId  : string;
-  scheduleName: string;
-  isPublic    : boolean;
+  scheduleId   : string;
+  scheduleName?: string;
+  isPublic    ?: boolean;
+  numOfCol    ?: number;
+  numOfRow    ?: number;
 };
 
 export const scheduleAPI = api.injectEndpoints({
@@ -26,10 +28,10 @@ export const scheduleAPI = api.injectEndpoints({
       }),
     }),
     updateSchedule: builder.mutation<IGetScheduleResponse, IUpdateScheduleRequest>({
-      query: ({scheduleName, isPublic, scheduleId}) => ({
+      query: ({ scheduleId, ...body }) => ({
         method: 'PATCH',
         url   : `/schedule/update/${scheduleId}`,
-        body  : { scheduleName, isPublic },
+        body,
       }),
     }),
     getSchedule: builder.query<IGetScheduleResponse, string>({

@@ -24,8 +24,11 @@ import { IUser }               from "@typings/user";
 export const LeftSideBlock = () => {
   const [scheduleId, setScheduleId] = useState('');
   const { data: user, isLoading }   = useGetUserQuery();
-  const { data: schedules }         = useGetAllUserSchedulesQuery();
-  const { data: schedule }          = useGetScheduleQuery(scheduleId);
+  const { data: schedules, }        = useGetAllUserSchedulesQuery();
+  const { 
+    data: schedule, 
+    refetch: refetchSchedule  
+  }                                 = useGetScheduleQuery(scheduleId);
   const [ createSchedule ]          = useCreateScheduleMutation();
   const [ updateSchedule ]          = useUpdateScheduleMutation();
   const [ deleteSchedule ]          = useDeleteScheduleMutation();
@@ -35,6 +38,8 @@ export const LeftSideBlock = () => {
   // Settings
   const [openSettings, setOpenSettings]       = useState(false); // By default the menu is closed
   const [displayIsPublic, setDisplayIsPublic] = useState(schedule?.isPublic);
+  const [updateDataFlag, setUpdateDataFlag]   = useState(false);
+
   useEffect(() => {
     setDisplayIsPublic(schedule?.isPublic);
   }, [schedule]);
@@ -69,7 +74,7 @@ export const LeftSideBlock = () => {
     const confirmed  = window.confirm("Are you sure you want to delete this schedule?");
 
     if (confirmed) {
-      deleteSchedule(scheduleId);
+      await deleteSchedule(scheduleId);
 
       window.location.reload();
     }
@@ -83,13 +88,19 @@ export const LeftSideBlock = () => {
         scheduleId,
       };
   
-      updateSchedule(data).unwrap();
+      await updateSchedule(data).unwrap();
   
       setDisplayIsPublic(data.isPublic);
-
-      console.log(data);
+      setUpdateDataFlag(true);
     }
   }, [schedule, updateSchedule]);
+
+  useEffect(() => {
+    if (updateDataFlag) {
+      refetchSchedule();
+      setUpdateDataFlag(false);
+    }
+  }, [updateDataFlag])
 
   if (isLoading) {
     return <Loading />
@@ -133,10 +144,12 @@ export const LeftSideBlock = () => {
           </div>
         </div>
       </div>
-      {openSettings && (
+      {schedule && openSettings && (
         <Settings
           key={scheduleId}
           id={scheduleId}
+          valueOfCol={schedule.numOfCol}
+          valueOfRow={schedule.numOfRow}
           deleteSchedule={handleDeleteSchedule}
           changeAccess={handleChangeAccess}
           cancelButton={handleCancelClick}

@@ -42,10 +42,10 @@ export const EditEvent = forwardRef(
     // Udate schedule/create event
     const isEdit = Boolean(currentEventData?.id);
     
-    const [scheduleName, setScheduleName] = useState(scheduleData?.scheduleName);
-    const [eventName, setEventName]       = useState(currentEventData?.eventName);
-    const [eventTime, setEventTime]       = useState(currentEventData?.eventTime);
-    const [eventColor, setEventColor]     = useState(currentEventData?.eventColor);
+    const [scheduleName, setScheduleName] = useState<string>(scheduleData?.scheduleName || '');
+    const [eventName, setEventName]       = useState<string>(currentEventData?.eventName || '');
+    const [eventTime, setEventTime]       = useState<string>(currentEventData?.eventTime || '');
+    const [eventColor, setEventColor]     = useState<string>(currentEventData?.eventColor || '');
 
     const parentId = scheduleData.id;
 

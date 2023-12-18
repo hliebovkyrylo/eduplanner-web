@@ -54,6 +54,10 @@ export const Schedule = auth(() => {
   const handleBtnClick = useCallback(({ data, rowNum, colNum }: { data?: any; rowNum: number; colNum: number }) => {
     setIsVisible((prevVisible) => !prevVisible);
     setCurrentEventData({ data: data, rowNum, colNum });
+
+    window.scrollTo({
+      top: 0,
+    });
   }, [user, schedule]);
 
   // Add an event handler when the component is mounted

@@ -182,11 +182,30 @@
       margin-left: 0 !important;
     }
   }
+
+  .inputExtra {
+    border-radius: 0 5px 5px 0 !important;
+  }
+
+  .inputExtraName {
+    border-right: 1px solid #515558;
+    border-radius: 5px 0 0 5px !important;
+  }
+
+  .buttons {
+    bottom: 50px !important;
+    width: 220px !important;
+
+    .saveBtn {
+      width: 140px !important;
+      height: 32px !important;
+    }
+  }
 }
 
-@media (max-height: 635px) {
+@media (max-height: 673px) {
   .inputContentExtra {
-    height: 130px;
+    height: 100px !important;
     overflow-y: auto;
   }
 }

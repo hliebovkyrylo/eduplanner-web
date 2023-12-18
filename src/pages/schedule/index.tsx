@@ -52,10 +52,8 @@ export const Schedule = auth(() => {
   const [currentEventData, setCurrentEventData] = useState<{ data?: any; rowNum?: number; colNum?: number }>({});
 
   const handleBtnClick = useCallback(({ data, rowNum, colNum }: { data?: any; rowNum: number; colNum: number }) => {
-    if (userMe?.id === schedule?.authorId) {
-      setIsVisible((prevVisible) => !prevVisible);
-      setCurrentEventData({ data: data, rowNum, colNum });
-    }
+    setIsVisible((prevVisible) => !prevVisible);
+    setCurrentEventData({ data: data, rowNum, colNum });
   }, [user, schedule]);
 
   // Add an event handler when the component is mounted

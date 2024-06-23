@@ -23,8 +23,9 @@ import { IUser }               from "@typings/user";
 
 export const LeftSideBlock = () => {
   const [scheduleId, setScheduleId] = useState('');
-  const { data: user, isLoading }   = useGetUserQuery();
-  const { data: schedules, }        = useGetAllUserSchedulesQuery();
+
+  const { data: user, isLoading: isLoadingUser }           = useGetUserQuery();
+  const { data: schedules, isLoading: isLoadingSchedules } = useGetAllUserSchedulesQuery();
   const { 
     data: schedule, 
     refetch: refetchSchedule  
@@ -32,6 +33,7 @@ export const LeftSideBlock = () => {
   const [ createSchedule ]          = useCreateScheduleMutation();
   const [ updateSchedule ]          = useUpdateScheduleMutation();
   const [ deleteSchedule ]          = useDeleteScheduleMutation();
+
   const userMe                      = user as IUser;
   const navigate                    = useNavigate();
 
@@ -65,7 +67,7 @@ export const LeftSideBlock = () => {
     const result = await createSchedule(data).unwrap()
 
     if (result) {
-      navigate(`/s/${result.id}`)
+      navigate(`/schedule/${result.id}`)
     }
   }, [user, createSchedule]);
 
@@ -102,7 +104,7 @@ export const LeftSideBlock = () => {
     }
   }, [updateDataFlag])
 
-  if (isLoading) {
+  if (isLoadingUser || isLoadingSchedules) {
     return <Loading />
   }
 

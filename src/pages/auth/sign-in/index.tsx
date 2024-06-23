@@ -1,12 +1,12 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { z }                     from "zod"
 import { useSelector }           from "react-redux";
 import { IAppState }             from "@redux/store";
-import { Navigate }              from "react-router-dom";
+import { useNavigate }           from "react-router-dom";
 import { useSignInMutation }     from "@redux/api/authAPI";
 import { useForm }               from "react-hook-form";
 import { RtkError }              from "@typings/error";
-import { Error }                 from "@components/index";
+import { Error, Loading }        from "@components/index";
 import styles                    from "../auth.module.scss";
 import eye                       from "@assets/icons/eye-solid.svg";
 import eyeSlash                  from "@assets/icons/eye-slash-solid.svg";
@@ -19,8 +19,10 @@ const signInSchema = z.object({
 export type FormData = z.infer<typeof signInSchema>;
 
 export const SignIn = () => {
-  const accessToken = useSelector((state: IAppState) => state.auth.accessToken);
-  const [signIn]    = useSignInMutation();
+  const accessToken             = useSelector((state: IAppState) => state.auth.accessToken);
+  const [signIn, { isLoading }] = useSignInMutation();
+
+  const navigate = useNavigate();
 
   const { handleSubmit, setError, register, formState: { errors } } = useForm<FormData>({
     defaultValues: {
@@ -29,17 +31,22 @@ export const SignIn = () => {
     },
   });
 
-  const onSubmit = useCallback((values: FormData) => {
-    signIn(values).unwrap().catch((error: RtkError) => {
-      if (error.data.code === 'user-not-found') {
-        setError('email', { message: "Email not found!" })
-      }
-
-      if (error.data.code === 'wrong-password') {
+  const onSubmit = useCallback(async (values: FormData) => {
+    signIn(values).unwrap().then(() => {
+      navigate("/");
+    }).catch((error: RtkError) => {
+      if (error.data.code === 'wrong-password' || error.data.code === 'user-not-found') {
         setError('password', { message: "Wrong entered data!" })
+        setIsLoadingSign(false);
       }
     })
   }, [signIn]);
+
+  const [ isLoadingSign, setIsLoadingSign ] = useState(isLoading);
+
+  useEffect(() => {
+    setIsLoadingSign(isLoading);
+  }, [isLoading, signIn])
 
   const [inputType, setinputType] = useState("password");
   const handleChangeVisibility = (event: React.FormEvent) => {
@@ -47,8 +54,12 @@ export const SignIn = () => {
     setinputType(inputType === 'password' ? 'text' : 'password');
   };
 
+  if (isLoadingSign) {
+    return <Loading/>;
+  }
+
   if (accessToken) {
-    return <Navigate to="/" />
+    navigate("/");
   }
 
   return (
@@ -60,7 +71,7 @@ export const SignIn = () => {
           <div className={styles.inputItem}>
             <label className={styles.authLabel} htmlFor="email">Email address</label>
             <input 
-              className={[styles.authInput, errors.email ? styles.inputError : ''].join(' ')} 
+              className={[styles.authInput, errors.password ? styles.inputError : ''].join(' ')} 
               type="email" 
               {...register('email')}
               name="email" 
@@ -82,7 +93,7 @@ export const SignIn = () => {
           <p className={styles.authLink}>Don't have an account yet? <a className={styles.link} href="/sign-up">Sign Up</a>.</p>
         </form>
       </main>
-      {(errors.password || errors.email) && (
+      {(errors.password) && (
         <Error errorText={ errors.password?.message as string || errors.email?.message as string} />
       )}
     </>

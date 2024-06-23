@@ -3,7 +3,7 @@ import { Topbar } from "../../components/index";
 import { 
   LeftSideBlock, 
   RightSideBlock 
-}                 from "./blocks/index";
+}                 from "../../components/blocks/index";
 import { auth }   from "@hocs/auth";
 
 export const Home = auth(() => {
@@ -14,7 +14,6 @@ export const Home = auth(() => {
       />
       <section className={styles.mainSection}>
         <LeftSideBlock />
-
         <RightSideBlock />
       </section>
     </main>

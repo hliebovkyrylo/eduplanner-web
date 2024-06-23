@@ -1,9 +1,10 @@
 import { 
   useCallback, 
+  useEffect, 
   useRef, 
   useState 
 }                                 from "react";
-import { Navigate }               from "react-router-dom";
+import { useNavigate }            from "react-router-dom";
 import { useSelector }            from "react-redux";
 import { IAppState }              from "@redux/store";
 import { z }                      from "zod";
@@ -11,7 +12,7 @@ import { useSignUpMutation }      from "@redux/api/authAPI";
 import { zodResolver }            from "@hookform/resolvers/zod";
 import { useForm }                from "react-hook-form";
 import { RtkError }               from "@typings/error";
-import { Error }                  from "@components/index";
+import { Error, Loading }         from "@components/index";
 import eye                        from "@assets/icons/eye-solid.svg";
 import eyeSlash                   from "@assets/icons/eye-slash-solid.svg";
 import styles                     from "../auth.module.scss";
@@ -29,10 +30,13 @@ const signUpSchema = z.object({
 export type FormData = z.infer<typeof signUpSchema>;
 
 export const SignUp = () => {
-  const accessToken             = useSelector((state: IAppState) => state.auth.accessToken);
-  const [signUp]                = useSignUpMutation();
-  const [uploadImage]           = useUploadImageMutation();
+  const accessToken = useSelector((state: IAppState) => state.auth.accessToken);
+
+  const [signUp, { isLoading: isLoadingSignUp } ]       = useSignUpMutation();
+  const [uploadImage, { isLoading: isUploadingImage } ] = useUploadImageMutation();
   const [imageUrl, setImageUrl] = useState<any>();
+
+  const navigate = useNavigate();
 
   const { handleSubmit, setError, formState: { errors }, register } = useForm<FormData>({
     defaultValues: {
@@ -64,7 +68,9 @@ export const SignUp = () => {
   };
 
   const onSubmit = useCallback(async (values: FormData) => {
-    signUp(imageUrl ? {...values, image: imageUrl } : values).unwrap().catch((error: RtkError) => { 
+    signUp(imageUrl ? {...values, image: imageUrl } : values).unwrap().then(() => {
+      navigate("/");
+    }).catch((error: RtkError) => { 
       if (error.data.code === 'email-already-exist') {
         setError('email', { message: "Such email already exists!" });
       }
@@ -72,8 +78,16 @@ export const SignUp = () => {
       if (error.data.code === 'username-already-exist') {
         setError('username', { message: "Such username already exist!" });
       }
+
+      setIsLoadingSign(false)
     })
   }, [signUp, imageUrl]);
+
+  const [ isLoadingSign, setIsLoadingSign ] = useState(isLoadingSignUp);
+
+  useEffect(() => {
+    setIsLoadingSign(isLoadingSignUp);
+  }, [isLoadingSignUp, signUp])
 
   const [inputType, setinputType] = useState("password");
   const handleChangeVisibility = (event: React.FormEvent) => {
@@ -81,8 +95,12 @@ export const SignUp = () => {
     setinputType(inputType === 'password' ? 'text' : 'password');
   };
 
+  if (isLoadingSign || isUploadingImage) {
+    return <Loading />
+  }
+
   if (accessToken) {
-    return <Navigate to="/" />
+    navigate("/");
   }
 
   return (

@@ -1,0 +1,13 @@
+.authLayout {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .authLayoutContent {
+    width: 100%;
+    max-width: 390px;
+    margin: 0 16px;
+  }
+}

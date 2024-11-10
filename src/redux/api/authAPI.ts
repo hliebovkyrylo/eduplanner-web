@@ -1,58 +1,53 @@
-import { api } from '@redux/api/index';
+import { api } from "@redux/api/index";
 
 export interface ISignInRequest {
-  email   : string;
+  email: string;
   password: string;
-};
+}
 
 export interface ISignUpRequest {
-  image   : string;
-  username: string;
-  email   : string;
+  email: string;
   password: string;
-};
+}
 
 export interface ISignInResponse {
   accessToken: string;
-};
+}
 
 export interface ISignUpResponse {
   accessToken: string;
-};
+}
 
 export interface ISignOutResponse {
   accessToken: null;
-};
+}
 
 export const authApi = api.injectEndpoints({
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     signIn: builder.mutation<ISignInResponse, ISignInRequest>({
       query: (body) => ({
-        method: 'POST',
-        url   : '/user/sign-in',
-        body
+        method: "POST",
+        url: "/user/sign-in",
+        body,
       }),
-      invalidatesTags: ['user', 'schedule']
+      invalidatesTags: ["user", "schedule"],
     }),
     signUp: builder.mutation<ISignUpResponse, ISignUpRequest>({
       query: (body) => ({
-        method: 'POST',
-        url   : '/user/sign-up',
-        body
+        method: "POST",
+        url: "/user/sign-up",
+        body,
       }),
-      invalidatesTags: ['user', 'schedule']
+      invalidatesTags: ["user", "schedule"],
     }),
     signOut: builder.mutation<ISignOutResponse, void>({
       queryFn: () => ({
-        data: { accessToken: null }
+        data: { accessToken: null },
       }),
-      invalidatesTags: ['user', 'schedule']
-    })
-  })
+      invalidatesTags: ["user", "schedule"],
+    }),
+  }),
 });
 
-export const {
-  useSignInMutation,
-  useSignUpMutation,
-  useSignOutMutation
-} = authApi;
+export const { useSignInMutation, useSignUpMutation, useSignOutMutation } =
+  authApi;

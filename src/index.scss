@@ -5,7 +5,12 @@
 }
 
 // default styles for elements
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-size: 16px;
   color: #fff;
   margin: 0;
@@ -30,7 +35,7 @@ button {
   border: 0;
   cursor: pointer;
   color: #fff;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 16px;
   margin: 0;
   padding: 0;
@@ -44,31 +49,29 @@ a {
 input {
   border: 0;
   outline: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   color: #fff;
 }
 
-// styles for scrollbar
 ::-webkit-scrollbar-track {
-	background-color: #353535;
+  background-color: #353535;
 }
 
 ::-webkit-scrollbar {
-	width: 10px;
+  width: 10px;
   height: 10px;
-	background-color: #353535;
+  background-color: #353535;
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: #525252;	
+  background-color: #525252;
   border-radius: 5px;
 }
 
-// styles for body
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   position: relative;
   background-color: #121316;
 }

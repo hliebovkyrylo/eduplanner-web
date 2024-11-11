@@ -1,4 +1,5 @@
 import { api } from "@redux/api/index";
+import { ApiResponse } from "@typings/apiResponse";
 
 export interface ISignInRequest {
   email: string;
@@ -7,44 +8,43 @@ export interface ISignInRequest {
 
 export interface ISignUpRequest {
   email: string;
+  name: string;
   password: string;
 }
 
-export interface ISignInResponse {
-  accessToken: string;
-}
-
-export interface ISignUpResponse {
-  accessToken: string;
-}
-
-export interface ISignOutResponse {
-  accessToken: null;
+export interface AuthResponse {
+  accessToken: string | null;
 }
 
 export const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    signIn: builder.mutation<ISignInResponse, ISignInRequest>({
+    signIn: builder.mutation<AuthResponse, ISignInRequest>({
       query: (body) => ({
         method: "POST",
-        url: "/user/sign-in",
+        url: "/auth/sign-in",
         body,
       }),
-      invalidatesTags: ["user", "schedule"],
+      transformResponse: (response: ApiResponse<{ accessToken: string }>) => ({
+        accessToken: response.data.accessToken,
+      }),
+      invalidatesTags: ["user"],
     }),
-    signUp: builder.mutation<ISignUpResponse, ISignUpRequest>({
+    signUp: builder.mutation<AuthResponse, ISignUpRequest>({
       query: (body) => ({
         method: "POST",
-        url: "/user/sign-up",
+        url: "/auth/sign-up",
         body,
       }),
-      invalidatesTags: ["user", "schedule"],
+      transformResponse: (response: ApiResponse<{ accessToken: string }>) => ({
+        accessToken: response.data.accessToken,
+      }),
+      invalidatesTags: ["user"],
     }),
-    signOut: builder.mutation<ISignOutResponse, void>({
+    signOut: builder.mutation<AuthResponse, void>({
       queryFn: () => ({
         data: { accessToken: null },
       }),
-      invalidatesTags: ["user", "schedule"],
+      invalidatesTags: ["user"],
     }),
   }),
 });

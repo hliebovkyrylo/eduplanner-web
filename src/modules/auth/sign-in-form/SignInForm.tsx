@@ -33,9 +33,10 @@ export const SignInForm = () => {
         })
         .catch((error: RtkError) => {
           if (
-            error.data.code === "wrong-password" ||
-            error.data.code === "user-not-found"
+            error.data.status_code === 409 ||
+            error.data.status_code === 404
           ) {
+            setError("email", { message: "Wrong entered data!" });
             setError("password", { message: "Wrong entered data!" });
           }
         });
